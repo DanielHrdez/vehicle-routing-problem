@@ -4,11 +4,7 @@ import vrp.VehicleRouting;
 import vrp.graph.Graph;
 
 public class GraspVRP extends VehicleRouting {
-  public GraspVRP (Graph graph) {
-    super(graph);
-  }
-
-  public int[][] solve() {
+  public int[][] solve(Graph graph) {
     return null;
   }
 }

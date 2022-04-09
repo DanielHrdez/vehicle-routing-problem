@@ -4,11 +4,7 @@ import vrp.VehicleRouting;
 import vrp.graph.Graph;
 
 public class GreedyVRP extends VehicleRouting {
-  public GreedyVRP(Graph graph) {
-    super(graph);
-  }
-
-  public int[][] solve() {
+  public int[][] solve(Graph graph) {
     return null;
   }
 }
