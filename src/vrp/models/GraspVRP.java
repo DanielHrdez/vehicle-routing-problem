@@ -10,16 +10,16 @@
 
 package vrp.models;
 
-import vrp.VehicleRouting;
-import vrp.graph.Graph;
+import vrp.data.DataModel;
+import vrp.models.base.VehicleRouting;
 
 public class GraspVRP extends VehicleRouting {
   /**
    * Constructor of the class.
-   * @param graph The graph of the problem.
+   * @param model The model of the problem.
    */
-  public GraspVRP(Graph graph) {
-    super(graph);
+  public GraspVRP(DataModel model) {
+    super(model);
   }
 
   /**
@@ -32,5 +32,5 @@ public class GraspVRP extends VehicleRouting {
   /**
    * Calculates the heuristic of the algorithm.
    */
-  public void heuristic() {}
+  protected void heuristic() {}
 }

@@ -8,26 +8,26 @@
  * @version 1.0.0
  */
 
-package vrp;
+package vrp.models.base;
 
-import vrp.graph.Graph;
+import vrp.data.DataModel;
 
 /**
  * This abstract class represents a vehicle routing problem.
  */
 public abstract class VehicleRouting {
-  private Graph graph;
-  private int[][] solution;
-  private int[] costs;
+  protected DataModel model;
+  protected int[][] solution;
+  protected int[] costs;
 
   /**
    * Constructor of the class.
    *
-   * @param graph The graph of the problem.
-   * It must be a graph with a vertex for each customer.
+   * @param model The model of the problem.
+   * It must be a model with a vertex for each customer.
    */
-  public VehicleRouting(Graph graph) {
-    this.graph = graph;
+  public VehicleRouting(DataModel model) {
+    this.model = model;
   }
 
   /**
@@ -56,5 +56,9 @@ public abstract class VehicleRouting {
   /**
    * Decide which node to visit next on each vehicle.
    */
-  public abstract void heuristic();
+  protected abstract void heuristic();
+
+  protected boolean allVisited() {
+    return (this.model.numerOfVisitedCustomers() / this.model.numberOfCustomers()) == 1;
+  }
 }

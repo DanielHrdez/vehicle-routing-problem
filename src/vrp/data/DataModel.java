@@ -8,16 +8,18 @@
  * @version 1.0.0
  */
 
-package vrp.graph;
+package vrp.data;
 
 /**
- * This class represents a graph.
+ * This class represents a model.
  */
-public class Graph {
+public class DataModel {
   private int numberOfVehicles;
   private int numberOfCustomers;
   private int[][] distanceMatrix;
   private boolean[] customers;
+  private int numerOfVisitedCustomers;
+  private int depot;
   
   /**
    * Constructor of the class.
@@ -26,7 +28,7 @@ public class Graph {
    * @param numberOfCustomers Number of customers.
    * @param distanceMatrix Distance matrix.
    */
-  public Graph(
+  public DataModel(
       int numberOfVehicles,
       int numberOfCustomers,
       int[][] distanceMatrix
@@ -35,6 +37,20 @@ public class Graph {
     this.numberOfCustomers = numberOfCustomers;
     this.distanceMatrix = distanceMatrix;
     this.customers = new boolean[numberOfCustomers];
+    this.depot = 0;
+    this.numerOfVisitedCustomers = 0;
+  }
+  
+  public int numerOfVisitedCustomers() {
+    return numerOfVisitedCustomers;
+  }
+
+  /**
+   * Getter of the depot of the model.
+   * @return The depot of the model.
+   */
+  public int depot() {
+    return depot;
   }
 
   /**

@@ -6,15 +6,12 @@
  * @author: Daniel Hernández de León
  * @since 09/04/2022
  * @version 1.0.0
- *
- * Class description:
-
  */
 
 package vrp.models;
 
-import vrp.VehicleRouting;
-import vrp.graph.Graph;
+import vrp.data.DataModel;
+import vrp.models.base.VehicleRouting;
 
 /**
  * GreedyVRP is a class that implements
@@ -23,27 +20,42 @@ import vrp.graph.Graph;
 public class GreedyVRP extends VehicleRouting {
   /**
    * Constructor of the class.
-   * @param graph The graph of the problem.
+   * @param model The model of the problem.
    */
-  public GreedyVRP(Graph graph) {
-    super(graph);
+  public GreedyVRP(DataModel model) {
+    super(model);
   }
 
   /**
    * Solve the problem using the Greedy algorithm.
    */
   public void solve() {
-    // n is the number of vehicles
-    // get the n largest nodes from depot
-    // get the closest nodes from previous
-    // calc centroids
-    // get closest nodes from centroids
-    // repeat until all nodes are visited
+    this.farthestCustomers();
+    this.closestCustomers();
+    while (this.allVisited()) {
+      this.closestCustomers();
+    }
+    this.addDepot();
+  }
+
+  private int[] farthestCustomers() {
+    int numberOfCustomers = this.model.numberOfCustomers();
+    int[] farthestCustomers = new int[this.model.numberOfVehicles()];
+    for (int i = 0; i < numberOfCustomers; i++) {
+      
+    }
+  }
+
+  private int[] closestCustomers() {
+    throw new UnsupportedOperationException("Not implemented yet.");
+  }
+
+  private int[] addDepot() {
     throw new UnsupportedOperationException("Not implemented yet.");
   }
 
   /**
    * Calculates the heuristic of the algorithm.
    */
-  public void heuristic() {}
+  protected void heuristic() {}
 }

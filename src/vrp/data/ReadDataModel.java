@@ -8,26 +8,26 @@
  * @version 1.0.0
  */
 
-package vrp.graph;
+package vrp.data;
 
 import java.io.*;
 
 /**
- * Class to read a graph from a file.
+ * Class to read a model from a file.
  */
-public class ReadGraph {
+public class ReadDataModel {
   /**
-   * Reads a graph from a file.
+   * Reads a model from a file.
    * @param fileName The name of the file.
-   * @return The graph read.
+   * @return The model read.
    */
-  public Graph read(String fileName) {
+  public DataModel read(String fileName) {
     BufferedReader bufferedReader = this.readBuffer(fileName);
     int numberOfCustomers = this.readElement(bufferedReader);
     int numberOfVehicles = this.readElement(bufferedReader);
     int[][] distanceMatrix = this.readDistanceMatrix(bufferedReader, numberOfCustomers);
     this.closeFile(bufferedReader);
-    return new Graph(numberOfVehicles, numberOfCustomers, distanceMatrix);
+    return new DataModel(numberOfVehicles, numberOfCustomers, distanceMatrix);
   }
 
   /**
