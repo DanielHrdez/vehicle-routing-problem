@@ -1,12 +1,14 @@
 package vrp.graph;
 
+import java.io.*;
+
 public class ReadGraph {
   public Graph read(String fileName) {
     Graph graph = new Graph();
     try {
-      java.io.File file = new java.io.File(fileName);
-      java.io.FileReader fileReader = new java.io.FileReader(file);
-      java.io.BufferedReader bufferedReader = new java.io.BufferedReader(fileReader);
+      File file = new File(fileName);
+      FileReader fileReader = new FileReader(file);
+      BufferedReader bufferedReader = new BufferedReader(fileReader);
       String[] tokens = bufferedReader.readLine().split(" ");
       int numberOfCustomers = Integer.parseInt(tokens[1]);
       tokens = bufferedReader.readLine().split(" ");
