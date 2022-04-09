@@ -1,5 +1,7 @@
 package vrp.models;
 
-public class GreedyVRP {
+import vrp.VehicleRouting;
+
+public class GreedyVRP extends VehicleRouting {
   
 }

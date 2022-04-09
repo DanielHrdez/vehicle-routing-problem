@@ -1,5 +1,7 @@
 package vrp.models;
 
-public class GraspVRP {
+import vrp.VehicleRouting;
+
+public class GraspVRP extends VehicleRouting {
   
 }
