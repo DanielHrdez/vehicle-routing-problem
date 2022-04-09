@@ -40,9 +40,16 @@ public class GreedyVRP extends VehicleRouting {
 
   private int[] farthestCustomers() {
     int numberOfCustomers = this.model.numberOfCustomers();
-    int[] farthestCustomers = new int[this.model.numberOfVehicles()];
+    int numberOfVehicles = this.model.numberOfVehicles();
+    int[] farthestCustomers = new int[numberOfVehicles];
+    int depot = this.model.depot();
     for (int i = 0; i < numberOfCustomers; i++) {
-      
+      for (int j = 0; j < numberOfVehicles; j++) {
+        if (this.model.distance(0, i) > this.model.distance(0, farthestCustomers[j])) {
+          farthestCustomers[j] = i;
+          break;
+        }
+      }
     }
   }
 
