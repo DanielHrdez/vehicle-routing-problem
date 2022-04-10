@@ -58,4 +58,13 @@ public abstract class VehicleRouting {
   protected boolean allVisited() {
     return this.model.getNumberOfVisitedCustomers() == this.model.getNumberOfCustomers();
   }
+
+  protected int[] add(int[] array, int element) {
+    int[] newArray = new int[array.length + 1];
+    for (int i = 0; i < array.length; i++) {
+      newArray[i] = array[i];
+    }
+    newArray[array.length] = element;
+    return newArray;
+  }
 }

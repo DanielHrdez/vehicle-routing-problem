@@ -81,15 +81,6 @@ public class GreedyVRP extends VehicleRouting {
     }
   }
 
-  private int[] add(int[] array, int element) {
-    int[] newArray = new int[array.length + 1];
-    for (int i = 0; i < array.length; i++) {
-      newArray[i] = array[i];
-    }
-    newArray[array.length] = element;
-    return newArray;
-  }
-
   private void addDepot() {
     int numberOfVehicles = this.model.getNumberOfVehicles();
     int depot = this.model.getDepot();
