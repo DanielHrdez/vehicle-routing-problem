@@ -15,6 +15,8 @@ import vrp.models.base.VehicleRouting;
 
 public class GraspVRP extends VehicleRouting {
   private int maxCandidates;
+  private int auxiliarCost;
+  private int maxIterations;
 
   /**
    * Constructor of the class.
@@ -23,23 +25,23 @@ public class GraspVRP extends VehicleRouting {
   public GraspVRP(DataModel model) {
     super(model);
     this.maxCandidates = 2;
+    this.auxiliarCost = 0;
+    this.maxIterations = 100;
   }
 
-  /**
-   * Constructor of the class.
-   * @param model The model of the problem.
-   * @param maxCandidates The maximum number of candidates to be generated.
-   */
-  public GraspVRP(DataModel model, int maxCandidates) {
-    super(model);
+  public void setMaxCandidates(int maxCandidates) {
     this.maxCandidates = maxCandidates;
+  }
+
+  public void setMaxIterations(int maxIterations) {
+    this.maxIterations = maxIterations;
   }
 
   /**
    * Solve the problem using the Grasp algorithm.
    */
   public void solve() {
-    while (true) {
+    for (int i = 0; i < this.maxIterations; i++) {
       int[][] currentSolution = this.constructSolution();
       currentSolution = this.localSearch(currentSolution);
       this.updateSolution(currentSolution);
@@ -51,12 +53,15 @@ public class GraspVRP extends VehicleRouting {
     int[][] solution = new int[numberOfVehicles][1];
 
     while (!this.allVisited()) {
-      int[][] elements = this.candidateList(solution);
-      int[] element = this.randomElement(elements);
+      int[][] customersPerVehicle = this.candidateList(solution);
+      int[] customerPerVehicle = this.randomElement(customersPerVehicle);
       for (int i = 0; i < numberOfVehicles; i++) {
-        this.add(solution[i], element[i]);
+        int currentCustomer = customerPerVehicle[i];
+        int lastFromVehicle = solution[i][solution[i].length - 1];
+        this.auxiliarCost += this.model.distance(lastFromVehicle, currentCustomer);
+        solution[i] = this.add(solution[i], currentCustomer);
+        this.model.setCustomer(currentCustomer);
       }
-      this.adaptGreedy(element);
     }
     
     this.model.resetCustomers();
@@ -97,11 +102,11 @@ public class GraspVRP extends VehicleRouting {
   }
 
   private int[] randomElement(int[][] elements) {
-    throw new UnsupportedOperationException("Not implemented yet.");
-  }
-
-  private void adaptGreedy(int[] element) {
-    throw new UnsupportedOperationException("Not implemented yet.");
+    int[] result = new int[elements.length];
+    for (int i = 0; i < elements.length; i++) {
+      result[i] = elements[i][(int) (Math.random() * elements[i].length)];
+    }
+    return result;
   }
 
   private int[][] localSearch(int[][] currentSolution) {
@@ -109,6 +114,10 @@ public class GraspVRP extends VehicleRouting {
   }
 
   private void updateSolution(int[][] currentSolution) {
-    throw new UnsupportedOperationException("Not implemented yet.");
+    if (this.auxiliarCost < this.cost) {
+      this.cost = this.auxiliarCost;
+      this.routes = currentSolution;
+    }
+    this.auxiliarCost = 0;
   }
 }
