@@ -13,8 +13,6 @@ package vrp.models;
 import vrp.data.DataModel;
 import vrp.models.base.VehicleRouting;
 
-import java.util.*;
-
 /**
  * GreedyVRP is a class that implements
  * the Greedy algorithm for the Vehicle Routing Problem.
