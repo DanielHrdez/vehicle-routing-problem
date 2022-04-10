@@ -36,8 +36,8 @@ public class GraspVRP extends VehicleRouting {
   private Solution constructSolution() {
     Solution solution = {};
     for (solution !done) {
-      RCL rcl = this.makeRCL();
-      Element element = this.randomElement(rcl);
+      Element[] elements = this.candidateList(problem);
+      Element element = this.randomElement(elements);
       solution.add(element);
       this.adaptGreedy(element);
     }

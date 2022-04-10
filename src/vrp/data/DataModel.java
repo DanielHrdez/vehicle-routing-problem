@@ -69,7 +69,7 @@ public class DataModel {
    * @param position Position of the customer.
    */
   public void setCustomer(int position) {
-    this.numerOfVisitedCustomers++;
+    this.numberOfVisitedCustomers++;
     this.customers[position] = true;
   }
 
