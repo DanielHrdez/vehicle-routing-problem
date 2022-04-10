@@ -55,16 +55,29 @@ public abstract class VehicleRouting {
    */
   public abstract void solve();
 
+  /**
+   * Check if all the customers are visited.
+   * 
+   * @return True if all the customers are visited.
+   */
   protected boolean allVisited() {
     return this.model.getNumberOfVisitedCustomers() == this.model.getNumberOfCustomers();
   }
 
-  protected int[] add(int[] array, int element) {
-    int[] newArray = new int[array.length + 1];
-    for (int i = 0; i < array.length; i++) {
-      newArray[i] = array[i];
+  /**
+   * Add a route to the route.
+   * 
+   * @param vehicleRoute The route to add.
+   * @param customer The customer to add.
+   * 
+   * @return The new route.
+   */
+  protected int[] addCustomer(int[] vehicleRoute, int customer) {
+    int[] newRoute = new int[vehicleRoute.length + 1];
+    for (int i = 0; i < vehicleRoute.length; i++) {
+      newRoute[i] = vehicleRoute[i];
     }
-    newArray[array.length] = element;
-    return newArray;
+    newRoute[vehicleRoute.length] = customer;
+    return newRoute;
   }
 }

@@ -59,7 +59,7 @@ public class GraspVRP extends VehicleRouting {
         int currentCustomer = customerPerVehicle[i];
         int lastFromVehicle = solution[i][solution[i].length - 1];
         this.auxiliarCost += this.model.distance(lastFromVehicle, currentCustomer);
-        solution[i] = this.add(solution[i], currentCustomer);
+        solution[i] = this.addCustomer(solution[i], currentCustomer);
         this.model.setCustomer(currentCustomer);
       }
     }
