@@ -28,7 +28,7 @@ public abstract class VehicleRouting {
    */
   public VehicleRouting(DataModel model) {
     this.model = model;
-    this.routes = new int[model.numberOfVehicles()][1];
+    this.routes = new int[model.getNumberOfVehicles()][1];
     this.cost = 0;
   }
 
@@ -56,6 +56,6 @@ public abstract class VehicleRouting {
   public abstract void solve();
 
   protected boolean allVisited() {
-    return this.model.numberOfVisitedCustomers() == this.model.numberOfCustomers();
+    return this.model.getNumberOfVisitedCustomers() == this.model.getNumberOfCustomers();
   }
 }

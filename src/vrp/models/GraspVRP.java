@@ -27,15 +27,15 @@ public class GraspVRP extends VehicleRouting {
    */
   public void solve() {
     while (true) {
-      Solution solution = this.constructSolution();
-      solution = this.localSearch(solution);
-      this.updateSolution(solution);
+      int[][] currentSolution = this.constructSolution();
+      currentSolution = this.localSearch(currentSolution);
+      this.updateSolution(currentSolution);
     }
   }
 
-  private Solution constructSolution() {
-    Solution solution = {};
-    for (solution !done) {
+  private int[][] constructSolution() {
+    int[][] solution = new int[this.model.getNumberOfCustomers()][2];
+    while (!this.allVisited()) {
       Element[] elements = this.candidateList(problem);
       Element element = this.randomElement(elements);
       solution.add(element);

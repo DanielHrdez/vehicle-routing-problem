@@ -38,9 +38,9 @@ public class GreedyVRP extends VehicleRouting {
   }
 
   private void farthestCustomers() {
-    int numberOfCustomers = this.model.numberOfCustomers();
-    int numberOfVehicles = this.model.numberOfVehicles();
-    int depot = this.model.depot();
+    int numberOfCustomers = this.model.getNumberOfCustomers();
+    int numberOfVehicles = this.model.getNumberOfVehicles();
+    int depot = this.model.getDepot();
     this.model.setCustomer(depot);
 
     for (int i = 0; i < numberOfCustomers; i++) {
@@ -60,8 +60,8 @@ public class GreedyVRP extends VehicleRouting {
   }
 
   private void closestCustomers() {
-    int numberOfVehicles = this.model.numberOfVehicles();
-    int numberOfCustomers = this.model.numberOfCustomers();
+    int numberOfVehicles = this.model.getNumberOfVehicles();
+    int numberOfCustomers = this.model.getNumberOfCustomers();
 
     for (int i = 0; i < numberOfVehicles; i++) {
       int minimum = Integer.MAX_VALUE;
@@ -69,7 +69,7 @@ public class GreedyVRP extends VehicleRouting {
       for (int j = 0; j < this.routes[i].length; j++) {
         for (int k = 0; k < numberOfCustomers; k++) {
           int currentDistance = this.model.distance(this.routes[i][j], k);
-          if (currentDistance < minimum && !this.model.customer(k)) {
+          if (currentDistance < minimum && !this.model.getCustomer(k)) {
             minimum = currentDistance;
             closestCustomer = k;
           }
@@ -91,8 +91,8 @@ public class GreedyVRP extends VehicleRouting {
   }
 
   private void addDepot() {
-    int numberOfVehicles = this.model.numberOfVehicles();
-    int depot = this.model.depot();
+    int numberOfVehicles = this.model.getNumberOfVehicles();
+    int depot = this.model.getDepot();
 
     for (int i = 0; i < numberOfVehicles; i++) {
       this.cost += this.model.distance(this.routes[i][this.routes[i].length - 1], depot);

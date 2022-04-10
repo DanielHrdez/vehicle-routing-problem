@@ -41,7 +41,7 @@ public class DataModel {
     this.numberOfVisitedCustomers = 0;
   }
   
-  public int numberOfVisitedCustomers() {
+  public int getNumberOfVisitedCustomers() {
     return this.numberOfVisitedCustomers;
   }
 
@@ -49,7 +49,7 @@ public class DataModel {
    * Getter of the depot of the model.
    * @return The depot of the model.
    */
-  public int depot() {
+  public int getDepot() {
     return this.depot;
   }
 
@@ -59,7 +59,7 @@ public class DataModel {
    * @param position Position of the customer.
    * @return True if the customer is visited, false otherwise.
    */
-  public boolean customer(int position) {
+  public boolean getCustomer(int position) {
     return this.customers[position];
   }
 
@@ -87,7 +87,7 @@ public class DataModel {
    *
    * @return Number of vehicles.
    */
-  public int numberOfVehicles() {
+  public int getNumberOfVehicles() {
     return this.numberOfVehicles;
   }
 
@@ -96,7 +96,7 @@ public class DataModel {
    *
    * @return Number of customers.
    */
-  public int numberOfCustomers() {
+  public int getNumberOfCustomers() {
     return this.numberOfCustomers;
   }
 
