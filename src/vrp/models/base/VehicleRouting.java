@@ -69,7 +69,6 @@ public abstract class VehicleRouting {
    * 
    * @param vehicleRoute The route to add.
    * @param customer The customer to add.
-   * 
    * @return The new route.
    */
   protected int[] addCustomer(int[] vehicleRoute, int customer) {

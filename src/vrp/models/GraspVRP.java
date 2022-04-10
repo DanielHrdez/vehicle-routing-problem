@@ -29,10 +29,20 @@ public class GraspVRP extends VehicleRouting {
     this.maxIterations = 100;
   }
 
+  /**
+   * Setter of the max candidates.
+   * 
+   * @param maxCandidates The max candidates.
+   */
   public void setMaxCandidates(int maxCandidates) {
     this.maxCandidates = maxCandidates;
   }
 
+  /**
+   * Setter of the max iterations.
+   * 
+   * @param maxIterations The max iterations.
+   */
   public void setMaxIterations(int maxIterations) {
     this.maxIterations = maxIterations;
   }
@@ -48,6 +58,11 @@ public class GraspVRP extends VehicleRouting {
     }
   }
 
+  /**
+   * Construct a solution.
+   * 
+   * @return The solution.
+   */
   private int[][] constructSolution() {
     int numberOfVehicles = this.model.getNumberOfVehicles();
     int[][] solution = new int[numberOfVehicles][1];
@@ -68,6 +83,12 @@ public class GraspVRP extends VehicleRouting {
     return solution;
   }
 
+  /**
+   * Create the candidate list.
+   * 
+   * @param currentSolution The current solution.
+   * @return The candidate list.
+   */
   private int[][] candidateList(int[][] currentSolution) {
     int numberOfVehicles = this.model.getNumberOfVehicles();
     int[][] elements = new int[numberOfVehicles][this.maxCandidates];
@@ -79,6 +100,13 @@ public class GraspVRP extends VehicleRouting {
     return elements;
   }
 
+  /**
+   * Create the candidate list for a vehicle.
+   * 
+   * @param vehicle The vehicle.
+   * @param solution The solution.
+   * @return The candidate list.
+   */
   private int[] candidates(int vehicle, int[] solution) {
     int[] candidates = new int[this.maxCandidates];
     int numberOfCustomers = this.model.getNumberOfCustomers();
@@ -101,6 +129,12 @@ public class GraspVRP extends VehicleRouting {
     return candidates;
   }
 
+  /**
+   * Get a random element from the candidate list.
+   * 
+   * @param elements The candidate list.
+   * @return The random elements.
+   */
   private int[] randomElement(int[][] elements) {
     int[] result = new int[elements.length];
     for (int i = 0; i < elements.length; i++) {
@@ -109,10 +143,21 @@ public class GraspVRP extends VehicleRouting {
     return result;
   }
 
-  private int[][] localSearch(int[][] currentSolution) {
+  /**
+   * Search locally solutions.
+   * 
+   * @param solution The solution.
+   * @return The local solution.
+   */
+  private int[][] localSearch(int[][] solution) {
     throw new UnsupportedOperationException("Not implemented yet.");
   }
 
+  /**
+   * Update the solution.
+   * 
+   * @param currentSolution The current solution.
+   */
   private void updateSolution(int[][] currentSolution) {
     if (this.auxiliarCost < this.cost) {
       this.cost = this.auxiliarCost;

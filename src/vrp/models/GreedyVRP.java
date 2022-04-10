@@ -37,6 +37,9 @@ public class GreedyVRP extends VehicleRouting {
     this.addDepot();
   }
 
+  /**
+   * Find the farthest customers from the depot.
+   */
   private void farthestCustomers() {
     int numberOfCustomers = this.model.getNumberOfCustomers();
     int numberOfVehicles = this.model.getNumberOfVehicles();
@@ -59,6 +62,9 @@ public class GreedyVRP extends VehicleRouting {
     }
   }
 
+  /**
+   * Find the closest customers from the current route.
+   */
   private void closestCustomers() {
     int numberOfVehicles = this.model.getNumberOfVehicles();
     int numberOfCustomers = this.model.getNumberOfCustomers();
@@ -81,6 +87,9 @@ public class GreedyVRP extends VehicleRouting {
     }
   }
 
+  /**
+   * Add the depot to all the vehicles.
+   */
   private void addDepot() {
     int numberOfVehicles = this.model.getNumberOfVehicles();
     int depot = this.model.getDepot();
