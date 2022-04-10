@@ -18,7 +18,7 @@ public class DataModel {
   private int numberOfCustomers;
   private int[][] distanceMatrix;
   private boolean[] customers;
-  private int numerOfVisitedCustomers;
+  private int numberOfVisitedCustomers;
   private int depot;
   
   /**
@@ -38,11 +38,11 @@ public class DataModel {
     this.distanceMatrix = distanceMatrix;
     this.customers = new boolean[numberOfCustomers];
     this.depot = 0;
-    this.numerOfVisitedCustomers = 0;
+    this.numberOfVisitedCustomers = 0;
   }
   
-  public int numerOfVisitedCustomers() {
-    return numerOfVisitedCustomers;
+  public int numberOfVisitedCustomers() {
+    return this.numberOfVisitedCustomers;
   }
 
   /**
@@ -50,7 +50,7 @@ public class DataModel {
    * @return The depot of the model.
    */
   public int depot() {
-    return depot;
+    return this.depot;
   }
 
   /**
@@ -60,7 +60,7 @@ public class DataModel {
    * @return True if the customer is visited, false otherwise.
    */
   public boolean customer(int position) {
-    return customers[position];
+    return this.customers[position];
   }
 
   /**
@@ -69,15 +69,16 @@ public class DataModel {
    * @param position Position of the customer.
    */
   public void setCustomer(int position) {
-    customers[position] = true;
+    this.numerOfVisitedCustomers++;
+    this.customers[position] = true;
   }
 
   /**
    * Reset the customers.
    */
   public void resetCustomers() {
-    for (int i = 0; i < numberOfCustomers; i++) {
-      customers[i] = false;
+    for (int i = 0; i < this.numberOfCustomers; i++) {
+      this.customers[i] = false;
     }
   }
 
@@ -87,7 +88,7 @@ public class DataModel {
    * @return Number of vehicles.
    */
   public int numberOfVehicles() {
-    return numberOfVehicles;
+    return this.numberOfVehicles;
   }
 
   /**
@@ -96,7 +97,7 @@ public class DataModel {
    * @return Number of customers.
    */
   public int numberOfCustomers() {
-    return numberOfCustomers;
+    return this.numberOfCustomers;
   }
 
   /**
@@ -107,6 +108,6 @@ public class DataModel {
    * @return Distance between the two customers.
    */
   public int distance(int from, int to) {
-    return distanceMatrix[from][to];
+    return this.distanceMatrix[from][to];
   }
 }

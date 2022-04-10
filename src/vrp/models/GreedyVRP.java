@@ -13,6 +13,8 @@ package vrp.models;
 import vrp.data.DataModel;
 import vrp.models.base.VehicleRouting;
 
+import java.util.*;
+
 /**
  * GreedyVRP is a class that implements
  * the Greedy algorithm for the Vehicle Routing Problem.
@@ -31,38 +33,72 @@ public class GreedyVRP extends VehicleRouting {
    */
   public void solve() {
     this.farthestCustomers();
-    this.closestCustomers();
     while (this.allVisited()) {
       this.closestCustomers();
     }
     this.addDepot();
   }
 
-  private int[] farthestCustomers() {
+  private void farthestCustomers() {
     int numberOfCustomers = this.model.numberOfCustomers();
     int numberOfVehicles = this.model.numberOfVehicles();
-    int[] farthestCustomers = new int[numberOfVehicles];
     int depot = this.model.depot();
+    this.model.setCustomer(depot);
+
     for (int i = 0; i < numberOfCustomers; i++) {
       for (int j = 0; j < numberOfVehicles; j++) {
-        if (this.model.distance(0, i) > this.model.distance(0, farthestCustomers[j])) {
-          farthestCustomers[j] = i;
+        if (this.model.distance(depot, i) > this.model.distance(depot, this.routes[j][0])) {
+          this.routes[j] = new int[] {i};
           break;
         }
       }
     }
+
+    for (int i = 0; i < numberOfVehicles; i++) {
+      int customer = this.routes[i][0];
+      this.model.setCustomer(customer);
+      this.cost += this.model.distance(depot, customer);
+    }
   }
 
-  private int[] closestCustomers() {
-    throw new UnsupportedOperationException("Not implemented yet.");
+  private void closestCustomers() {
+    int numberOfVehicles = this.model.numberOfVehicles();
+    int numberOfCustomers = this.model.numberOfCustomers();
+
+    for (int i = 0; i < numberOfVehicles; i++) {
+      int minimum = Integer.MAX_VALUE;
+      int closestCustomer = -1;
+      for (int j = 0; j < this.routes[i].length; j++) {
+        for (int k = 0; k < numberOfCustomers; k++) {
+          int currentDistance = this.model.distance(this.routes[i][j], k);
+          if (currentDistance < minimum && !this.model.customer(k)) {
+            minimum = currentDistance;
+            closestCustomer = k;
+          }
+        }
+      }
+      this.routes[i] = this.add(this.routes[i], closestCustomer);
+      this.model.setCustomer(closestCustomer);
+      this.cost += minimum;
+    }
   }
 
-  private int[] addDepot() {
-    throw new UnsupportedOperationException("Not implemented yet.");
+  private int[] add(int[] array, int element) {
+    int[] newArray = new int[array.length + 1];
+    for (int i = 0; i < array.length; i++) {
+      newArray[i] = array[i];
+    }
+    newArray[array.length] = element;
+    return newArray;
   }
 
-  /**
-   * Calculates the heuristic of the algorithm.
-   */
-  protected void heuristic() {}
+  private void addDepot() {
+    int numberOfVehicles = this.model.numberOfVehicles();
+    int depot = this.model.depot();
+
+    for (int i = 0; i < numberOfVehicles; i++) {
+      this.cost += this.model.distance(this.routes[i][this.routes[i].length - 1], depot);
+      this.routes[i] = this.add(this.routes[i], depot);
+    }
+  }
 }

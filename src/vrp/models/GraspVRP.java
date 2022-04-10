@@ -26,11 +26,28 @@ public class GraspVRP extends VehicleRouting {
    * Solve the problem using the Grasp algorithm.
    */
   public void solve() {
+    while (true) {
+      Solution solution = this.constructSolution();
+      solution = this.localSearch(solution);
+      this.updateSolution(solution);
+    }
+  }
+
+  private Solution constructSolution() {
+    Solution solution = {};
+    for (solution !done) {
+      RCL rcl = this.makeRCL();
+      Element element = this.randomElement(rcl);
+      solution.add(element);
+      this.adaptGreedy(element);
+    }
+  }
+
+  private void localSearch() {
     throw new UnsupportedOperationException("Not implemented yet.");
   }
 
-  /**
-   * Calculates the heuristic of the algorithm.
-   */
-  protected void heuristic() {}
+  private void updateSolution() {
+    throw new UnsupportedOperationException("Not implemented yet.");
+  }
 }

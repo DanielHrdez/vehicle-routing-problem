@@ -17,8 +17,8 @@ import vrp.data.DataModel;
  */
 public abstract class VehicleRouting {
   protected DataModel model;
-  protected int[][] solution;
-  protected int[] costs;
+  protected int[][] routes;
+  protected int cost;
 
   /**
    * Constructor of the class.
@@ -28,24 +28,26 @@ public abstract class VehicleRouting {
    */
   public VehicleRouting(DataModel model) {
     this.model = model;
+    this.routes = new int[model.numberOfVehicles()][1];
+    this.cost = 0;
   }
 
   /**
-   * Returns the solution of the problem.
+   * Returns the routes of the problem.
    * 
-   * @return The solution of the problem.
+   * @return The routes of the problem.
    */
-  public int[][] getSolution() {
-    return solution;
+  public int[][] routes() {
+    return routes;
   }
 
   /**
-   * Returns the costs of the solution.
+   * Returns the cost of the solution.
    * 
-   * @return The costs of the solution.
+   * @return The cost of the solution.
    */
-  public int[] getCosts() {
-    return costs;
+  public int cost() {
+    return cost;
   }
 
   /**
@@ -53,12 +55,7 @@ public abstract class VehicleRouting {
    */
   public abstract void solve();
 
-  /**
-   * Decide which node to visit next on each vehicle.
-   */
-  protected abstract void heuristic();
-
   protected boolean allVisited() {
-    return (this.model.numerOfVisitedCustomers() / this.model.numberOfCustomers()) == 1;
+    return this.model.numberOfVisitedCustomers() == this.model.numberOfCustomers();
   }
 }
