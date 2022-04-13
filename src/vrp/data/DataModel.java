@@ -20,6 +20,7 @@ public class DataModel {
   private boolean[] customers;
   private int numberOfVisitedCustomers;
   private int depot;
+  private String name;
   
   /**
    * Constructor of the class.
@@ -39,6 +40,14 @@ public class DataModel {
     this.customers = new boolean[numberOfCustomers];
     this.depot = 0;
     this.numberOfVisitedCustomers = 0;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return this.name;
   }
   
   public int getNumberOfVisitedCustomers() {

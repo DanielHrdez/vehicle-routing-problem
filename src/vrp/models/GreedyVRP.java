@@ -98,5 +98,7 @@ public class GreedyVRP extends VehicleRouting {
       this.cost += this.model.distance(this.routes[i][this.routes[i].length - 1], depot);
       this.routes[i] = this.addCustomer(this.routes[i], depot);
     }
+
+    this.model.resetCustomers();
   }
 }

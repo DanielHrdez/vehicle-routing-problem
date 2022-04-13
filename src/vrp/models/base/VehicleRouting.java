@@ -32,12 +32,16 @@ public abstract class VehicleRouting {
     this.cost = 0;
   }
 
+  public void setModel(DataModel model) {
+    this.model = model;
+  }
+
   /**
    * Returns the routes of the problem.
    * 
    * @return The routes of the problem.
    */
-  public int[][] routes() {
+  public int[][] getRoutes() {
     return routes;
   }
 
@@ -46,7 +50,7 @@ public abstract class VehicleRouting {
    * 
    * @return The cost of the solution.
    */
-  public int cost() {
+  public int getCost() {
     return cost;
   }
 
