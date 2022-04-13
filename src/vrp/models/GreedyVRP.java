@@ -18,6 +18,11 @@ import vrp.models.base.VehicleRouting;
  * the Greedy algorithm for the Vehicle Routing Problem.
  */
 public class GreedyVRP extends VehicleRouting {
+
+  public GreedyVRP() {
+    super();
+  }
+
   /**
    * Constructor of the class.
    * @param model The model of the problem.

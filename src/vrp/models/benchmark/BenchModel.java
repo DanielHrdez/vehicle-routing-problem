@@ -19,25 +19,16 @@ import java.util.*;
 /**
  * This class Bench a vehicle routing problem.
  */
-public class BenchModel<T> {
-  private VehicleRouting model;
+public class BenchModel {
   private List<DataModel> dataModels;
-  private List<List<String>> results;
 
-  public BenchModel(VehicleRouting model) {
-    this.model = model;
+  public BenchModel(List<DataModel> dataModels) {
+    this.dataModels = dataModels;
   }
 
-  public void setModel(VehicleRouting model) {
-    this.model = model;
-  }
-
-  public void addDataModel(DataModel dataModel) {
-    this.dataModels.add(dataModel);
-  }
-
-  public void bench() {
-    boolean isGrasp = this.model instanceof GraspVRP;
+  public List<List<String>> run(VehicleRouting model) {
+    List<List<String>> results = new ArrayList<>();
+    boolean isGrasp = model instanceof GraspVRP;
     List<String> header = new ArrayList<>();
     header.add("Problema");
     header.add("Número de Vehiculos");
@@ -46,14 +37,14 @@ public class BenchModel<T> {
     header.add("Distancia Total Recorrida");
     header.add("CPU Time");
     results.add(header);
-    int numberIterations = this.model instanceof GreedyVRP ? 3 : 11;
+    int numberIterations = model instanceof GreedyVRP ? 3 : 11;
 
     for (int i = 2; i < numberIterations; i++) {
       for (DataModel dataModel : this.dataModels) {
-        this.model.setModel(dataModel);
-        if (isGrasp) ((GraspVRP) this.model).setMaxCandidates(i);
+        model.setModel(dataModel);
+        if (isGrasp) ((GraspVRP) model).setMaxCandidates(i);
         long start = System.nanoTime();
-        this.model.solve();
+        model.solve();
         long end = System.nanoTime();
         long time = end - start;
 
@@ -61,14 +52,12 @@ public class BenchModel<T> {
         currentResult.add(dataModel.getName());
         currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
         if (isGrasp) currentResult.add(Integer.toString(i));
-        currentResult.add(Integer.toString(this.model.getCost()));
+        currentResult.add(Integer.toString(model.getCost()));
         currentResult.add(String.valueOf(time));
         results.add(currentResult);
       }
     }
-  }
 
-  public List<List<String>> getResults() {
     return results;
   }
 }

@@ -11,7 +11,7 @@
 package vrp.models.benchmark;
 
 import java.util.List;
-import java.io.FileWriter;
+import java.io.*;
 
 public class WriteCSV {
   private static final String DELIMITER = ",";
@@ -23,8 +23,7 @@ public class WriteCSV {
   }
 
   public void write(List<List<String>> results) {
-    try {
-      FileWriter writer = new FileWriter(fileName);
+    try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8")) {
       for (List<String> result : results) {
         for (String value : result) {
           writer.append(value);

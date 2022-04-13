@@ -18,6 +18,13 @@ public class GraspVRP extends VehicleRouting {
   private int auxiliarCost;
   private int maxIterations;
 
+  public GraspVRP() {
+    super();
+    this.maxCandidates = 2;
+    this.auxiliarCost = 0;
+    this.maxIterations = 0;
+  }
+
   /**
    * Constructor of the class.
    * @param model The model of the problem.
@@ -26,7 +33,7 @@ public class GraspVRP extends VehicleRouting {
     super(model);
     this.maxCandidates = 2;
     this.auxiliarCost = 0;
-    this.maxIterations = 100;
+    this.maxIterations = 0;
   }
 
   /**

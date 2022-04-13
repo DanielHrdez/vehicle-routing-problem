@@ -45,4 +45,6 @@ public class Constants {
   public static final String NAME = ansiName + "Daniel Hernández de León" + ANSI_RESET;
   public static final String EMAIL = ansiName + "alu0101331720@ull.edu.es" + ANSI_RESET;
   
+  public static final String DATA_FOLDER = "data";
+  public static final String OUTPUT_FOLDER = "csv";
 }

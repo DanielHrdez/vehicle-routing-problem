@@ -21,12 +21,12 @@ public class ReadDataModel {
    * @param fileName The name of the file.
    * @return The model read.
    */
-  public DataModel read(String fileName) {
-    BufferedReader bufferedReader = this.readBuffer(fileName);
-    int numberOfCustomers = this.readElement(bufferedReader);
-    int numberOfVehicles = this.readElement(bufferedReader);
-    int[][] distanceMatrix = this.readDistanceMatrix(bufferedReader, numberOfCustomers);
-    this.closeFile(bufferedReader);
+  public static DataModel read(String fileName) {
+    BufferedReader bufferedReader = ReadDataModel.readBuffer(fileName);
+    int numberOfCustomers = ReadDataModel.readElement(bufferedReader);
+    int numberOfVehicles = ReadDataModel.readElement(bufferedReader);
+    int[][] distanceMatrix = ReadDataModel.readDistanceMatrix(bufferedReader, numberOfCustomers);
+    ReadDataModel.closeFile(bufferedReader);
     return new DataModel(numberOfVehicles, numberOfCustomers, distanceMatrix);
   }
 
@@ -36,10 +36,11 @@ public class ReadDataModel {
    * @param numberOfCustomers The number of customers.
    * @return The distance matrix.
    */
-  private int[][] readDistanceMatrix(BufferedReader bufferedReader, int numberOfCustomers) {
+  private static int[][] readDistanceMatrix(BufferedReader bufferedReader, int numberOfCustomers) {
     int[][] distanceMatrix = new int[numberOfCustomers][numberOfCustomers];
+    ReadDataModel.nextTokens(bufferedReader);
     for (int i = 0; i < numberOfCustomers; i++) {
-      String[] distances = this.nextTokens(bufferedReader);
+      String[] distances = ReadDataModel.nextTokens(bufferedReader);
       for (int j = 0; j < numberOfCustomers; j++) {
         distanceMatrix[i][j] = Integer.parseInt(distances[j]);
       }
@@ -51,7 +52,7 @@ public class ReadDataModel {
    * Close a given file.
    * @param bufferedReader The buffered reader.
    */
-  private void closeFile(BufferedReader bufferedReader) {
+  private static void closeFile(BufferedReader bufferedReader) {
     try {
       bufferedReader.close();
     } catch (IOException e) {
@@ -64,8 +65,8 @@ public class ReadDataModel {
    * @param bufferedReader The buffered reader.
    * @return The next element.
    */
-  private int readElement(BufferedReader bufferedReader) {
-    String[] tokens = this.nextTokens(bufferedReader);
+  private static int readElement(BufferedReader bufferedReader) {
+    String[] tokens = ReadDataModel.nextTokens(bufferedReader);
     return Integer.parseInt(tokens[1]);
   }
 
@@ -74,7 +75,7 @@ public class ReadDataModel {
    * @param fileName The name of the file.
    * @return The buffered reader.
    */ 
-  private BufferedReader readBuffer(String fileName) {
+  private static BufferedReader readBuffer(String fileName) {
     BufferedReader bufferedReader = null;
     try {
       File file = new File(fileName);
@@ -91,10 +92,10 @@ public class ReadDataModel {
    * @param bufferedReader The buffered reader.
    * @return The next tokens.
    */
-  private String[] nextTokens(BufferedReader bufferedReader) {
+  private static String[] nextTokens(BufferedReader bufferedReader) {
     String[] tokens = null;
     try {
-      tokens = bufferedReader.readLine().split(" ");
+      tokens = bufferedReader.readLine().split("\\s+");
     } catch (Exception e) {
       e.printStackTrace();
     }

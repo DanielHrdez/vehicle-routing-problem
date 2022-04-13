@@ -20,6 +20,12 @@ public abstract class VehicleRouting {
   protected int[][] routes;
   protected int cost;
 
+  public VehicleRouting() {
+    this.model = null;
+    this.routes = null;
+    this.cost = 0;
+  }
+
   /**
    * Constructor of the class.
    *
@@ -34,6 +40,8 @@ public abstract class VehicleRouting {
 
   public void setModel(DataModel model) {
     this.model = model;
+    this.routes = new int[model.getNumberOfVehicles()][1];
+    this.cost = 0;
   }
 
   /**
