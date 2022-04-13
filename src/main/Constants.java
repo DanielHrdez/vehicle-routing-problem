@@ -11,22 +11,27 @@
 package main;
 
 public class Constants {
-  public static final String TITLE = """                                    
-VVVVVVVV           VVVVVVVV   RRRRRRRRRRRRRRRRR      PPPPPPPPPPPPPPPPP   
-V::::::V           V::::::V   R::::::::::::::::R     P::::::::::::::::P  
-V::::::V           V::::::V   R::::::RRRRRR:::::R    P::::::PPPPPP:::::P 
-V::::::V           V::::::V   RR:::::R     R:::::R   PP:::::P     P:::::P
- V:::::V           V:::::V      R::::R     R:::::R     P::::P     P:::::P
-  V:::::V         V:::::V       R::::R     R:::::R     P::::P     P:::::P
-   V:::::V       V:::::V        R::::RRRRRR:::::R      P::::PPPPPP:::::P 
-    V:::::V     V:::::V         R:::::::::::::RR       P:::::::::::::PP  
-     V:::::V   V:::::V          R::::RRRRRR:::::R      P::::PPPPPPPPP    
-      V:::::V V:::::V           R::::R     R:::::R     P::::P            
-       V:::::V:::::V            R::::R     R:::::R     P::::P            
-        V:::::::::V             R::::R     R:::::R     P::::P            
-         V:::::::V            RR:::::R     R:::::R   PP::::::PP          
-          V:::::V             R::::::R     R:::::R   P::::::::P          
-           V:::V              R::::::R     R:::::R   P::::::::P          
-            VVV               RRRRRRRR     RRRRRRR   PPPPPPPPPP          
+  public static final String ANSI_RESET = "\u001B[0m";
+  public static final String ANSI_BLACK = "\u001B[30m";
+  public static final String ANSI_RED = "\u001B[31m";
+  public static final String ANSI_GREEN = "\u001B[32m";
+  public static final String ANSI_YELLOW = "\u001B[33m";
+  public static final String ANSI_BLUE = "\u001B[34m";
+  public static final String ANSI_PURPLE = "\u001B[35m";
+  public static final String ANSI_CYAN = "\u001B[36m";
+  public static final String ANSI_WHITE = "\u001B[37m";
+
+  private static String VRP = """
+    _    __     __    _      __        ____              __  _                ____             __    __             
+   | |  / /__  / /_  (_)____/ /__     / __ \\____  __  __/ /_(_)___  ____ _   / __ \\_________  / /_  / /__  ____ ___ 
+   | | / / _ \\/ __ \\/ / ___/ / _ \\   / /_/ / __ \\/ / / / __/ / __ \\/ __ `/  / /_/ / ___/ __ \\/ __ \\/ / _ \\/ __ `__ \\
+   | |/ /  __/ / / / / /__/ /  __/  / _, _/ /_/ / /_/ / /_/ / / / / /_/ /  / ____/ /  / /_/ / /_/ / /  __/ / / / / /
+   |___/\\___/_/ /_/_/\\___/_/\\___/  /_/ |_|\\____/\\__,_/\\__/_/_/ /_/\\__, /  /_/   /_/   \\____/_.___/_/\\___/_/ /_/ /_/ 
+                                                                 /____/                                                     
 """;
+  private static int vrpSize = VRP.length() / 2 + 16;
+  private static String firstHalf = VRP.substring(0, vrpSize);
+  private static String secondHalf = VRP.substring(vrpSize);
+
+  public static final String TITLE = ANSI_BLUE + firstHalf + ANSI_YELLOW + secondHalf + ANSI_RESET;
 }
