@@ -32,14 +32,16 @@ public class BenchModel {
     List<String> header = new ArrayList<>();
     header.add("Problema");
     header.add("Número de Vehiculos");
-    if (isGrasp) header.add("|LRC|");
+    if (isGrasp) header.add("Número de Candidatos");
     header.add("Ejecución");
     header.add("Distancia Total Recorrida");
-    header.add("CPU Time");
+    header.add("CPU Time (ns)");
     results.add(header);
     int numberIterations = model instanceof GreedyVRP ? 3 : 11;
 
+    int counter = 0;
     for (int i = 2; i < numberIterations; i++) {
+      int execution = 0;
       for (DataModel dataModel : this.dataModels) {
         model.setModel(dataModel);
         if (isGrasp) ((GraspVRP) model).setMaxCandidates(i);
@@ -49,9 +51,10 @@ public class BenchModel {
         long time = end - start;
 
         List<String> currentResult = new ArrayList<>();
-        currentResult.add(dataModel.getName());
+        currentResult.add(Integer.toString(++counter));
         currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
         if (isGrasp) currentResult.add(Integer.toString(i));
+        currentResult.add(Integer.toString(++execution));
         currentResult.add(Integer.toString(model.getCost()));
         currentResult.add(String.valueOf(time));
         results.add(currentResult);
