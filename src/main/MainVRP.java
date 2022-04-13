@@ -19,5 +19,6 @@ import vrp.models.*;
 public class MainVRP {
   public static void main(String[] args) throws Exception {
     System.out.println(Constants.TITLE);
+    System.out.println(Constants.NAME + " - " + Constants.EMAIL);
   }
 }
