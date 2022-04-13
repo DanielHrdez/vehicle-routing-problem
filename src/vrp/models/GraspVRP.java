@@ -22,7 +22,7 @@ public class GraspVRP extends VehicleRouting {
     super();
     this.maxCandidates = 2;
     this.auxiliarCost = 0;
-    this.maxIterations = 0;
+    this.maxIterations = 1;
   }
 
   /**
@@ -33,7 +33,7 @@ public class GraspVRP extends VehicleRouting {
     super(model);
     this.maxCandidates = 2;
     this.auxiliarCost = 0;
-    this.maxIterations = 0;
+    this.maxIterations = 1;
   }
 
   /**
@@ -157,7 +157,7 @@ public class GraspVRP extends VehicleRouting {
    * @return The local solution.
    */
   private int[][] localSearch(int[][] solution) {
-    throw new UnsupportedOperationException("Not implemented yet.");
+    return solution;
   }
 
   /**

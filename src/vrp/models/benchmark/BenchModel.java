@@ -21,9 +21,11 @@ import java.util.*;
  */
 public class BenchModel {
   private List<DataModel> dataModels;
+  private int counter;
 
   public BenchModel(List<DataModel> dataModels) {
     this.dataModels = dataModels;
+    this.counter = 0;
   }
 
   public List<List<String>> run(VehicleRouting model) {
@@ -39,7 +41,6 @@ public class BenchModel {
     results.add(header);
     int numberIterations = model instanceof GreedyVRP ? 3 : 11;
 
-    int counter = 0;
     for (int i = 2; i < numberIterations; i++) {
       int execution = 0;
       for (DataModel dataModel : this.dataModels) {
@@ -51,7 +52,8 @@ public class BenchModel {
         long time = end - start;
 
         List<String> currentResult = new ArrayList<>();
-        currentResult.add(Integer.toString(++counter));
+        currentResult.add(String.format("%08d", ++counter));
+        // currentResult.add(Integer.toString(++counter));
         currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
         if (isGrasp) currentResult.add(Integer.toString(i));
         currentResult.add(Integer.toString(++execution));

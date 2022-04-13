@@ -73,7 +73,7 @@ public abstract class VehicleRouting {
    * @return True if all the customers are visited.
    */
   protected boolean allVisited() {
-    return this.model.getNumberOfVisitedCustomers() == this.model.getNumberOfCustomers();
+    return this.model.getNumberOfVisitedCustomers() >= this.model.getNumberOfCustomers();
   }
 
   /**
@@ -90,5 +90,16 @@ public abstract class VehicleRouting {
     }
     newRoute[vehicleRoute.length] = customer;
     return newRoute;
+  }
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("VehicleRouting{");
+    sb.append("routes=");
+    sb.append(routes);
+    sb.append(", cost=");
+    sb.append(cost);
+    sb.append('}');
+    return sb.toString();
   }
 }

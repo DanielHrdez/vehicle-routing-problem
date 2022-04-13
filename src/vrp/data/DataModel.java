@@ -110,4 +110,23 @@ public class DataModel {
   public int distance(int from, int to) {
     return this.distanceMatrix[from][to];
   }
+
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("Number of vehicles: ");
+    sb.append(this.numberOfVehicles);
+    sb.append("\n");
+    sb.append("Number of customers: ");
+    sb.append(this.numberOfCustomers);
+    sb.append("\n");
+    sb.append("Distance matrix: \n");
+    for (int i = 0; i < this.numberOfCustomers; i++) {
+      for (int j = 0; j < this.numberOfCustomers; j++) {
+        sb.append(this.distanceMatrix[i][j]);
+        sb.append(" ");
+      }
+      sb.append("\n");
+    }
+    return sb.toString();
+  }
 }
