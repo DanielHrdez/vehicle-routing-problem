@@ -23,7 +23,7 @@ public class ReadDataModel {
    */
   public static DataModel read(String fileName) {
     BufferedReader bufferedReader = ReadDataModel.readBuffer(fileName);
-    int numberOfCustomers = ReadDataModel.readElement(bufferedReader);
+    int numberOfCustomers = ReadDataModel.readElement(bufferedReader) + 1;
     int numberOfVehicles = ReadDataModel.readElement(bufferedReader);
     int[][] distanceMatrix = ReadDataModel.readDistanceMatrix(bufferedReader, numberOfCustomers);
     ReadDataModel.closeFile(bufferedReader);

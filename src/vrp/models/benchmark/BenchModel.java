@@ -50,10 +50,10 @@ public class BenchModel {
         model.solve();
         long end = System.nanoTime();
         long time = end - start;
+        dataModel.resetCustomers();
 
         List<String> currentResult = new ArrayList<>();
         currentResult.add(String.format("%08d", ++counter));
-        // currentResult.add(Integer.toString(++counter));
         currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
         if (isGrasp) currentResult.add(Integer.toString(i));
         currentResult.add(Integer.toString(++execution));

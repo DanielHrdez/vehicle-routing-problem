@@ -10,6 +10,8 @@
 
 package vrp.data;
 
+import java.util.*;
+
 /**
  * This class represents a model.
  */
@@ -20,6 +22,7 @@ public class DataModel {
   private boolean[] customers;
   private int numberOfVisitedCustomers;
   private int depot;
+  private List<Integer> notVisitedCustomers;
   
   /**
    * Constructor of the class.
@@ -39,6 +42,10 @@ public class DataModel {
     this.customers = new boolean[numberOfCustomers];
     this.depot = 0;
     this.numberOfVisitedCustomers = 0;
+    this.notVisitedCustomers = new ArrayList<>();
+    for (int i = 0; i < numberOfCustomers; i++) {
+      this.notVisitedCustomers.add(i);
+    }
   }
   
   public int getNumberOfVisitedCustomers() {
@@ -71,15 +78,19 @@ public class DataModel {
   public void setCustomer(int position) {
     this.numberOfVisitedCustomers++;
     this.customers[position] = true;
+    this.notVisitedCustomers.removeIf(customer -> customer == position);
   }
 
   /**
    * Reset the customers.
    */
   public void resetCustomers() {
+    this.notVisitedCustomers = new ArrayList<>();
     for (int i = 0; i < this.numberOfCustomers; i++) {
       this.customers[i] = false;
+      this.notVisitedCustomers.add(i);
     }
+    this.numberOfVisitedCustomers = 0;
   }
 
   /**
@@ -128,5 +139,9 @@ public class DataModel {
       sb.append("\n");
     }
     return sb.toString();
+  }
+
+  public int[] getNotVisitedCustomers() {
+    return this.notVisitedCustomers.stream().mapToInt(i -> i).toArray();
   }
 }

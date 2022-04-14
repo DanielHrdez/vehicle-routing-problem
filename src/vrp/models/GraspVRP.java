@@ -73,6 +73,7 @@ public class GraspVRP extends VehicleRouting {
   private int[][] constructSolution() {
     int numberOfVehicles = this.model.getNumberOfVehicles();
     int[][] solution = new int[numberOfVehicles][1];
+    this.model.setCustomer(this.model.getDepot());
 
     while (!this.allVisited()) {
       int[][] customersPerVehicle = this.candidateList(solution);
