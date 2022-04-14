@@ -46,6 +46,9 @@ public class GreedyVRP extends VehicleRouting {
    */
   private void closestCustomers() {
     int numberOfVehicles = this.model.getNumberOfVehicles();
+    int minimumCustomer = -1;
+    int minimumDistance = Integer.MAX_VALUE;
+    int route = -1;
 
     for (int i = 0; i < numberOfVehicles; i++) {
       int minimum = Integer.MAX_VALUE;
@@ -58,11 +61,16 @@ public class GreedyVRP extends VehicleRouting {
           closestCustomer = notVisitedCustomer;
         }
       }
-      if (closestCustomer != -1) {
-        this.routes[i] = this.addCustomer(this.routes[i], closestCustomer);
-        this.model.setCustomer(closestCustomer);
-        this.cost += minimum;
+      if (minimum < minimumDistance) {
+        minimumDistance = minimum;
+        minimumCustomer = closestCustomer;
+        route = i;
       }
+    }
+    if (minimumCustomer != -1) {
+      this.routes[route] = this.addCustomer(this.routes[route], minimumCustomer);
+      this.model.setCustomer(minimumCustomer);
+      this.cost += minimumDistance;
     }
   }
 
