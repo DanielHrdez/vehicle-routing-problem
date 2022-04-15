@@ -23,6 +23,9 @@ import java.nio.file.Paths;
  * MainVRP is the main class of the program.
  */
 public class MainVRP {
+  /**
+   * Main method of the program.
+   */
   public static void main(String[] args) throws Exception {
     MainVRP.printTitle();
     List<DataModel> dataModels = MainVRP.readDataFiles();
@@ -31,12 +34,19 @@ public class MainVRP {
     MainVRP.printResults(results);
   }
 
+  /**
+   * Prints the title of the program.
+   */
   static void printTitle() {
     System.out.println(Constants.TITLE);
     System.out.println(Constants.NAME + " - " + Constants.EMAIL + "\n");
   }
 
-  static List<DataModel> readDataFiles() throws Exception {
+  /**
+   * Reads the data files.
+   * @return List of data models.
+   */
+  static List<DataModel> readDataFiles() {
     List<DataModel> dataModels = new ArrayList<>();
     File folder = new File(Constants.DATA_FOLDER);
     File[] listOfFiles = folder.listFiles();
@@ -50,7 +60,12 @@ public class MainVRP {
     return dataModels;
   }
 
-  static List<List<List<String>>> runAlgorithms(List<DataModel> dataModels) throws Exception {
+  /**
+   * Runs the algorithms.
+   * @param dataModels List of data models.
+   * @return List of results.
+   */
+  static List<List<List<String>>> runAlgorithms(List<DataModel> dataModels) {
     List<List<List<String>>> results = new ArrayList<>();
     GreedyVRP greedy = new GreedyVRP();
     GraspVRP grasp = new GraspVRP();
@@ -60,6 +75,11 @@ public class MainVRP {
     return results;
   }
 
+  /**
+   * Writes the results in files.
+   * @param results List of results.
+   * @throws Exception If the file cannot be written.
+   */
   static void writeFiles(List<List<List<String>>> results) throws Exception {
     Files.createDirectories(Paths.get(Constants.OUTPUT_FOLDER));
     WriteCSV writer = new WriteCSV(Constants.OUTPUT_FOLDER + "/greedy.csv");
@@ -68,6 +88,10 @@ public class MainVRP {
     writer.write(results.get(1));
   }
 
+  /**
+   * Prints the results.
+   * @param results List of results.
+   */
   static void printResults(List<List<List<String>>> results) {
     PrintTable printer = new PrintTable();
     printer.print("Greedy", results.get(0));

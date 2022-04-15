@@ -23,11 +23,20 @@ public class BenchModel {
   private List<DataModel> dataModels;
   private int counter;
 
+  /**
+   * Constructor of the class.
+   * @param dataModels The data models.
+   */
   public BenchModel(List<DataModel> dataModels) {
     this.dataModels = dataModels;
     this.counter = 0;
   }
 
+  /**
+   * Run the benchmark.
+   * @param model The model of the problem.
+   * @return The results of the benchmark.
+   */
   public List<List<String>> run(VehicleRouting model) {
     List<List<String>> results = new ArrayList<>();
     boolean isGrasp = model instanceof GraspVRP;

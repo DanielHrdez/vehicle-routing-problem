@@ -47,7 +47,11 @@ public class DataModel {
       this.notVisitedCustomers.add(i);
     }
   }
-  
+
+  /**
+   * Getter of the number of visited customers.
+   * @return The number of visited customers.
+   */
   public int getNumberOfVisitedCustomers() {
     return this.numberOfVisitedCustomers;
   }
@@ -122,6 +126,9 @@ public class DataModel {
     return this.distanceMatrix[from][to];
   }
 
+  /**
+   * @return The stringified version of the model.
+   */
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("Number of vehicles: ");
@@ -141,6 +148,10 @@ public class DataModel {
     return sb.toString();
   }
 
+  /**
+   * Getter of the not visited customers.
+   * @return The not visited customers.
+   */
   public int[] getNotVisitedCustomers() {
     return this.notVisitedCustomers.stream().mapToInt(i -> i).toArray();
   }

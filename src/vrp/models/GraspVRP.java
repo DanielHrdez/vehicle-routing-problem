@@ -16,11 +16,17 @@ import vrp.models.base.VehicleRouting;
 import java.util.*;
 import java.util.stream.IntStream;
 
+/**
+ * This class represents a model.
+ */
 public class GraspVRP extends VehicleRouting {
   private int maxCandidates = 2;
   private int auxiliarCost = 0;
-  private int maxIterations = 100;
+  private int maxIterations = 50;
 
+  /**
+   * Constructor of the class.
+   */
   public GraspVRP() {
     super();
   }
@@ -59,7 +65,7 @@ public class GraspVRP extends VehicleRouting {
     for (int i = 0; i < this.maxIterations; i++) {
       int[][] currentSolution = this.constructSolution();
       currentSolution = this.localSearch(currentSolution);
-      if (this.updateSolution(currentSolution)) i = 0;
+      this.updateSolution(currentSolution);
     }
   }
 
@@ -74,18 +80,27 @@ public class GraspVRP extends VehicleRouting {
     this.model.setCustomer(this.model.getDepot());
 
     while (!this.allVisited()) {
+      int minimumDistance = Integer.MAX_VALUE;
+      int minimumCustomer = -1;
+      int vehicle = -1;
       for (int i = 0; i < numberOfVehicles; i++) {
         int[] candidateList = this.candidateList(i, solution[i]);
         try {
           int currentCustomer = this.randomElement(candidateList);
           int lastFromVehicle = solution[i][solution[i].length - 1];
-          this.auxiliarCost += this.model.distance(lastFromVehicle, currentCustomer);
-          solution[i] = this.addCustomer(solution[i], currentCustomer);
-          this.model.setCustomer(currentCustomer);
+          int distance = this.model.distance(lastFromVehicle, currentCustomer);
+          if (distance < minimumDistance) {
+            minimumDistance = distance;
+            minimumCustomer = currentCustomer;
+            vehicle = i;
+          }
         } catch (Exception e) {
           break;
         }
       }
+      this.auxiliarCost += minimumDistance;
+      solution[vehicle] = this.addCustomer(solution[vehicle], minimumCustomer);
+      this.model.setCustomer(minimumCustomer);
     }
     
     this.model.resetCustomers();
@@ -147,14 +162,11 @@ public class GraspVRP extends VehicleRouting {
    * 
    * @param currentSolution The current solution.
    */
-  private boolean updateSolution(int[][] currentSolution) {
-    int previousCost = this.auxiliarCost;
-    this.auxiliarCost = 0;
-    if (previousCost < this.cost) {
-      this.cost = previousCost;
+  private void updateSolution(int[][] currentSolution) {
+    if (this.auxiliarCost < this.cost) {
+      this.cost = this.auxiliarCost;
       this.routes = currentSolution;
-      return true;
     }
-    return false;
+    this.auxiliarCost = 0;
   }
 }

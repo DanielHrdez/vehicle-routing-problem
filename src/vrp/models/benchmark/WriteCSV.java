@@ -13,15 +13,26 @@ package vrp.models.benchmark;
 import java.util.List;
 import java.io.*;
 
+/**
+ * This class writes the solution of the problem in a csv file.
+ */
 public class WriteCSV {
   private static final String DELIMITER = ",";
   private static final String NEW_LINE = "\n";
   private String fileName;
 
+  /**
+   * Constructor of the class.
+   * @param filename The name of the file.
+   */
   public WriteCSV(String filename) {
     this.fileName = filename;
   }
 
+  /**
+   * Writes the solution of the problem in a csv file.
+   * @param results The solution of the problem.
+   */
   public void write(List<List<String>> results) {
     try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8")) {
       for (List<String> result : results) {

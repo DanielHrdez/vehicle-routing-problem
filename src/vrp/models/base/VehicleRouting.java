@@ -20,6 +20,9 @@ public abstract class VehicleRouting {
   protected int[][] routes;
   protected int cost;
 
+  /**
+   * Constructor of the class.
+   */
   public VehicleRouting() {
     this.model = null;
     this.routes = null;
@@ -38,6 +41,10 @@ public abstract class VehicleRouting {
     this.cost = 0;
   }
 
+  /**
+   * Setter of the model.
+   * @param model The model of the problem.
+   */
   public void setModel(DataModel model) {
     this.model = model;
     this.routes = new int[model.getNumberOfVehicles()][1];
@@ -92,6 +99,9 @@ public abstract class VehicleRouting {
     return newRoute;
   }
 
+  /**
+   * @return Return the string representation of the routes.
+   */
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("VehicleRouting{");
