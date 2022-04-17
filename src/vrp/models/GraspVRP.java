@@ -77,7 +77,8 @@ public class GraspVRP extends VehicleRouting {
   private int[][] constructSolution() {
     int numberOfVehicles = this.model.getNumberOfVehicles();
     int[][] solution = new int[numberOfVehicles][1];
-    this.model.setCustomer(this.model.getDepot());
+    int depot = this.model.getDepot();
+    this.model.setCustomer(depot);
 
     while (!this.allVisited()) {
       int minimumDistance = Integer.MAX_VALUE;
@@ -104,7 +105,8 @@ public class GraspVRP extends VehicleRouting {
     }
 
     for (int i = 0; i < numberOfVehicles; i++) {
-      solution[i] = this.addCustomer(solution[i], this.model.getDepot());
+      solution[i] = this.addCustomer(solution[i], depot);
+      this.auxiliarCost += this.model.distance(solution[i][solution[i].length - 1], depot);
     }
     
     this.model.resetCustomers();
