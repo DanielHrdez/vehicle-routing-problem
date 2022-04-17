@@ -22,7 +22,7 @@ import java.util.stream.IntStream;
 public class GraspVRP extends VehicleRouting {
   private int maxCandidates = 2;
   private int auxiliarCost = 0;
-  private int maxIterations = 50;
+  private int maxIterations = 100;
 
   /**
    * Constructor of the class.
@@ -101,6 +101,10 @@ public class GraspVRP extends VehicleRouting {
       this.auxiliarCost += minimumDistance;
       solution[vehicle] = this.addCustomer(solution[vehicle], minimumCustomer);
       this.model.setCustomer(minimumCustomer);
+    }
+
+    for (int i = 0; i < numberOfVehicles; i++) {
+      solution[i] = this.addCustomer(solution[i], this.model.getDepot());
     }
     
     this.model.resetCustomers();
