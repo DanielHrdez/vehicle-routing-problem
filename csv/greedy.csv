@@ -1,0 +1,5 @@
+Problema,Número de Vehiculos,Ejecución,Distancia Total Recorrida,CPU Time (ns),
+00000001,2,1,146,5777000,
+00000002,4,2,219,1242600,
+00000003,6,3,219,1307000,
+00000004,8,4,219,1366000,
