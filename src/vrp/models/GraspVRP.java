@@ -22,7 +22,9 @@ import java.util.stream.IntStream;
 public class GraspVRP extends VehicleRouting {
   private int maxCandidates = 2;
   private int auxiliarCost = 0;
-  private int maxIterations = 100;
+  private int maxIterations = 3500;
+  private int maxIterationsWithoutImprovement = 500;
+  private int iterationsWithoutImprovement = 0;
 
   /**
    * Constructor of the class.
@@ -62,10 +64,14 @@ public class GraspVRP extends VehicleRouting {
    */
   public void solve() {
     this.cost = Integer.MAX_VALUE;
+    this.iterationsWithoutImprovement = 0;
     for (int i = 0; i < this.maxIterations; i++) {
       int[][] currentSolution = this.constructSolution();
       currentSolution = this.localSearch(currentSolution);
       this.updateSolution(currentSolution);
+      if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
+        break;
+      }
     }
   }
 
@@ -169,9 +175,11 @@ public class GraspVRP extends VehicleRouting {
    * @param currentSolution The current solution.
    */
   private void updateSolution(int[][] currentSolution) {
+    this.iterationsWithoutImprovement++;
     if (this.auxiliarCost < this.cost) {
       this.cost = this.auxiliarCost;
       this.routes = currentSolution;
+      this.iterationsWithoutImprovement = 0;
     }
     this.auxiliarCost = 0;
   }

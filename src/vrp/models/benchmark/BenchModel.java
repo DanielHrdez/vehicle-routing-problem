@@ -48,7 +48,7 @@ public class BenchModel {
     header.add("Distancia Total Recorrida");
     header.add("CPU Time (ns)");
     results.add(header);
-    int numberIterations = model instanceof GreedyVRP ? 3 : 11;
+    int numberIterations = model instanceof GreedyVRP ? 3 : 6;
 
     for (int i = 2; i < numberIterations; i++) {
       int execution = 0;
@@ -62,7 +62,7 @@ public class BenchModel {
         dataModel.resetCustomers();
 
         List<String> currentResult = new ArrayList<>();
-        currentResult.add(String.format("%08d", ++counter));
+        currentResult.add(String.format("%08d", ++this.counter));
         currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
         if (isGrasp) currentResult.add(Integer.toString(i));
         currentResult.add(Integer.toString(++execution));
