@@ -10,9 +10,9 @@
 
 package main;
 
+import vrp.algorithm.*;
+import vrp.algorithm.benchmark.*;
 import vrp.data.*;
-import vrp.models.*;
-import vrp.models.benchmark.*;
 
 import java.util.*;
 import java.io.File;

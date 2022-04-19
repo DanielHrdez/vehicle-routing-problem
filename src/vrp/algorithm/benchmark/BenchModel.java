@@ -8,10 +8,10 @@
  * @version 1.0.0
  */
 
-package vrp.models.benchmark;
+package vrp.algorithm.benchmark;
 
-import vrp.models.base.VehicleRouting;
-import vrp.models.*;
+import vrp.VehicleRouting;
+import vrp.algorithm.*;
 import vrp.data.DataModel;
 
 import java.util.*;

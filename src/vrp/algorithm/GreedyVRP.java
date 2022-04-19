@@ -8,10 +8,10 @@
  * @version 1.0.0
  */
 
-package vrp.models;
+package vrp.algorithm;
 
+import vrp.VehicleRouting;
 import vrp.data.DataModel;
-import vrp.models.base.VehicleRouting;
 
 /**
  * GreedyVRP is a class that implements

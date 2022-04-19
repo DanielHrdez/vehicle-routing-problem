@@ -131,19 +131,15 @@ public class DataModel {
    */
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Number of vehicles: ");
-    sb.append(this.numberOfVehicles);
-    sb.append("\n");
-    sb.append("Number of customers: ");
-    sb.append(this.numberOfCustomers);
-    sb.append("\n");
-    sb.append("Distance matrix: \n");
+    sb.append("Number of vehicles: " + this.numberOfVehicles + "\n")
+      .append("Number of customers: " + this.numberOfCustomers + "\n")
+      .append("Distance matrix: \n");
     for (int i = 0; i < this.numberOfCustomers; i++) {
+      sb.append("[");
       for (int j = 0; j < this.numberOfCustomers; j++) {
-        sb.append(this.distanceMatrix[i][j]);
-        sb.append(" ");
+        sb.append(this.distanceMatrix[i][j] + ", ");
       }
-      sb.append("\n");
+      sb.append("\b\b]\n");
     }
     return sb.toString();
   }
@@ -154,5 +150,15 @@ public class DataModel {
    */
   public int[] getNotVisitedCustomers() {
     return this.notVisitedCustomers.stream().mapToInt(i -> i).toArray();
+  }
+
+  
+  /**
+   * Check if all the customers are visited.
+   * 
+   * @return True if all the customers are visited.
+   */
+  public boolean allVisited() {
+    return this.numberOfVisitedCustomers >= this.numberOfCustomers;
   }
 }
