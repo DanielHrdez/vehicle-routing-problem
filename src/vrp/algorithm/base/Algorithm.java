@@ -17,7 +17,24 @@ import vrp.algorithm.*;
 public abstract class Algorithm {
   protected DataModel dataModel;
   protected Routes routes;
-  public abstract Routes run(DataModel dataModel);
+  private int maxCustomersByRoute;
+  private double PERCENTAGE_CUSTOMERS_BY_ROUTE = 0.1;
+  
+  public Routes run(DataModel dataModel) {
+    this.dataModel = dataModel;
+    this.routes = new Routes(dataModel.getNumberOfVehicles());
+    this.setMaxCustomersByRoute();
+    this.implementation();
+    return this.routes;
+  }
+
+  protected abstract void implementation();
+
+  protected void setMaxCustomersByRoute() {
+    int numberCustomers = this.dataModel.getNumberOfCustomers();
+    int numberVehicles = this.dataModel.getNumberOfVehicles();
+    this.maxCustomersByRoute = (int) Math.round((numberCustomers / numberVehicles) + (numberCustomers * PERCENTAGE_CUSTOMERS_BY_ROUTE)) + 1;
+  }
   
   /**
    * Add the depot to all the vehicles.
@@ -48,5 +65,9 @@ public abstract class Algorithm {
 
   public String getAlgorithmType() {
     return this.getClass().getSimpleName();
+  }
+
+  protected boolean full(Routes routes, int route) {
+    return routes.getNumberOfCustomerByRoute(route) >= this.maxCustomersByRoute;
   }
 }

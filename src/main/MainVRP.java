@@ -11,7 +11,6 @@
 package main;
 
 import vrp.VehicleRouting;
-import vrp.algorithm.*;
 import vrp.benchmark.*;
 import vrp.data.*;
 import vrp.io.PrintTable;

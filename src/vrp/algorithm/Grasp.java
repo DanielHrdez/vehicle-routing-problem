@@ -11,7 +11,6 @@
 package vrp.algorithm;
 
 import vrp.algorithm.base.*;
-import vrp.data.DataModel;
 import vrp.solution.Routes;
 
 import java.util.*;
@@ -47,9 +46,7 @@ public class Grasp extends Algorithm {
   /**
    * Solve the problem using the Grasp algorithm.
    */
-  public Routes run(DataModel dataModel) {
-    this.dataModel = dataModel;
-    this.routes = new Routes(dataModel.getNumberOfVehicles());
+  public void implementation() {
     this.routes.sumCost(Integer.MAX_VALUE);
     this.iterationsWithoutImprovement = 0;
 
@@ -61,8 +58,6 @@ public class Grasp extends Algorithm {
         break;
       }
     }
-
-    return this.routes;
   }
 
   /**
@@ -80,6 +75,7 @@ public class Grasp extends Algorithm {
       int minimumCustomer = -1;
       int vehicle = -1;
       for (int i = 0; i < numberOfVehicles; i++) {
+        if (this.full(solution, i)) continue;
         int lastFromVehicle = solution.lastCustomerFromRoute(i);
         int[] candidateList = this.candidateList(lastFromVehicle);
         try {
