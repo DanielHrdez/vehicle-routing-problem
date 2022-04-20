@@ -14,5 +14,7 @@ import vrp.data.DataModel;
 import vrp.Routes;
 
 public abstract class Algorithm {
+  protected DataModel dataModel;
+  protected Routes routes;
   public abstract Routes run(DataModel dataModel);
 }

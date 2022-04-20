@@ -67,8 +67,8 @@ public class MainVRP {
    */
   static List<List<List<String>>> runAlgorithms(List<DataModel> dataModels) {
     List<List<List<String>>> results = new ArrayList<>();
-    GreedyVRP greedy = new GreedyVRP();
-    GraspVRP grasp = new GraspVRP();
+    Greedy greedy = new Greedy();
+    Grasp grasp = new Grasp();
     BenchModel benchmark = new BenchModel(dataModels);
     results.add(benchmark.run(greedy));
     results.add(benchmark.run(grasp));

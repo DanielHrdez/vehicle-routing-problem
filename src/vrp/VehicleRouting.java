@@ -74,6 +74,7 @@ public class VehicleRouting {
    */
   public void solve() {
     this.routes = this.algorithm.run(this.dataModel);
+    this.dataModel.resetCustomers();
   }
 
   /**

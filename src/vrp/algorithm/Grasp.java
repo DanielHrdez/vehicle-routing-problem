@@ -10,7 +10,7 @@
 
 package vrp.algorithm;
 
-import vrp.VehicleRouting;
+import vrp.algorithm.base.*;
 import vrp.data.DataModel;
 
 import java.util.*;
@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 /**
  * This class represents a model.
  */
-public class GraspVRP extends VehicleRouting {
+public class Grasp extends Algorithm {
   private int maxCandidates = 2;
   private int auxiliarCost = 0;
   private int maxIterations = 3500;
@@ -29,7 +29,7 @@ public class GraspVRP extends VehicleRouting {
   /**
    * Constructor of the class.
    */
-  public GraspVRP() {
+  public Grasp() {
     super();
   }
 
@@ -37,7 +37,7 @@ public class GraspVRP extends VehicleRouting {
    * Constructor of the class.
    * @param model The model of the problem.
    */
-  public GraspVRP(DataModel model) {
+  public Grasp(DataModel model) {
     super(model);
   }
 

@@ -30,8 +30,32 @@ public class Routes {
     return this.routes;
   }
 
+  public List<Integer> get(int index) {
+    return this.routes.get(index);
+  }
+
+  public Integer get(int index1, int index2) {
+    return this.routes.get(index1).get(index2);
+  }
+
+  public int size() {
+    return this.routes.size();
+  }
+
+  public int size(int index) {
+    return this.routes.get(index).size();
+  }
+
+  public void add(int index, int value) {
+    this.routes.get(index).add(value);
+  }
+
   public int getCost() {
     return this.cost;
+  }
+
+  public int sumCost(int newCost) {
+    return this.cost += newCost;
   }
 
   public String toString() {
