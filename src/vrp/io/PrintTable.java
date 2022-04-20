@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-package vrp.algorithm.benchmark;
+package vrp.io;
 
 import java.util.*;
 import main.Constants;
@@ -22,16 +22,16 @@ public class PrintTable {
    * @param title The title of the table.
    * @param results The results of the table.
    */
-  public void print(String title, List<List<String>> results) {    
+  public static void print(String title, List<List<String>> results) {    
     System.out.format(
       "%-40s" + Constants.ANSI_BOLD +
       title + "%n" + Constants.ANSI_RESET, ""
     );
     boolean header = false;
     int resultSize = results.get(0).size();
-    String topLine = this.lineSeparator(resultSize, "┌─", "─┬─", "─┐");
-    String lineSeparator = this.lineSeparator(resultSize, "├─", "─┼─", "─┤");
-    String bottomLine = this.lineSeparator(resultSize, "└─", "─┴─", "─┘");
+    String topLine = lineSeparator(resultSize, "┌─", "─┬─", "─┐");
+    String lineSeparator = lineSeparator(resultSize, "├─", "─┼─", "─┤");
+    String bottomLine = lineSeparator(resultSize, "└─", "─┴─", "─┘");
     String[] leftAlignFormat;
     if (resultSize != 5) leftAlignFormat = new String[] {
       "│ %-8s ", "│ %-19s ", "│ %-20s ", "│ %-9s ", "│ %-25s ", "│ %-13s │%n"
@@ -66,7 +66,7 @@ public class PrintTable {
    * @param end The end char of the line.
    * @return The line.
    */
-  private String lineSeparator(int size, String start, String interception, String end) {
+  private static String lineSeparator(int size, String start, String interception, String end) {
     String lineSeparator = start;
     lineSeparator += "─".repeat(8) + interception;
     lineSeparator += "─".repeat(19) + interception;

@@ -10,9 +10,12 @@
 
 package main;
 
+import vrp.VehicleRouting;
 import vrp.algorithm.*;
-import vrp.algorithm.benchmark.*;
+import vrp.benchmark.*;
 import vrp.data.*;
+import vrp.io.PrintTable;
+import vrp.io.WriteCSV;
 
 import java.util.*;
 import java.io.File;
@@ -67,11 +70,12 @@ public class MainVRP {
    */
   static List<List<List<String>>> runAlgorithms(List<DataModel> dataModels) {
     List<List<List<String>>> results = new ArrayList<>();
-    Greedy greedy = new Greedy();
-    Grasp grasp = new Grasp();
+    VehicleRouting vrp = new VehicleRouting();
+    vrp.setAlgorithm("Greedy");
     BenchModel benchmark = new BenchModel(dataModels);
-    results.add(benchmark.run(greedy));
-    results.add(benchmark.run(grasp));
+    results.add(benchmark.run(vrp));
+    vrp.setAlgorithm("Grasp");
+    results.add(benchmark.run(vrp));
     return results;
   }
 
@@ -93,8 +97,7 @@ public class MainVRP {
    * @param results List of results.
    */
   static void printResults(List<List<List<String>>> results) {
-    PrintTable printer = new PrintTable();
-    printer.print("Greedy", results.get(0));
-    printer.print("Grasp", results.get(1));
+    PrintTable.print("Greedy", results.get(0));
+    PrintTable.print("Grasp", results.get(1));
   }
 }

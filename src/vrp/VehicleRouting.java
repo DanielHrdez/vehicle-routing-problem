@@ -12,6 +12,7 @@ package vrp;
 
 import vrp.algorithm.base.Algorithm;
 import vrp.data.DataModel;
+import vrp.solution.Routes;
 
 import java.util.*;
 
@@ -29,6 +30,7 @@ public class VehicleRouting {
   public VehicleRouting() {
     this.dataModel = null;
     this.routes = null;
+    this.algorithm = null;
   }
 
   /**
@@ -37,9 +39,10 @@ public class VehicleRouting {
    * @param dataModel The model of the problem.
    * It must be a model with a vertex for each customer.
    */
-  public VehicleRouting(DataModel dataModel) {
+  public VehicleRouting(DataModel dataModel, String algorithmType) {
     this.dataModel = dataModel;
     this.routes = new Routes(dataModel.getNumberOfVehicles());
+    this.algorithm = Algorithm.getAlgorithm(algorithmType);
   }
 
   /**
@@ -49,6 +52,10 @@ public class VehicleRouting {
   public void setModel(DataModel dataModel) {
     this.dataModel = dataModel;
     this.routes = new Routes(dataModel.getNumberOfVehicles());
+  }
+
+  public void setAlgorithm(String algorithmType) {
+    this.algorithm = Algorithm.getAlgorithm(algorithmType);
   }
 
   /**
@@ -74,7 +81,18 @@ public class VehicleRouting {
    */
   public void solve() {
     this.routes = this.algorithm.run(this.dataModel);
-    this.dataModel.resetCustomers();
+  }
+
+  public Routes getSolution() {
+    return this.routes;
+  }
+
+  public String algorithmType() {
+    return this.algorithm.getAlgorithmType();
+  }
+
+  public Algorithm getAlgorithm() {
+    return this.algorithm;
   }
 
   /**

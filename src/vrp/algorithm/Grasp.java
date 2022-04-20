@@ -12,6 +12,7 @@ package vrp.algorithm;
 
 import vrp.algorithm.base.*;
 import vrp.data.DataModel;
+import vrp.solution.Routes;
 
 import java.util.*;
 import java.util.stream.IntStream;
@@ -21,25 +22,9 @@ import java.util.stream.IntStream;
  */
 public class Grasp extends Algorithm {
   private int maxCandidates = 2;
-  private int auxiliarCost = 0;
   private int maxIterations = 3500;
   private int maxIterationsWithoutImprovement = 500;
   private int iterationsWithoutImprovement = 0;
-
-  /**
-   * Constructor of the class.
-   */
-  public Grasp() {
-    super();
-  }
-
-  /**
-   * Constructor of the class.
-   * @param model The model of the problem.
-   */
-  public Grasp(DataModel model) {
-    super(model);
-  }
 
   /**
    * Setter of the max candidates.
@@ -62,17 +47,22 @@ public class Grasp extends Algorithm {
   /**
    * Solve the problem using the Grasp algorithm.
    */
-  public void solve() {
-    this.cost = Integer.MAX_VALUE;
+  public Routes run(DataModel dataModel) {
+    this.dataModel = dataModel;
+    this.routes = new Routes(dataModel.getNumberOfVehicles());
+    this.routes.sumCost(Integer.MAX_VALUE);
     this.iterationsWithoutImprovement = 0;
+
     for (int i = 0; i < this.maxIterations; i++) {
-      int[][] currentSolution = this.constructSolution();
+      Routes currentSolution = this.constructSolution();
       currentSolution = this.localSearch(currentSolution);
       this.updateSolution(currentSolution);
       if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
         break;
       }
     }
+
+    return this.routes;
   }
 
   /**
@@ -80,22 +70,21 @@ public class Grasp extends Algorithm {
    * 
    * @return The solution.
    */
-  private int[][] constructSolution() {
-    int numberOfVehicles = this.model.getNumberOfVehicles();
-    int[][] solution = new int[numberOfVehicles][1];
-    int depot = this.model.getDepot();
-    this.model.setCustomer(depot);
+  private Routes constructSolution() {
+    int numberOfVehicles = this.dataModel.getNumberOfVehicles();
+    Routes solution = new Routes(numberOfVehicles);
+    this.addDepot(solution);
 
-    while (!this.allVisited()) {
+    while (!this.dataModel.allVisited()) {
       int minimumDistance = Integer.MAX_VALUE;
       int minimumCustomer = -1;
       int vehicle = -1;
       for (int i = 0; i < numberOfVehicles; i++) {
-        int[] candidateList = this.candidateList(i, solution[i]);
+        int lastFromVehicle = solution.last(i);
+        int[] candidateList = this.candidateList(lastFromVehicle);
         try {
           int currentCustomer = this.randomElement(candidateList);
-          int lastFromVehicle = solution[i][solution[i].length - 1];
-          int distance = this.model.distance(lastFromVehicle, currentCustomer);
+          int distance = this.dataModel.distance(lastFromVehicle, currentCustomer);
           if (distance < minimumDistance) {
             minimumDistance = distance;
             minimumCustomer = currentCustomer;
@@ -105,35 +94,30 @@ public class Grasp extends Algorithm {
           break;
         }
       }
-      this.auxiliarCost += minimumDistance;
-      solution[vehicle] = this.addCustomer(solution[vehicle], minimumCustomer);
-      this.model.setCustomer(minimumCustomer);
+      solution.sumCost(minimumDistance);
+      solution.add(vehicle, minimumCustomer);
+      this.dataModel.setCustomer(minimumCustomer);
     }
 
-    for (int i = 0; i < numberOfVehicles; i++) {
-      solution[i] = this.addCustomer(solution[i], depot);
-      this.auxiliarCost += this.model.distance(solution[i][solution[i].length - 1], depot);
-    }
-    
-    this.model.resetCustomers();
+    this.addDepot(solution);
+    this.dataModel.resetCustomers();
     return solution;
   }
 
   /**
    * Create the candidate list.
    * 
-   * @param solution The current solution.
+   * @param lastFromVehicle The last customer from the vehicle.
    * @return The candidate list.
    */
-  private int[] candidateList(int vehicle, int[] solution) {
+  private int[] candidateList(int lastFromVehicle) {
     int[] candidates = new int[this.maxCandidates];
-    int lastFromVehicle = solution[solution.length - 1];
     
     for (int i = 0; i < this.maxCandidates; i++) {
       int closest = Integer.MAX_VALUE;
-      for (int notVisited : this.model.getNotVisitedCustomers()) {
+      for (int notVisited : this.dataModel.getNotVisitedCustomers()) {
         if (IntStream.of(candidates).anyMatch(c -> c == notVisited)) continue;
-        int distance = this.model.distance(lastFromVehicle, notVisited);
+        int distance = this.dataModel.distance(lastFromVehicle, notVisited);
         if (distance < closest) {
           closest = distance;
           candidates[i] = notVisited;
@@ -165,7 +149,7 @@ public class Grasp extends Algorithm {
    * @param solution The solution.
    * @return The local solution.
    */
-  private int[][] localSearch(int[][] solution) {
+  private Routes localSearch(Routes solution) {
     return solution;
   }
 
@@ -174,13 +158,11 @@ public class Grasp extends Algorithm {
    * 
    * @param currentSolution The current solution.
    */
-  private void updateSolution(int[][] currentSolution) {
+  private void updateSolution(Routes currentSolution) {
     this.iterationsWithoutImprovement++;
-    if (this.auxiliarCost < this.cost) {
-      this.cost = this.auxiliarCost;
+    if (currentSolution.getCost() < this.routes.getCost()) {
       this.routes = currentSolution;
       this.iterationsWithoutImprovement = 0;
     }
-    this.auxiliarCost = 0;
   }
 }

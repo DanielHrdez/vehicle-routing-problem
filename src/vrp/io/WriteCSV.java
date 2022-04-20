@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-package vrp.algorithm.benchmark;
+package vrp.io;
 
 import java.util.List;
 import java.io.*;

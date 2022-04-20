@@ -8,9 +8,9 @@
  * @version 1.0.0
  */
 
-package vrp.algorithm.benchmark;
+package vrp.benchmark;
 
-import vrp.VehicleRouting;
+import vrp.*;
 import vrp.algorithm.*;
 import vrp.data.DataModel;
 
@@ -39,7 +39,7 @@ public class BenchModel {
    */
   public List<List<String>> run(VehicleRouting model) {
     List<List<String>> results = new ArrayList<>();
-    boolean isGrasp = model instanceof Grasp;
+    boolean isGrasp = model.algorithmType() == "Grasp";
     List<String> header = new ArrayList<>();
     header.add("Problema");
     header.add("Número de Vehiculos");
@@ -48,13 +48,13 @@ public class BenchModel {
     header.add("Distancia Total Recorrida");
     header.add("CPU Time (ns)");
     results.add(header);
-    int numberIterations = model instanceof Greedy ? 3 : 6;
+    int numberIterations = model.algorithmType() == "Greedy" ? 3 : 6;
 
     for (int i = 2; i < numberIterations; i++) {
       int execution = 0;
       for (DataModel dataModel : this.dataModels) {
         model.setModel(dataModel);
-        if (isGrasp) ((Grasp) model).setMaxCandidates(i);
+        if (isGrasp) ((Grasp) model.getAlgorithm()).setMaxCandidates(i);
         long start = System.nanoTime();
         model.solve();
         long end = System.nanoTime();

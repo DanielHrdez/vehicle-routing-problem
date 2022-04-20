@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-package vrp;
+package vrp.solution;
 
 import java.util.*;
 
@@ -36,6 +36,10 @@ public class Routes {
 
   public Integer get(int index1, int index2) {
     return this.routes.get(index1).get(index2);
+  }
+
+  public Integer last(int index) {
+    return this.get(index, this.size(index) - 1);
   }
 
   public int size() {

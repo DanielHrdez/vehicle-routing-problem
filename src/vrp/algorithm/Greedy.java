@@ -12,7 +12,7 @@ package vrp.algorithm;
 
 import vrp.algorithm.base.*;
 import vrp.data.DataModel;
-import vrp.*;
+import vrp.solution.Routes;
 
 /**
  * GreedyVRP is a class that implements
@@ -26,13 +26,13 @@ public class Greedy extends Algorithm {
     this.dataModel = dataModel;
     this.routes = new Routes(dataModel.getNumberOfVehicles());
 
-    this.addDepot();
+    this.addDepot(this.routes);
     this.dataModel.setCustomer(this.dataModel.getDepot());
     while (!this.dataModel.allVisited()) {
       this.closestCustomers();
     }
-    this.addDepot();
-
+    this.addDepot(this.routes);
+    this.dataModel.resetCustomers();
     return this.routes;
   }
 
@@ -66,19 +66,6 @@ public class Greedy extends Algorithm {
       this.routes.add(route, minimumCustomer);
       this.dataModel.setCustomer(minimumCustomer);
       this.routes.sumCost(minimumDistance);
-    }
-  }
-
-  /**
-   * Add the depot to all the vehicles.
-   */
-  private void addDepot() {
-    int numberOfVehicles = this.dataModel.getNumberOfVehicles();
-    int depot = this.dataModel.getDepot();
-
-    for (int i = 0; i < numberOfVehicles; i++) {
-      this.routes.sumCost(this.dataModel.distance(this.routes.get(i, this.routes.size(i) - 1), depot));
-      this.routes.add(i, depot);
     }
   }
 }
