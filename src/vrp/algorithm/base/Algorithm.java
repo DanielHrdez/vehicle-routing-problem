@@ -12,6 +12,7 @@ package vrp.algorithm.base;
 
 import vrp.data.DataModel;
 import vrp.solution.Routes;
+import vrp.algorithm.*;
 
 public abstract class Algorithm {
   protected DataModel dataModel;
@@ -33,14 +34,14 @@ public abstract class Algorithm {
   }
 
   public static Algorithm getAlgorithm(String algorithmType) {
-    try {
-      return (Algorithm) Class.forName(algorithmType).getDeclaredConstructor().newInstance();
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Algorithm not found");
+    switch (algorithmType) {
+      case "Greedy": return new Greedy();
+      case "Grasp": return new Grasp();
     }
+    throw new IllegalArgumentException("Algorithm type not found");
   }
 
   public String getAlgorithmType() {
-    return this.getClass().getName();
+    return this.getClass().getSimpleName();
   }
 }

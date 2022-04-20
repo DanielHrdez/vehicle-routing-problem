@@ -22,7 +22,10 @@ public class Routes {
   }
 
   public Routes(int numberOfRoutes) {
-    this.routes = new ArrayList<>(numberOfRoutes);
+    this.routes = new ArrayList<>();
+    for (int i = 0; i < numberOfRoutes; i++) {
+      this.routes.add(new ArrayList<>());
+    }
     this.cost = 0;
   }
 

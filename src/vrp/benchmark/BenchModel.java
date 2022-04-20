@@ -39,7 +39,7 @@ public class BenchModel {
    */
   public List<List<String>> run(VehicleRouting model) {
     List<List<String>> results = new ArrayList<>();
-    boolean isGrasp = model.algorithmType() == "Grasp";
+    boolean isGrasp = model.algorithmType().equals("Grasp");
     List<String> header = new ArrayList<>();
     header.add("Problema");
     header.add("Número de Vehiculos");
@@ -48,7 +48,7 @@ public class BenchModel {
     header.add("Distancia Total Recorrida");
     header.add("CPU Time (ns)");
     results.add(header);
-    int numberIterations = model.algorithmType() == "Greedy" ? 3 : 6;
+    int numberIterations = model.algorithmType().equals("Greedy") ? 3 : 6;
 
     for (int i = 2; i < numberIterations; i++) {
       int execution = 0;
