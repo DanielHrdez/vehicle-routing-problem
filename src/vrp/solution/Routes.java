@@ -33,28 +33,28 @@ public class Routes {
     return this.routes;
   }
 
-  public List<Integer> get(int index) {
-    return this.routes.get(index);
+  public List<Integer> getRoute(int route) {
+    return this.routes.get(route);
   }
 
-  public Integer get(int index1, int index2) {
-    return this.routes.get(index1).get(index2);
+  public Integer getCustomer(int route, int position) {
+    return this.routes.get(route).get(position);
   }
 
-  public Integer last(int index) {
-    return this.get(index, this.size(index) - 1);
+  public Integer lastCustomerFromRoute(int route) {
+    return this.getCustomer(route, this.getNumberOfCustomerByRoute(route) - 1);
   }
 
-  public int size() {
+  public int getNumberOfRoutes() {
     return this.routes.size();
   }
 
-  public int size(int index) {
-    return this.routes.get(index).size();
+  public int getNumberOfCustomerByRoute(int route) {
+    return this.routes.get(route).size();
   }
 
-  public void add(int index, int value) {
-    this.routes.get(index).add(value);
+  public void addCustomer(int route, int customer) {
+    this.routes.get(route).add(customer);
   }
 
   public int getCost() {
@@ -67,7 +67,7 @@ public class Routes {
 
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Routes: ");
+    sb.append("Routes:\n");
     for (List<Integer> route : this.routes) {
       sb.append("  " + route.toString() + "\n");
     }

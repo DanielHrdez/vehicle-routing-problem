@@ -24,7 +24,7 @@ public class PrintTable {
    */
   public static void print(String title, List<List<String>> results) {    
     System.out.format(
-      "%-40s" + Constants.ANSI_BOLD +
+      "%40s" + Constants.ANSI_BOLD +
       title + "%n" + Constants.ANSI_RESET, ""
     );
     boolean header = false;
@@ -34,10 +34,10 @@ public class PrintTable {
     String bottomLine = lineSeparator(resultSize, "└─", "─┴─", "─┘");
     String[] leftAlignFormat;
     if (resultSize != 5) leftAlignFormat = new String[] {
-      "│ %-8s ", "│ %-19s ", "│ %-20s ", "│ %-9s ", "│ %-25s ", "│ %-13s │%n"
+      "│ %8s ", "│ %19s ", "│ %20s ", "│ %9s ", "│ %25s ", "│ %13s │%n"
     };
     else leftAlignFormat = new String[] {
-      "│ %-8s ", "│ %-19s ", "│ %-9s ", "│ %-25s ", "│ %-13s │%n"
+      "│ %8s ", "│ %19s ", "│ %9s ", "│ %25s ", "│ %13s │%n"
     };
     System.out.format(topLine);
     for (List<String> result : results) {

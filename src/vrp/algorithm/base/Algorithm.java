@@ -28,8 +28,13 @@ public abstract class Algorithm {
     this.dataModel.setCustomer(depot);
 
     for (int i = 0; i < numberOfVehicles; i++) {
-      routes.sumCost(this.dataModel.distance(routes.get(i, routes.size(i) - 1), depot));
-      routes.add(i, depot);
+      try {
+        routes.sumCost(this.dataModel.distance(routes.lastCustomerFromRoute(i), depot));
+        routes.addCustomer(i, depot);
+      } catch (Exception e) {
+        routes.addCustomer(i, depot);
+        routes.sumCost(this.dataModel.distance(routes.lastCustomerFromRoute(i), depot));
+      }
     }
   }
 

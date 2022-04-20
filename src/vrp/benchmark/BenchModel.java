@@ -62,7 +62,7 @@ public class BenchModel {
         dataModel.resetCustomers();
 
         List<String> currentResult = new ArrayList<>();
-        currentResult.add(String.format("%08d", ++this.counter));
+        currentResult.add(Integer.toString(++this.counter));
         currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
         if (isGrasp) currentResult.add(Integer.toString(i));
         currentResult.add(Integer.toString(++execution));

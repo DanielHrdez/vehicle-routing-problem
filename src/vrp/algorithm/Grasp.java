@@ -22,8 +22,8 @@ import java.util.stream.IntStream;
  */
 public class Grasp extends Algorithm {
   private int maxCandidates = 2;
-  private int maxIterations = 3500;
-  private int maxIterationsWithoutImprovement = 500;
+  private int maxIterations = 1000;
+  private int maxIterationsWithoutImprovement = 100;
   private int iterationsWithoutImprovement = 0;
 
   /**
@@ -80,7 +80,7 @@ public class Grasp extends Algorithm {
       int minimumCustomer = -1;
       int vehicle = -1;
       for (int i = 0; i < numberOfVehicles; i++) {
-        int lastFromVehicle = solution.last(i);
+        int lastFromVehicle = solution.lastCustomerFromRoute(i);
         int[] candidateList = this.candidateList(lastFromVehicle);
         try {
           int currentCustomer = this.randomElement(candidateList);
@@ -95,7 +95,7 @@ public class Grasp extends Algorithm {
         }
       }
       solution.sumCost(minimumDistance);
-      solution.add(vehicle, minimumCustomer);
+      solution.addCustomer(vehicle, minimumCustomer);
       this.dataModel.setCustomer(minimumCustomer);
     }
 

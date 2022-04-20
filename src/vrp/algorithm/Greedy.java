@@ -25,9 +25,7 @@ public class Greedy extends Algorithm {
   public Routes run(DataModel dataModel) {
     this.dataModel = dataModel;
     this.routes = new Routes(dataModel.getNumberOfVehicles());
-
     this.addDepot(this.routes);
-    this.dataModel.setCustomer(this.dataModel.getDepot());
     while (!this.dataModel.allVisited()) {
       this.closestCustomers();
     }
@@ -48,7 +46,7 @@ public class Greedy extends Algorithm {
     for (int i = 0; i < numberOfVehicles; i++) {
       int minimum = Integer.MAX_VALUE;
       int closestCustomer = -1;
-      int end = this.routes.get(i, this.routes.size(i) - 1);
+      int end = this.routes.lastCustomerFromRoute(i);
       for (int notVisitedCustomer : this.dataModel.getNotVisitedCustomers()) {
         int currentDistance = this.dataModel.distance(end, notVisitedCustomer);
         if (currentDistance < minimum) {
@@ -63,7 +61,7 @@ public class Greedy extends Algorithm {
       }
     }
     if (minimumCustomer != -1) {
-      this.routes.add(route, minimumCustomer);
+      this.routes.addCustomer(route, minimumCustomer);
       this.dataModel.setCustomer(minimumCustomer);
       this.routes.sumCost(minimumDistance);
     }
