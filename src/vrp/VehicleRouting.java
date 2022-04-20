@@ -81,7 +81,6 @@ public class VehicleRouting {
    */
   public void solve() {
     this.routes = this.algorithm.run(this.dataModel);
-    System.out.println(this.routes);
   }
 
   public Routes getSolution() {
