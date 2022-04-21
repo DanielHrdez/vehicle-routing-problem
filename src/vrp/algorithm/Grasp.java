@@ -146,7 +146,53 @@ public class Grasp extends Algorithm {
    * @return The local solution.
    */
   private Routes localSearch(Routes solution) {
+    solution = this.twoOpt(solution);
     return solution;
+  }
+
+  
+  private Routes twoOpt(Routes solution) {
+    int depot = this.dataModel.getDepot();
+    boolean improved = true;
+    while (improved) {
+      improved = false;
+      int indexRoute = 0;
+      for (List<Integer> vehicle : solution.getRoutes()) {
+        for (int i = 0; i < vehicle.size() - 1; i++) {
+          if (vehicle.get(i) == depot) continue;
+          for (int j = i + 1; j < vehicle.size(); j++) {
+            if (vehicle.get(j) == depot) continue;
+            Routes twoOpt = this.twoOptSwap(solution, indexRoute, i, j);
+            if (twoOpt.getCost() < solution.getCost()) {
+              solution = twoOpt;
+              improved = true;
+              break;
+            }
+          }
+          if (improved) break;
+        }
+        if (improved) break;
+        indexRoute++;
+      };
+    }
+    return solution;
+  }
+
+  private Routes twoOptSwap(Routes previousRoutes, int indexRoute, int firstIndex, int secondIndex) {
+    Routes newRoutes = previousRoutes;
+    List<Integer> newList = previousRoutes.getRoutes().get(indexRoute);
+    for (int i = secondIndex; i > firstIndex; i--) {
+      newRoutes.sumCost(-this.dataModel.distance(newList.get(i), newList.get(i - 1)));
+      newList.set(i, previousRoutes.getCustomer(indexRoute, i));
+      newRoutes.sumCost(this.dataModel.distance(newList.get(i - 1), newList.get(i)));
+    }
+    for (int i = firstIndex; i <= secondIndex; i++) {
+      newRoutes.sumCost(-this.dataModel.distance(newList.get(i), newList.get(i - 1)));
+      newList.set(i, previousRoutes.getCustomer(indexRoute, i));
+      newRoutes.sumCost(this.dataModel.distance(newList.get(i - 1), newList.get(i)));
+    }
+    newRoutes.setRoute(indexRoute, newList);
+    return newRoutes;
   }
 
   /**

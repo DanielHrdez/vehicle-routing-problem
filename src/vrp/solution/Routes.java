@@ -33,6 +33,10 @@ public class Routes {
     return this.routes;
   }
 
+  public void setRoute(int routeIndex, List<Integer> route) {
+    this.routes.set(routeIndex, route);
+  }
+
   public List<Integer> getRoute(int route) {
     return this.routes.get(route);
   }
