@@ -146,10 +146,52 @@ public class Grasp extends Algorithm {
    * @return The local solution.
    */
   private Routes localSearch(Routes solution) {
-    solution = this.twoOpt(solution);
+    solution = this.reinsertion(solution);
+    // solution = this.intraRoute(solution);
+    // solution = this.interRoute(solution);
+    // solution = this.twoOpt(solution);
     return solution;
   }
 
+  private Routes reinsertion(Routes solution) {
+    int numberOfVehicles = this.dataModel.getNumberOfVehicles();
+    Routes bestSolution = solution.clone();
+    boolean improved = true;
+    while (improved) {
+      improved = false;
+      for (int i = 0; i < numberOfVehicles; i++) {
+        if (solution.getRouteSize(i) == 2) continue;
+        for (int j = 1; j < solution.getRouteSize(i) - 1; j++) {
+          for (int k = 0; k < numberOfVehicles; k++) {
+            if (i == k) continue;
+            if (solution.getRouteSize(k) == 2) continue;
+            for (int l = 1; l < solution.getRouteSize(k) - 1; l++) {
+              Routes newSolution = this.insert(solution, i, j, k, l);
+              if (newSolution.getCost() < bestSolution.getCost()) {
+                bestSolution = newSolution;
+                improved = true;
+              }
+            }
+          }
+        }
+      }
+      solution = bestSolution;
+    }
+    return bestSolution;
+  }
+
+  private Routes insert(Routes routes, int from, int targetPosition, int to, int position) {
+    Routes newRoutes = routes.clone();
+    newRoutes.sumCost(-this.dataModel.distance(routes.getCustomer(from, targetPosition - 1), routes.getCustomer(from, targetPosition)));
+    newRoutes.sumCost(-this.dataModel.distance(routes.getCustomer(from, targetPosition), routes.getCustomer(from, targetPosition + 1)));
+    newRoutes.sumCost(-this.dataModel.distance(routes.getCustomer(to, position - 1), routes.getCustomer(to, position)));
+    newRoutes.removeCustomer(from, targetPosition);
+    newRoutes.addCustomer(to, routes.getCustomer(from, targetPosition), position);
+    newRoutes.sumCost(this.dataModel.distance(routes.getCustomer(from, targetPosition - 1), routes.getCustomer(from, targetPosition + 1)));
+    newRoutes.sumCost(this.dataModel.distance(routes.getCustomer(to, position - 1), routes.getCustomer(from, targetPosition)));
+    newRoutes.sumCost(this.dataModel.distance(routes.getCustomer(from, targetPosition), routes.getCustomer(to, position)));
+    return newRoutes;
+  }
   
   private Routes twoOpt(Routes solution) {
     int depot = this.dataModel.getDepot();
@@ -179,17 +221,12 @@ public class Grasp extends Algorithm {
   }
 
   private Routes twoOptSwap(Routes previousRoutes, int indexRoute, int firstIndex, int secondIndex) {
-    Routes newRoutes = previousRoutes;
-    List<Integer> newList = previousRoutes.getRoutes().get(indexRoute);
-    for (int i = secondIndex; i > firstIndex; i--) {
-      newRoutes.sumCost(-this.dataModel.distance(newList.get(i), newList.get(i - 1)));
-      newList.set(i, previousRoutes.getCustomer(indexRoute, i));
-      newRoutes.sumCost(this.dataModel.distance(newList.get(i - 1), newList.get(i)));
-    }
-    for (int i = firstIndex; i <= secondIndex; i++) {
-      newRoutes.sumCost(-this.dataModel.distance(newList.get(i), newList.get(i - 1)));
-      newList.set(i, previousRoutes.getCustomer(indexRoute, i));
-      newRoutes.sumCost(this.dataModel.distance(newList.get(i - 1), newList.get(i)));
+    Routes newRoutes = previousRoutes.clone();
+    List<Integer> newList = new ArrayList<>(newRoutes.getRoute(indexRoute));
+    for (int i = secondIndex; i >= firstIndex; i--) {
+      newRoutes.sumCost(-this.dataModel.distance(newRoutes.getCustomer(indexRoute, i - 1), newRoutes.getCustomer(indexRoute, i)));
+      newList.set(i, previousRoutes.getCustomer(indexRoute, secondIndex - i + firstIndex));
+      newRoutes.sumCost(this.dataModel.distance(newRoutes.getCustomer(indexRoute, i), newRoutes.getCustomer(indexRoute, i - 1)));
     }
     newRoutes.setRoute(indexRoute, newList);
     return newRoutes;

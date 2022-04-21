@@ -68,6 +68,6 @@ public abstract class Algorithm {
   }
 
   protected boolean full(Routes routes, int route) {
-    return routes.getNumberOfCustomerByRoute(route) >= this.maxCustomersByRoute;
+    return routes.getRouteSize(route) >= this.maxCustomersByRoute;
   }
 }

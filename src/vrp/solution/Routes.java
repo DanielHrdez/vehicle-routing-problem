@@ -12,7 +12,7 @@ package vrp.solution;
 
 import java.util.*;
 
-public class Routes {
+public class Routes implements Cloneable {
   List<List<Integer>> routes;
   int cost;
 
@@ -46,19 +46,23 @@ public class Routes {
   }
 
   public Integer lastCustomerFromRoute(int route) {
-    return this.getCustomer(route, this.getNumberOfCustomerByRoute(route) - 1);
+    return this.getCustomer(route, this.getRouteSize(route) - 1);
   }
 
   public int getNumberOfRoutes() {
     return this.routes.size();
   }
 
-  public int getNumberOfCustomerByRoute(int route) {
+  public int getRouteSize(int route) {
     return this.routes.get(route).size();
   }
 
   public void addCustomer(int route, int customer) {
     this.routes.get(route).add(customer);
+  }
+
+  public void addCustomer(int route, int customer, int position) {
+    this.routes.get(route).add(position, customer);
   }
 
   public int getCost() {
@@ -77,5 +81,19 @@ public class Routes {
     }
     sb.append("Cost: " + this.cost);
     return sb.toString();
+  }
+
+  public Routes clone() {
+    Routes clone = new Routes();
+    clone.routes = new ArrayList<>(this.routes.size());
+    for (List<Integer> route : this.routes) {
+      clone.routes.add(new ArrayList<>(route));
+    }
+    clone.cost = this.cost;
+    return clone;
+  }
+
+  public void removeCustomer(int route, int position) {
+    this.routes.get(route).remove(position);
   }
 }
