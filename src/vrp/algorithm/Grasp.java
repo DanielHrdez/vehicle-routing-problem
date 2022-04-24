@@ -16,6 +16,14 @@ import vrp.solution.Routes;
 import java.util.*;
 import java.util.stream.IntStream;
 
+enum LocalSearchType {
+  SWAP_INTER_ROUTE,
+  SWAP_INTRA_ROUTE,
+  REINSERTION_INTER_ROUTE,
+  REINSERTION_INTRA_ROUTE,
+  TWO_OPT
+}
+
 /**
  * This class represents a model.
  */
@@ -24,6 +32,7 @@ public class Grasp extends Algorithm {
   private int maxIterations = 1000;
   private int maxIterationsWithoutImprovement = 100;
   private int iterationsWithoutImprovement = 0;
+  private LocalSearchType localSearchType = LocalSearchType.REINSERTION_INTER_ROUTE;
 
   /**
    * Setter of the max candidates.
@@ -52,7 +61,7 @@ public class Grasp extends Algorithm {
 
     for (int i = 0; i < this.maxIterations; i++) {
       Routes currentSolution = this.constructSolution();
-      currentSolution = this.localSearch(currentSolution);
+      currentSolution = this.localSearch(currentSolution, this.localSearchType);
       this.updateSolution(currentSolution);
       if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
         break;
@@ -145,38 +154,19 @@ public class Grasp extends Algorithm {
    * @param solution The solution.
    * @return The local solution.
    */
-  private Routes localSearch(Routes solution) {
-    int improved = 2;
-    int previousCost = solution.getCost();
-    while (improved >= 2) {
-      improved = 0;
-      solution = this.reinsertionInter(solution);
-      if (solution.getCost() < previousCost) {
-        improved++;
-        previousCost = solution.getCost();
-      }
-      solution = this.reinsertionIntra(solution);
-      if (solution.getCost() < previousCost) {
-        improved++;
-        previousCost = solution.getCost();
-      }
-      solution = this.swapIntra(solution);
-      if (solution.getCost() < previousCost) {
-        improved++;
-        previousCost = solution.getCost();
-      }
-      solution = this.swapInter(solution);
-      if (solution.getCost() < previousCost) {
-        improved++;
-        previousCost = solution.getCost();
-      }
-      solution = this.twoOpt(solution);
-      if (solution.getCost() < previousCost) {
-        improved++;
-        previousCost = solution.getCost();
-      }
+  private Routes localSearch(Routes solution, LocalSearchType type) {
+    switch (type) {
+      case REINSERTION_INTER_ROUTE: return this.reinsertionInter(solution);
+      case REINSERTION_INTRA_ROUTE: return this.reinsertionIntra(solution);
+      case SWAP_INTER_ROUTE: return this.swapInter(solution);
+      case SWAP_INTRA_ROUTE: return this.swapIntra(solution);
+      case TWO_OPT: return this.twoOpt(solution);
     }
     return solution;
+  }
+
+  public void setLocalSearchType(LocalSearchType localSearchType) {
+    this.localSearchType = localSearchType;
   }
 
   private Routes reinsertionInter(Routes solution) {
