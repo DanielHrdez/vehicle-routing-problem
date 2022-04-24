@@ -31,9 +31,12 @@ public class MainVRP {
   public static void main(String[] args) throws Exception {
     MainVRP.printTitle();
     List<DataModel> dataModels = MainVRP.readDataFiles();
-    List<List<List<String>>> results = MainVRP.runAlgorithms(dataModels);
-    MainVRP.writeFiles(results);
-    MainVRP.printResults(results);
+    String[] algorithms = {"Greedy", "Grasp"};
+    for (String algorithm : algorithms) {
+      List<List<String>> result = MainVRP.runAlgorithm(dataModels, algorithm);
+      MainVRP.writeFile(result, algorithm);
+      MainVRP.printResult(result, algorithm);
+    }
   }
 
   /**
@@ -67,15 +70,11 @@ public class MainVRP {
    * @param dataModels List of data models.
    * @return List of results.
    */
-  static List<List<List<String>>> runAlgorithms(List<DataModel> dataModels) {
-    List<List<List<String>>> results = new ArrayList<>();
+  static List<List<String>> runAlgorithm(List<DataModel> dataModels, String algorithm) {
     VehicleRouting vrp = new VehicleRouting();
-    vrp.setAlgorithm("Greedy");
+    vrp.setAlgorithm(algorithm);
     BenchModel benchmark = new BenchModel(dataModels);
-    results.add(benchmark.run(vrp));
-    vrp.setAlgorithm("Grasp");
-    results.add(benchmark.run(vrp));
-    return results;
+    return benchmark.run(vrp);
   }
 
   /**
@@ -83,20 +82,17 @@ public class MainVRP {
    * @param results List of results.
    * @throws Exception If the file cannot be written.
    */
-  static void writeFiles(List<List<List<String>>> results) throws Exception {
+  static void writeFile(List<List<String>> results, String algorithm) throws Exception {
     Files.createDirectories(Paths.get(Constants.OUTPUT_FOLDER));
-    WriteCSV writer = new WriteCSV(Constants.OUTPUT_FOLDER + "/greedy.csv");
-    writer.write(results.get(0));
-    writer = new WriteCSV(Constants.OUTPUT_FOLDER + "/grasp.csv");
-    writer.write(results.get(1));
+    WriteCSV writer = new WriteCSV(Constants.OUTPUT_FOLDER + algorithm + ".csv");
+    writer.write(results);
   }
 
   /**
    * Prints the results.
    * @param results List of results.
    */
-  static void printResults(List<List<List<String>>> results) {
-    PrintTable.print("Greedy", results.get(0));
-    PrintTable.print("Grasp", results.get(1));
+  static void printResult(List<List<String>> results, String algorithm) {
+    PrintTable.print(algorithm, results);
   }
 }
