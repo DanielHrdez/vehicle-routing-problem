@@ -48,7 +48,7 @@ public class BenchModel {
     header.add("Distancia Total Recorrida");
     header.add("CPU Time (ns)");
     results.add(header);
-    int numberIterations = model.algorithmType().equals("Greedy") ? 3 : 6;
+    int numberIterations = model.algorithmType().equals("Greedy") ? 3 : 4;
 
     for (int i = 2; i < numberIterations; i++) {
       int execution = 0;

@@ -96,4 +96,8 @@ public class Routes implements Cloneable {
   public void removeCustomer(int route, int position) {
     this.routes.get(route).remove(position);
   }
+
+  public void setCustomer(int route, int position, int customer) {
+    this.routes.get(route).set(position, customer);
+  }
 }

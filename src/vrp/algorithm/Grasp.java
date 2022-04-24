@@ -146,27 +146,37 @@ public class Grasp extends Algorithm {
    * @return The local solution.
    */
   private Routes localSearch(Routes solution) {
-    solution = this.reinsertion(solution);
-    // solution = this.intraRoute(solution);
-    // solution = this.interRoute(solution);
-    // solution = this.twoOpt(solution);
+    boolean improved = true;
+    int previousCost = solution.getCost();
+    while (improved) {
+      improved = false;
+      solution = this.reinsertionInter(solution);
+      solution = this.reinsertionIntra(solution);
+      solution = this.swapIntra(solution);
+      solution = this.swapInter(solution);
+      solution = this.twoOpt(solution);
+      if (solution.getCost() < previousCost) {
+        improved = true;
+        previousCost = solution.getCost();
+      }
+    }
     return solution;
   }
 
-  private Routes reinsertion(Routes solution) {
+  private Routes reinsertionInter(Routes solution) {
     int numberOfVehicles = this.dataModel.getNumberOfVehicles();
     Routes bestSolution = solution.clone();
     boolean improved = true;
     while (improved) {
       improved = false;
-      for (int i = 0; i < numberOfVehicles; i++) {
-        if (solution.getRouteSize(i) == 2) continue;
-        for (int j = 1; j < solution.getRouteSize(i) - 1; j++) {
-          for (int k = 0; k < numberOfVehicles; k++) {
-            if (i == k) continue;
-            if (solution.getRouteSize(k) == 2) continue;
-            for (int l = 1; l < solution.getRouteSize(k) - 1; l++) {
-              Routes newSolution = this.insert(solution, i, j, k, l);
+      for (int rute1 = 0; rute1 < numberOfVehicles; rute1++) {
+        if (solution.getRouteSize(rute1) == 2) continue;
+        for (int customer1 = 1; customer1 < solution.getRouteSize(rute1) - 1; customer1++) {
+          for (int rute2 = 0; rute2 < numberOfVehicles; rute2++) {
+            if (rute1 == rute2) continue;
+            if (solution.getRouteSize(rute2) == 2) continue;
+            for (int customer2 = 1; customer2 < solution.getRouteSize(rute2) - 1; customer2++) {
+              Routes newSolution = this.insertInter(solution, rute1, customer1, rute2, customer2);
               if (newSolution.getCost() < bestSolution.getCost()) {
                 bestSolution = newSolution;
                 improved = true;
@@ -180,55 +190,182 @@ public class Grasp extends Algorithm {
     return bestSolution;
   }
 
-  private Routes insert(Routes routes, int from, int targetPosition, int to, int position) {
+  private Routes reinsertionIntra(Routes solution) {
+    int numberOfVehicles = this.dataModel.getNumberOfVehicles();
+    Routes bestSolution = solution.clone();
+    boolean improved = true;
+    while (improved) {
+      improved = false;
+      for (int rute = 0; rute < numberOfVehicles; rute++) {
+        if (solution.getRouteSize(rute) == 2) continue;
+        for (int customer1 = 1; customer1 < solution.getRouteSize(rute) - 2; customer1++) {
+          for (int customer2 = customer1 + 1; customer2 < solution.getRouteSize(rute) - 1; customer2++) {
+            Routes newSolution = this.insertIntra(solution, rute, customer1, customer2);
+            if (newSolution.getCost() < bestSolution.getCost()) {
+              bestSolution = newSolution;
+              improved = true;
+            }
+          }
+        }
+      }
+      solution = bestSolution;
+    }
+    return bestSolution;
+  }
+
+  private Routes insertIntra(Routes routes, int rute, int targetPosition, int position) {
     Routes newRoutes = routes.clone();
-    newRoutes.sumCost(-this.dataModel.distance(routes.getCustomer(from, targetPosition - 1), routes.getCustomer(from, targetPosition)));
-    newRoutes.sumCost(-this.dataModel.distance(routes.getCustomer(from, targetPosition), routes.getCustomer(from, targetPosition + 1)));
-    newRoutes.sumCost(-this.dataModel.distance(routes.getCustomer(to, position - 1), routes.getCustomer(to, position)));
+    Integer previousTarget = newRoutes.getCustomer(rute, targetPosition - 1);
+    Integer targetCustomer = newRoutes.getCustomer(rute, targetPosition);
+    Integer nextTarget = routes.getCustomer(rute, targetPosition + 1);
+    Integer destinyCustomer = routes.getCustomer(rute, position);
+    Integer destinyNext = routes.getCustomer(rute, position + 1);
+    newRoutes.sumCost(-this.dataModel.distance(previousTarget, targetCustomer));
+    newRoutes.sumCost(-this.dataModel.distance(targetCustomer, nextTarget));
+    newRoutes.sumCost(-this.dataModel.distance(destinyCustomer, destinyNext));
+    newRoutes.removeCustomer(rute, targetPosition);
+    newRoutes.addCustomer(rute, targetCustomer, position);
+    newRoutes.sumCost(this.dataModel.distance(previousTarget, nextTarget));
+    newRoutes.sumCost(this.dataModel.distance(destinyCustomer, targetCustomer));
+    newRoutes.sumCost(this.dataModel.distance(targetCustomer, destinyNext));
+    return newRoutes;
+  }
+
+  private Routes insertInter(Routes routes, int from, int targetPosition, int to, int position) {
+    Routes newRoutes = routes.clone();
+    Integer previousTarget = newRoutes.getCustomer(from, targetPosition - 1);
+    Integer targetCustomer = newRoutes.getCustomer(from, targetPosition);
+    Integer nextTarget = routes.getCustomer(from, targetPosition + 1);
+    Integer destinyPrevious = routes.getCustomer(to, position - 1);
+    Integer destinyCustomer = routes.getCustomer(to, position);
+    newRoutes.sumCost(-this.dataModel.distance(previousTarget, targetCustomer));
+    newRoutes.sumCost(-this.dataModel.distance(targetCustomer, nextTarget));
+    newRoutes.sumCost(-this.dataModel.distance(destinyPrevious, destinyCustomer));
     newRoutes.removeCustomer(from, targetPosition);
-    newRoutes.addCustomer(to, routes.getCustomer(from, targetPosition), position);
-    newRoutes.sumCost(this.dataModel.distance(routes.getCustomer(from, targetPosition - 1), routes.getCustomer(from, targetPosition + 1)));
-    newRoutes.sumCost(this.dataModel.distance(routes.getCustomer(to, position - 1), routes.getCustomer(from, targetPosition)));
-    newRoutes.sumCost(this.dataModel.distance(routes.getCustomer(from, targetPosition), routes.getCustomer(to, position)));
+    newRoutes.addCustomer(to, targetCustomer, position);
+    newRoutes.sumCost(this.dataModel.distance(previousTarget, nextTarget));
+    newRoutes.sumCost(this.dataModel.distance(destinyPrevious, targetCustomer));
+    newRoutes.sumCost(this.dataModel.distance(targetCustomer, destinyCustomer));
+    return newRoutes;
+  }
+
+  private Routes swapIntra(Routes solution) {
+    int numberOfVehicles = this.dataModel.getNumberOfVehicles();
+    Routes bestSolution = solution.clone();
+    boolean improved = true;
+    while (improved) {
+      improved = false;
+      for (int rute = 0; rute < numberOfVehicles; rute++) {
+        if (solution.getRouteSize(rute) == 2) continue;
+        for (int customer1 = 1; customer1 < solution.getRouteSize(rute) - 2; customer1++) {
+          for (int customer2 = customer1 + 1; customer2 < solution.getRouteSize(rute) - 1; customer2++) {
+            if (customer1 == customer2) continue;
+            Routes newSolution = this.swap(solution, rute, customer1, rute, customer2);
+            if (newSolution.getCost() < bestSolution.getCost()) {
+              bestSolution = newSolution;
+              improved = true;
+            }
+          }
+        }
+      }
+      solution = bestSolution;
+    }
+    return bestSolution;
+  }
+
+  private Routes swapInter(Routes solution) {
+    int numberOfVehicles = this.dataModel.getNumberOfVehicles();
+    Routes bestSolution = solution.clone();
+    boolean improved = true;
+    while (improved) {
+      improved = false;
+      for (int rute1 = 0; rute1 < numberOfVehicles; rute1++) {
+        if (solution.getRouteSize(rute1) == 2) continue;
+        for (int customer1 = 1; customer1 < solution.getRouteSize(rute1) - 1; customer1++) {
+          for (int rute2 = 0; rute2 < numberOfVehicles; rute2++) {
+            if (rute1 == rute2) continue;
+            if (solution.getRouteSize(rute2) == 2) continue;
+            for (int customer2 = 1; customer2 < solution.getRouteSize(rute2) - 1; customer2++) {
+              Routes newSolution = this.swap(solution, rute1, customer1, rute2, customer2);
+              if (newSolution.getCost() < bestSolution.getCost()) {
+                bestSolution = newSolution;
+                improved = true;
+              }
+            }
+          }
+        }
+      }
+      solution = bestSolution;
+    }
+    return bestSolution;
+  }
+
+  private Routes swap(Routes routes, int from, int customer1Position, int to, int customer2Position) {
+    Routes newRoutes = routes.clone();
+    Integer previousCustomer1 = newRoutes.getCustomer(from, customer1Position - 1);
+    Integer customer1 = routes.getCustomer(from, customer1Position);
+    Integer nextCustomer1 = routes.getCustomer(from, customer1Position + 1);
+    Integer previousCustomer2 = routes.getCustomer(to, customer2Position - 1);
+    Integer customer2 = routes.getCustomer(to, customer2Position);
+    Integer nextCustomer2 = routes.getCustomer(to, customer2Position + 1);
+    newRoutes.sumCost(-this.dataModel.distance(previousCustomer1, customer1));
+    newRoutes.sumCost(-this.dataModel.distance(customer1, nextCustomer1));
+    if (previousCustomer2 != customer1) {
+      newRoutes.sumCost(-this.dataModel.distance(previousCustomer2, customer2));
+    }
+    newRoutes.sumCost(-this.dataModel.distance(customer2, nextCustomer2));
+    newRoutes.setCustomer(from, customer1Position, customer2);
+    newRoutes.setCustomer(to, customer2Position, customer1);
+    newRoutes.sumCost(this.dataModel.distance(previousCustomer1, customer2));
+    if (previousCustomer2 != customer1) {
+      newRoutes.sumCost(this.dataModel.distance(customer2, nextCustomer1));
+      newRoutes.sumCost(this.dataModel.distance(previousCustomer2, customer1));
+    } else {
+      newRoutes.sumCost(this.dataModel.distance(customer2, customer1));
+    }
+    newRoutes.sumCost(this.dataModel.distance(customer1, nextCustomer2));
     return newRoutes;
   }
   
   private Routes twoOpt(Routes solution) {
-    int depot = this.dataModel.getDepot();
+    Routes bestSolution = solution.clone();
     boolean improved = true;
     while (improved) {
       improved = false;
-      int indexRoute = 0;
-      for (List<Integer> vehicle : solution.getRoutes()) {
-        for (int i = 0; i < vehicle.size() - 1; i++) {
-          if (vehicle.get(i) == depot) continue;
-          for (int j = i + 1; j < vehicle.size(); j++) {
-            if (vehicle.get(j) == depot) continue;
-            Routes twoOpt = this.twoOptSwap(solution, indexRoute, i, j);
-            if (twoOpt.getCost() < solution.getCost()) {
-              solution = twoOpt;
+      for (int i = 0; i < solution.getNumberOfRoutes(); i++) {
+        int size = solution.getRouteSize(i) - 1;
+        for (int j = 1; j < size - 1; j++) {
+          for (int k = j + 1; k < size; k++) {
+            Routes newSolution = this.twoOptSwap(solution, i, j, k);
+            if (newSolution.getCost() < bestSolution.getCost()) {
+              bestSolution = newSolution;
               improved = true;
-              break;
             }
           }
-          if (improved) break;
         }
-        if (improved) break;
-        indexRoute++;
       };
+      solution = bestSolution;
     }
-    return solution;
+    return bestSolution;
   }
 
   private Routes twoOptSwap(Routes previousRoutes, int indexRoute, int firstIndex, int secondIndex) {
     Routes newRoutes = previousRoutes.clone();
-    List<Integer> newList = new ArrayList<>(newRoutes.getRoute(indexRoute));
+    Integer firstCustomer = previousRoutes.getCustomer(indexRoute, firstIndex);
+    Integer previousFirstCustomer = previousRoutes.getCustomer(indexRoute, firstIndex - 1);
+    newRoutes.sumCost(-this.dataModel.distance(previousFirstCustomer, firstCustomer));
     for (int i = secondIndex; i >= firstIndex; i--) {
-      newRoutes.sumCost(-this.dataModel.distance(newRoutes.getCustomer(indexRoute, i - 1), newRoutes.getCustomer(indexRoute, i)));
-      newList.set(i, previousRoutes.getCustomer(indexRoute, secondIndex - i + firstIndex));
-      newRoutes.sumCost(this.dataModel.distance(newRoutes.getCustomer(indexRoute, i), newRoutes.getCustomer(indexRoute, i - 1)));
+      int position = secondIndex - i + firstIndex;
+      Integer customer = previousRoutes.getCustomer(indexRoute, position);
+      Integer previousCustomer = newRoutes.getCustomer(indexRoute, position - 1);
+      Integer secondCustomer = previousRoutes.getCustomer(indexRoute, i);
+      Integer nextCustomer = previousRoutes.getCustomer(indexRoute, position + 1);
+      newRoutes.sumCost(-this.dataModel.distance(customer, nextCustomer));
+      newRoutes.setCustomer(indexRoute, position, secondCustomer);
+      newRoutes.sumCost(this.dataModel.distance(previousCustomer, secondCustomer));
     }
-    newRoutes.setRoute(indexRoute, newList);
+    Integer lastCustomer = previousRoutes.getCustomer(indexRoute, secondIndex + 1);
+    newRoutes.sumCost(this.dataModel.distance(firstCustomer, lastCustomer));
     return newRoutes;
   }
 
