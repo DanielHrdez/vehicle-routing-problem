@@ -146,17 +146,33 @@ public class Grasp extends Algorithm {
    * @return The local solution.
    */
   private Routes localSearch(Routes solution) {
-    boolean improved = true;
+    int improved = 2;
     int previousCost = solution.getCost();
-    while (improved) {
-      improved = false;
+    while (improved >= 2) {
+      improved = 0;
       solution = this.reinsertionInter(solution);
+      if (solution.getCost() < previousCost) {
+        improved++;
+        previousCost = solution.getCost();
+      }
       solution = this.reinsertionIntra(solution);
+      if (solution.getCost() < previousCost) {
+        improved++;
+        previousCost = solution.getCost();
+      }
       solution = this.swapIntra(solution);
+      if (solution.getCost() < previousCost) {
+        improved++;
+        previousCost = solution.getCost();
+      }
       solution = this.swapInter(solution);
+      if (solution.getCost() < previousCost) {
+        improved++;
+        previousCost = solution.getCost();
+      }
       solution = this.twoOpt(solution);
       if (solution.getCost() < previousCost) {
-        improved = true;
+        improved++;
         previousCost = solution.getCost();
       }
     }
