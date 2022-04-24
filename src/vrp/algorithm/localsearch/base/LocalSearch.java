@@ -18,7 +18,7 @@ public abstract class LocalSearch {
   protected Routes solution;
   protected DataModel dataModel;
 
-  public Routes run(Routes solution, DataModel dataModel) {
+  public Routes search(Routes solution, DataModel dataModel) {
     this.dataModel = dataModel;
     this.solution = solution;
     this.numberOfVehicles = solution.getNumberOfRoutes();
