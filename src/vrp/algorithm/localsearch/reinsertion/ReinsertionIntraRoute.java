@@ -11,21 +11,19 @@
 package vrp.algorithm.localsearch.reinsertion;
 
 import vrp.algorithm.localsearch.base.LocalSearch;
-import vrp.algorithm.localsearch.base.LocalSearchResult;
 import vrp.solution.Routes;
 
 public class ReinsertionIntraRoute extends LocalSearch {
-  protected LocalSearchResult implementation(int rute, int customer1) {
+  protected Routes implementation(int route, int customer1) {
     Routes bestSolution = this.solution.clone();
-    boolean improved = false;
-    for (int customer2 = customer1 + 1; customer2 < solution.getRouteSize(rute) - 1; customer2++) {
-      Routes newSolution = this.insertIntra(solution, rute, customer1, customer2);
+    int routeSize = this.solution.getRouteSize(route) - 1;
+    for (int customer2 = customer1 + 1; customer2 < routeSize; customer2++) {
+      Routes newSolution = this.insertIntra(this.solution, route, customer1, customer2);
       if (newSolution.getCost() < bestSolution.getCost()) {
         bestSolution = newSolution;
-        improved = true;
       }
     }
-    return new LocalSearchResult(bestSolution, improved);
+    return bestSolution;
   }
   
   private Routes insertIntra(Routes routes, int rute, int targetPosition, int position) {

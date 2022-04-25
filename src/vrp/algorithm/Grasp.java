@@ -12,6 +12,7 @@ package vrp.algorithm;
 
 import vrp.algorithm.base.*;
 import vrp.solution.Routes;
+import vrp.algorithm.localsearch.base.LocalSearch;
 import vrp.algorithm.localsearch.reinsertion.*;
 import vrp.algorithm.localsearch.swap.*;
 import vrp.algorithm.localsearch.opt.TwoOpt;
@@ -33,9 +34,9 @@ enum LocalSearchType {
 public class Grasp extends Algorithm {
   private int maxCandidates = 2;
   private int maxIterations = 1000;
-  private int maxIterationsWithoutImprovement = 100;
+  private int maxIterationsWithoutImprovement = 350;
   private int iterationsWithoutImprovement = 0;
-  private LocalSearchType localSearchType = LocalSearchType.REINSERTION_INTER_ROUTE;
+  private LocalSearch localSearchAlgorithm = new ReinsertionInterRoute();
 
   /**
    * Setter of the max candidates.
@@ -64,7 +65,7 @@ public class Grasp extends Algorithm {
 
     for (int i = 0; i < this.maxIterations; i++) {
       Routes currentSolution = this.constructSolution();
-      currentSolution = this.localSearch(currentSolution, this.localSearchType);
+      currentSolution = this.localSearch(currentSolution);
       this.updateSolution(currentSolution);
       if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
         break;
@@ -157,19 +158,19 @@ public class Grasp extends Algorithm {
    * @param solution The solution.
    * @return The local solution.
    */
-  private Routes localSearch(Routes solution, LocalSearchType type) {
-    switch (type) {
-      case REINSERTION_INTER_ROUTE: return new ReinsertionInterRoute().search(solution, this.dataModel);
-      case REINSERTION_INTRA_ROUTE: return new ReinsertionIntraRoute().search(solution, this.dataModel);
-      case SWAP_INTER_ROUTE: return new SwapInterRoute().search(solution, this.dataModel);
-      case SWAP_INTRA_ROUTE: return new SwapIntraRoute().search(solution, this.dataModel);
-      case TWO_OPT: return new TwoOpt().search(solution, this.dataModel);
-    }
-    return solution;
+  private Routes localSearch(Routes solution) {
+    return this.localSearchAlgorithm.search(solution, this.dataModel);
   }
 
   public void setLocalSearchType(LocalSearchType localSearchType) {
-    this.localSearchType = localSearchType;
+    switch (localSearchType) {
+      case REINSERTION_INTER_ROUTE: this.localSearchAlgorithm = new ReinsertionInterRoute();
+      case REINSERTION_INTRA_ROUTE: this.localSearchAlgorithm = new ReinsertionIntraRoute();
+      case SWAP_INTER_ROUTE: this.localSearchAlgorithm = new SwapInterRoute();
+      case SWAP_INTRA_ROUTE: this.localSearchAlgorithm = new SwapIntraRoute();
+      case TWO_OPT: this.localSearchAlgorithm = new TwoOpt();
+      default: this.localSearchAlgorithm = new ReinsertionInterRoute();
+    }
   }
 
   /**

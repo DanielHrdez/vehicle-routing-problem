@@ -21,23 +21,26 @@ public abstract class LocalSearch {
   public Routes search(Routes solution, DataModel dataModel) {
     this.dataModel = dataModel;
     this.solution = solution;
-    this.numberOfVehicles = solution.getNumberOfRoutes();
-    Routes bestSolution = solution.clone();
+    this.numberOfVehicles = this.solution.getNumberOfRoutes();
+    Routes bestSolution = this.solution.clone();
     boolean improved = true;
     while (improved) {
       improved = false;
-      for (int rute = 0; rute < this.numberOfVehicles; rute++) {
-        if (solution.getRouteSize(rute) == 2) continue;
-        for (int customer = 1; customer < solution.getRouteSize(rute) - 1; customer++) {
-          LocalSearchResult result = this.implementation(rute, customer);
-          bestSolution = result.solution;
-          improved = result.improved;
+      for (int route = 0; route < this.numberOfVehicles; route++) {
+        if (this.solution.getRouteSize(route) == 2) continue;
+        int routeSize = this.solution.getRouteSize(route) - 1;
+        for (int customer = 1; customer < routeSize; customer++) {
+          Routes result = this.implementation(route, customer);
+          if (result.getCost() < bestSolution.getCost()) {
+            bestSolution = result;
+            improved = true;
+          }
         }
       }
-      solution = bestSolution;
+      this.solution = bestSolution;
     }
     return bestSolution;
   }
 
-  protected abstract LocalSearchResult implementation(int rute, int customer);
+  protected abstract Routes implementation(int rute, int customer);
 }

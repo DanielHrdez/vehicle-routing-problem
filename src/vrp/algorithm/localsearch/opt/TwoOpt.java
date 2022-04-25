@@ -11,21 +11,19 @@
 package vrp.algorithm.localsearch.opt;
 
 import vrp.algorithm.localsearch.base.LocalSearch;
-import vrp.algorithm.localsearch.base.LocalSearchResult;
 import vrp.solution.Routes;
 
 public class TwoOpt extends LocalSearch {
-  protected LocalSearchResult implementation(int rute, int customer1) {
+  protected Routes implementation(int route, int customer1) {
     Routes bestSolution = this.solution.clone();
-    boolean improved = false;
-    for (int customer2 = customer1 + 1; customer2 < this.numberOfVehicles; customer2++) {
-      Routes newSolution = this.twoOptSwap(solution, rute, customer1, customer2);
+    int routeSize = this.solution.getRouteSize(route) - 1;
+    for (int customer2 = customer1 + 1; customer2 < routeSize; customer2++) {
+      Routes newSolution = this.twoOptSwap(this.solution, route, customer1, customer2);
       if (newSolution.getCost() < bestSolution.getCost()) {
         bestSolution = newSolution;
-        improved = true;
       }
     }
-    return new LocalSearchResult(bestSolution, improved);
+    return bestSolution;
   }
   
   private Routes twoOptSwap(Routes previousRoutes, int indexRoute, int firstIndex, int secondIndex) {

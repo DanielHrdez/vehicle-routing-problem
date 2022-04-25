@@ -10,24 +10,18 @@
 
 package vrp.algorithm.localsearch.swap;
 
-import vrp.algorithm.localsearch.base.LocalSearchResult;
 import vrp.solution.Routes;
 
 public class SwapIntraRoute extends Swap {
-  protected LocalSearchResult implementation(int rute1, int customer1) {
+  protected Routes implementation(int route1, int customer1) {
     Routes bestSolution = this.solution.clone();
-    boolean improved = false;
-    for (int rute2 = 0; rute2 < numberOfVehicles; rute2++) {
-      if (rute1 == rute2) continue;
-      if (solution.getRouteSize(rute2) == 2) continue;
-      for (int customer2 = 1; customer2 < solution.getRouteSize(rute2) - 1; customer2++) {
-        Routes newSolution = this.swap(solution, rute1, customer1, rute2, customer2);
-        if (newSolution.getCost() < bestSolution.getCost()) {
-          bestSolution = newSolution;
-          improved = true;
-        }
+    int routeSize = this.solution.getRouteSize(route1) - 1;
+    for (int customer2 = customer1 + 1; customer2 < routeSize; customer2++) {
+      Routes newSolution = this.swap(this.solution, route1, customer1, route1, customer2);
+      if (newSolution.getCost() < bestSolution.getCost()) {
+        bestSolution = newSolution;
       }
     }
-    return new LocalSearchResult(bestSolution, improved);
+    return bestSolution;
   }
 }
