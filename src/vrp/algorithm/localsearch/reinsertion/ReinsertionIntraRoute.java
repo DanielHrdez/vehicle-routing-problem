@@ -13,7 +13,13 @@ package vrp.algorithm.localsearch.reinsertion;
 import vrp.algorithm.localsearch.base.LocalSearch;
 import vrp.solution.Routes;
 
+/**
+ * Class implementing the reinsertion of a customer inter routes.
+ */
 public class ReinsertionIntraRoute extends LocalSearch {
+  /**
+   * Implementation of the reinsertion of a customer inter routes.
+   */
   protected Routes implementation(int route, int customer1) {
     Routes bestSolution = this.solution.clone();
     int routeSize = this.solution.getRouteSize(route) - 1;
@@ -26,6 +32,14 @@ public class ReinsertionIntraRoute extends LocalSearch {
     return bestSolution;
   }
   
+  /**
+   * Inserts a customer in a route.
+   * @param routes The routes of the solution.
+   * @param rute The route where the customer is.
+   * @param targetPosition The position where the customer is.
+   * @param position The position where the customer is going be.
+   * @return The new solution.
+   */
   private Routes insertIntra(Routes routes, int rute, int targetPosition, int position) {
     Routes newRoutes = routes.clone();
     Integer previousTarget = newRoutes.getCustomer(rute, targetPosition - 1);

@@ -13,7 +13,13 @@ package vrp.algorithm.localsearch.opt;
 import vrp.algorithm.localsearch.base.LocalSearch;
 import vrp.solution.Routes;
 
+/**
+ * This class represents a 2-opt local search.
+ */
 public class TwoOpt extends LocalSearch {
+  /**
+   * Implement the 2-opt local search.
+   */
   protected Routes implementation(int route, int customer1) {
     Routes bestSolution = this.solution.clone();
     int routeSize = this.solution.getRouteSize(route) - 1;
@@ -26,6 +32,14 @@ public class TwoOpt extends LocalSearch {
     return bestSolution;
   }
   
+  /**
+   * Swap two customers in a route.
+   * @param previousRoutes The previous solution.
+   * @param indexRoute The index of the route.
+   * @param firstIndex The index of the first customer.
+   * @param secondIndex The index of the second customer.
+   * @return The new solution.
+   */
   private Routes twoOptSwap(Routes previousRoutes, int indexRoute, int firstIndex, int secondIndex) {
     Routes newRoutes = previousRoutes.clone();
     Integer firstCustomer = previousRoutes.getCustomer(indexRoute, firstIndex);

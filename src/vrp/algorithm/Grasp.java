@@ -12,21 +12,13 @@ package vrp.algorithm;
 
 import vrp.algorithm.base.*;
 import vrp.solution.Routes;
-import vrp.algorithm.localsearch.base.LocalSearch;
+import vrp.algorithm.localsearch.base.*;
 import vrp.algorithm.localsearch.reinsertion.*;
 import vrp.algorithm.localsearch.swap.*;
 import vrp.algorithm.localsearch.opt.TwoOpt;
 
 import java.util.*;
 import java.util.stream.IntStream;
-
-enum LocalSearchType {
-  SWAP_INTER_ROUTE,
-  SWAP_INTRA_ROUTE,
-  REINSERTION_INTER_ROUTE,
-  REINSERTION_INTRA_ROUTE,
-  TWO_OPT
-}
 
 /**
  * This class represents a model.
@@ -162,6 +154,10 @@ public class Grasp extends Algorithm {
     return this.localSearchAlgorithm.search(solution, this.dataModel);
   }
 
+  /**
+   * Setter of the local search algorithm.
+   * @param localSearchType The local search algorithm.
+   */
   public void setLocalSearchType(LocalSearchType localSearchType) {
     switch (localSearchType) {
       case REINSERTION_INTER_ROUTE: this.localSearchAlgorithm = new ReinsertionInterRoute();

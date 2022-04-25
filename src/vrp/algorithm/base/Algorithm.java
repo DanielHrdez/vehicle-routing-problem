@@ -14,12 +14,20 @@ import vrp.data.DataModel;
 import vrp.solution.Routes;
 import vrp.algorithm.*;
 
+/**
+ * Algorithm base class.
+ */
 public abstract class Algorithm {
   protected DataModel dataModel;
   protected Routes routes;
   private int maxCustomersByRoute;
   private double PERCENTAGE_CUSTOMERS_BY_ROUTE = 0.1;
   
+  /**
+   * Run the algorithm.
+   * @param dataModel The data model.
+   * @return The solution.
+   */
   public Routes run(DataModel dataModel) {
     this.dataModel = dataModel;
     this.routes = new Routes(dataModel.getNumberOfVehicles());
@@ -28,8 +36,14 @@ public abstract class Algorithm {
     return this.routes;
   }
 
+  /**
+   * Abstract method to implement the algorithm.
+   */
   protected abstract void implementation();
 
+  /**
+   * Setter of the maximum number of customers by route.
+   */
   protected void setMaxCustomersByRoute() {
     int numberCustomers = this.dataModel.getNumberOfCustomers();
     int numberVehicles = this.dataModel.getNumberOfVehicles();
@@ -55,6 +69,11 @@ public abstract class Algorithm {
     }
   }
 
+  /**
+   * Returns the algorithm.
+   * @param algorithmType The algorithm type.
+   * @return The algorithm.
+   */
   public static Algorithm getAlgorithm(String algorithmType) {
     switch (algorithmType) {
       case "Greedy": return new Greedy();
@@ -63,10 +82,20 @@ public abstract class Algorithm {
     throw new IllegalArgumentException("Algorithm type not found");
   }
 
+  /**
+   * Returns the algorithm name.
+   * @return The algorithm name.
+   */
   public String getAlgorithmType() {
     return this.getClass().getSimpleName();
   }
 
+  /**
+   * Check if the route is full.
+   * @param routes The routes.
+   * @param route The route.
+   * @return True if the route is full.
+   */
   protected boolean full(Routes routes, int route) {
     return routes.getRouteSize(route) >= this.maxCustomersByRoute;
   }

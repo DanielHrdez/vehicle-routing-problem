@@ -13,11 +13,17 @@ package vrp.algorithm.localsearch.base;
 import vrp.data.DataModel;
 import vrp.solution.Routes;
 
+/**
+ * This abstract class represents a local search algorithm.
+ */
 public abstract class LocalSearch {
   protected int numberOfVehicles;
   protected Routes solution;
   protected DataModel dataModel;
 
+  /**
+   * Initialize the local search algorithm.
+   */
   public Routes search(Routes solution, DataModel dataModel) {
     this.dataModel = dataModel;
     this.solution = solution;
@@ -42,5 +48,11 @@ public abstract class LocalSearch {
     return bestSolution;
   }
 
+  /**
+   * This method is implemented by the subclasses.
+   * @param rute The route.
+   * @param customer The customer.
+   * @return The new solution.
+   */
   protected abstract Routes implementation(int rute, int customer);
 }

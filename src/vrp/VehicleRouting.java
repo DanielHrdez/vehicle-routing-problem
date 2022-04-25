@@ -54,6 +54,10 @@ public class VehicleRouting {
     this.routes = new Routes(dataModel.getNumberOfVehicles());
   }
 
+  /**
+   * Setter of the algorithm.
+   * @param algorithmType The algorithm type.
+   */
   public void setAlgorithm(String algorithmType) {
     this.algorithm = Algorithm.getAlgorithm(algorithmType);
   }
@@ -83,14 +87,26 @@ public class VehicleRouting {
     this.routes = this.algorithm.run(this.dataModel);
   }
 
+  /**
+   * Returns the routes of the problem.
+   * @return The routes of the problem.
+   */
   public Routes getSolution() {
     return this.routes;
   }
 
+  /**
+   * Returns the Algorithm Type
+   * @return The Algorithm Type
+   */
   public String algorithmType() {
     return this.algorithm.getAlgorithmType();
   }
 
+  /**
+   * Getter of the algorithm.
+   * @return The algorithm.
+   */
   public Algorithm getAlgorithm() {
     return this.algorithm;
   }

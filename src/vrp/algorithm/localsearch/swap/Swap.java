@@ -3,7 +3,19 @@ package vrp.algorithm.localsearch.swap;
 import vrp.algorithm.localsearch.base.LocalSearch;
 import vrp.solution.Routes;
 
+/**
+ * This abstract class represents a swap local search.
+ */
 public abstract class Swap extends LocalSearch {
+  /**
+   * Swap the two customers.
+   * @param routes The routes.
+   * @param from The customer from.
+   * @param customer1Position The position of the first customer.
+   * @param to The customer to.
+   * @param customer2Position The position of the second customer.
+   * @return The new routes.
+   */
   protected Routes swap(Routes routes, int from, int customer1Position, int to, int customer2Position) {
     Routes newRoutes = routes.clone();
     Integer previousCustomer1 = newRoutes.getCustomer(from, customer1Position - 1);

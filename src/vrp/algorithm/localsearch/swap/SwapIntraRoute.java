@@ -12,7 +12,13 @@ package vrp.algorithm.localsearch.swap;
 
 import vrp.solution.Routes;
 
+/**
+ * This class represents a swap intra route local search algorithm.
+ */
 public class SwapIntraRoute extends Swap {
+  /**
+   * Implement the swap intra route local search algorithm.
+   */
   protected Routes implementation(int route1, int customer1) {
     Routes bestSolution = this.solution.clone();
     int routeSize = this.solution.getRouteSize(route1) - 1;
