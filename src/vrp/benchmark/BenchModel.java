@@ -14,8 +14,11 @@ import vrp.*;
 import vrp.algorithm.*;
 import vrp.data.DataModel;
 import vrp.io.PrintTable;
+import vrp.io.WriteCSV;
 import main.Constants;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -40,20 +43,28 @@ public class BenchModel {
    * @return The results of the benchmark.
    */
   public List<List<String>> run(VehicleRouting model) {
+    try {
+      Files.createDirectories(Paths.get(Constants.OUTPUT_FOLDER));
+    } catch (Exception e) {
+      System.out.println("Error creating the output folder.");
+    }
     List<List<String>> results = new ArrayList<>();
     boolean isGreedy = model.algorithmType().equals("Greedy");
     List<String> header = new ArrayList<>();
-    header.add(Constants.ANSI_CYAN + "Problema" + Constants.ANSI_RESET);
-    header.add(Constants.ANSI_CYAN + "Número de Vehiculos" + Constants.ANSI_RESET);
-    if (!isGreedy) header.add(Constants.ANSI_CYAN + "Número de Candidatos" + Constants.ANSI_RESET);
-    header.add(Constants.ANSI_CYAN + "Ejecución" + Constants.ANSI_RESET);
-    header.add(Constants.ANSI_CYAN + "Distancia Total Recorrida" + Constants.ANSI_RESET);
-    header.add(Constants.ANSI_CYAN + "CPU Time (ns)" + Constants.ANSI_RESET);
+    header.add("Problema");
+    header.add("Número de Vehiculos");
+    if (!isGreedy) header.add("Número de Candidatos");
+    header.add("Ejecución");
+    header.add("Distancia Total Recorrida");
+    header.add("CPU Time (ns)");
     results.add(header);
     int numberIterations = isGreedy ? 3 : 4;
     int numberOfColumns = header.size();
+    String filename = Constants.OUTPUT_FOLDER + model.algorithmType() + ".csv";
 
     PrintTable.printTitleHeader(model.algorithmType(), header);
+    WriteCSV.clearFile(filename);
+    WriteCSV.add(filename, header);
     for (int i = 2; i < numberIterations; i++) {
       int execution = 0;
       for (DataModel dataModel : this.dataModels) {
@@ -74,6 +85,7 @@ public class BenchModel {
         else currentResult.add(model.getFullCost());
         currentResult.add(String.valueOf(time));
         PrintTable.printRow(currentResult);
+        WriteCSV.add(filename, currentResult);
         results.add(currentResult);
       }
     }

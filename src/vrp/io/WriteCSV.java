@@ -19,29 +19,41 @@ import java.io.*;
 public class WriteCSV {
   private static final String DELIMITER = ",";
   private static final String NEW_LINE = "\n";
-  private String fileName;
-
-  /**
-   * Constructor of the class.
-   * @param filename The name of the file.
-   */
-  public WriteCSV(String filename) {
-    this.fileName = filename;
-  }
 
   /**
    * Writes the solution of the problem in a csv file.
    * @param results The solution of the problem.
    */
-  public void write(List<List<String>> results) {
-    try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileName), "UTF-8")) {
+  public static void write(String filename, List<List<String>> results) {
+    try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8")) {
       for (List<String> result : results) {
         for (String value : result) {
-          writer.append(value);
-          writer.append(DELIMITER);
+          writer.append(value + DELIMITER);
         }
         writer.append(NEW_LINE);
       }
+      writer.flush();
+      writer.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void clearFile(String filename) {
+    try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8")) {
+      writer.flush();
+      writer.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void add(String filename, List<String> result) {
+    try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename, true), "UTF-8")) {
+      for (String value : result) {
+        writer.append(value + DELIMITER);
+      }
+      writer.append(NEW_LINE);
       writer.flush();
       writer.close();
     } catch (Exception e) {

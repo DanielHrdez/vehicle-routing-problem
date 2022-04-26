@@ -23,7 +23,7 @@ import vrp.algorithm.util.Functions;
 public class Grasp extends Algorithm {
   private int candidates = 2;
   private int maxIterations = 1000;
-  private int maxIterationsWithoutImprovement = 100;
+  private int maxIterationsWithoutImprovement = 500;
   private int iterationsWithoutImprovement = 0;
   private LocalSearch localSearchAlgorithm = new ReinsertionInterRoute();
 

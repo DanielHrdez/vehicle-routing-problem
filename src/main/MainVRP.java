@@ -34,7 +34,7 @@ public class MainVRP {
     String[] algorithms = {"Greedy", "Grasp"};
     for (String algorithm : algorithms) {
       List<List<String>> result = MainVRP.runAlgorithm(dataModels, algorithm);
-      MainVRP.writeFile(result, algorithm);
+      // MainVRP.writeFile(result, algorithm);
       // MainVRP.printResult(result, algorithm);
     }
   }
@@ -84,8 +84,7 @@ public class MainVRP {
    */
   static void writeFile(List<List<String>> results, String algorithm) throws Exception {
     Files.createDirectories(Paths.get(Constants.OUTPUT_FOLDER));
-    WriteCSV writer = new WriteCSV(Constants.OUTPUT_FOLDER + algorithm + ".csv");
-    writer.write(results);
+    WriteCSV.write(Constants.OUTPUT_FOLDER + algorithm + ".csv", results);
   }
 
   /**

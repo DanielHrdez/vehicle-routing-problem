@@ -64,7 +64,11 @@ public class PrintTable {
   public static void printHeader(List<String> header) {
     int numberOfColumns = header.size();
     printTop(numberOfColumns);
-    printRow(header);
+    List<String> headerColor = new ArrayList<>();
+    for (int i = 0; i < numberOfColumns; i++) {
+      headerColor.add(Constants.ANSI_CYAN + header.get(i) + Constants.ANSI_RESET);
+    }
+    printRow(headerColor);
     printLine(numberOfColumns);
   }
 
