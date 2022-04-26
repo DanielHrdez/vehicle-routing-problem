@@ -10,51 +10,32 @@
 
 package vrp.algorithm.localsearch.reinsertion;
 
-import vrp.algorithm.localsearch.base.LocalSearch;
 import vrp.solution.Routes;
 
 /**
  * Class implementing the reinsertion of a customer inter routes.
  */
-public class ReinsertionIntraRoute extends LocalSearch {
+public class ReinsertionIntraRoute extends Reinsertion {
   /**
    * Implementation of the reinsertion of a customer inter routes.
    */
   protected Routes implementation(int route, int customer1) {
     Routes bestSolution = this.solution.clone();
     int routeSize = this.solution.getRouteSize(route) - 1;
+    for (int customer2 = 1; customer2 < customer1 - 1; customer2++) {
+      Routes newSolution = this.insert(this.solution, route, customer1, route, customer2);
+      boolean test = this.checkResult(newSolution);
+      if (newSolution.getCost() < bestSolution.getCost()) {
+        bestSolution = newSolution;
+      }
+    }
     for (int customer2 = customer1 + 1; customer2 < routeSize; customer2++) {
-      Routes newSolution = this.insertIntra(this.solution, route, customer1, customer2);
+      Routes newSolution = this.insert(this.solution, route, customer1, route, customer2);
+      boolean test = this.checkResult(newSolution);
       if (newSolution.getCost() < bestSolution.getCost()) {
         bestSolution = newSolution;
       }
     }
     return bestSolution;
-  }
-  
-  /**
-   * Inserts a customer in a route.
-   * @param routes The routes of the solution.
-   * @param rute The route where the customer is.
-   * @param targetPosition The position where the customer is.
-   * @param position The position where the customer is going be.
-   * @return The new solution.
-   */
-  private Routes insertIntra(Routes routes, int rute, int targetPosition, int position) {
-    Routes newRoutes = routes.clone();
-    Integer previousTarget = newRoutes.getCustomer(rute, targetPosition - 1);
-    Integer targetCustomer = newRoutes.getCustomer(rute, targetPosition);
-    Integer nextTarget = routes.getCustomer(rute, targetPosition + 1);
-    Integer destinyCustomer = routes.getCustomer(rute, position);
-    Integer destinyNext = routes.getCustomer(rute, position + 1);
-    newRoutes.sumCost(-this.dataModel.distance(previousTarget, targetCustomer));
-    newRoutes.sumCost(-this.dataModel.distance(targetCustomer, nextTarget));
-    newRoutes.sumCost(-this.dataModel.distance(destinyCustomer, destinyNext));
-    newRoutes.removeCustomer(rute, targetPosition);
-    newRoutes.addCustomer(rute, targetCustomer, position);
-    newRoutes.sumCost(this.dataModel.distance(previousTarget, nextTarget));
-    newRoutes.sumCost(this.dataModel.distance(destinyCustomer, targetCustomer));
-    newRoutes.sumCost(this.dataModel.distance(targetCustomer, destinyNext));
-    return newRoutes;
   }
 }

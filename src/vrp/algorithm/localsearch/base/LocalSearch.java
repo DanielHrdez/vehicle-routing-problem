@@ -48,6 +48,16 @@ public abstract class LocalSearch {
     return bestSolution;
   }
 
+  protected boolean checkResult(Routes result) {
+    int cost = 0;
+    for (int route = 0; route < this.numberOfVehicles; route++) {
+      for (int customer = 0; customer < result.getRouteSize(route) - 1; customer++) {
+        cost += this.dataModel.distance(result.getCustomer(route, customer), result.getCustomer(route, customer + 1));
+      }
+    }
+    return cost == result.getCost();
+  }
+
   /**
    * This method is implemented by the subclasses.
    * @param rute The route.

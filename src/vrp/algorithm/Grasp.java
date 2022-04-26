@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
 public class Grasp extends Algorithm {
   private int maxCandidates = 2;
   private int maxIterations = 1000;
-  private int maxIterationsWithoutImprovement = 350;
+  private int maxIterationsWithoutImprovement = 100;
   private int iterationsWithoutImprovement = 0;
   private LocalSearch localSearchAlgorithm = new ReinsertionInterRoute();
 
