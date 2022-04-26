@@ -11,6 +11,7 @@
 package vrp.algorithm;
 
 import vrp.algorithm.base.*;
+import vrp.algorithm.util.Functions;
 
 /**
  * GreedyVRP is a class that implements
@@ -39,7 +40,7 @@ public class Greedy extends Algorithm {
     int route = -1;
 
     for (int i = 0; i < numberOfVehicles; i++) {
-      if (this.full(this.routes, i)) continue;
+      if (Functions.full(this.routes, i, this.maxCustomersByRoute)) continue;
       int minimum = Integer.MAX_VALUE;
       int closestCustomer = -1;
       int end = this.routes.lastCustomerFromRoute(i);

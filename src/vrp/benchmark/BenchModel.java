@@ -41,24 +41,24 @@ public class BenchModel {
    */
   public List<List<String>> run(VehicleRouting model) {
     List<List<String>> results = new ArrayList<>();
-    boolean isGrasp = model.algorithmType().equals("Grasp");
+    boolean isGreedy = model.algorithmType().equals("Greedy");
     List<String> header = new ArrayList<>();
     header.add(Constants.ANSI_CYAN + "Problema" + Constants.ANSI_RESET);
     header.add(Constants.ANSI_CYAN + "Número de Vehiculos" + Constants.ANSI_RESET);
-    if (isGrasp) header.add(Constants.ANSI_CYAN + "Número de Candidatos" + Constants.ANSI_RESET);
+    if (!isGreedy) header.add(Constants.ANSI_CYAN + "Número de Candidatos" + Constants.ANSI_RESET);
     header.add(Constants.ANSI_CYAN + "Ejecución" + Constants.ANSI_RESET);
     header.add(Constants.ANSI_CYAN + "Distancia Total Recorrida" + Constants.ANSI_RESET);
     header.add(Constants.ANSI_CYAN + "CPU Time (ns)" + Constants.ANSI_RESET);
     results.add(header);
-    int numberIterations = model.algorithmType().equals("Greedy") ? 3 : 4;
+    int numberIterations = isGreedy ? 3 : 4;
     int numberOfColumns = header.size();
 
-    PrintTable.PrintTitle(header);
+    PrintTable.printTitleHeader(model.algorithmType(), header);
     for (int i = 2; i < numberIterations; i++) {
       int execution = 0;
       for (DataModel dataModel : this.dataModels) {
         model.setModel(dataModel);
-        if (isGrasp) ((Grasp) model.getAlgorithm()).setCandidates(i);
+        if (!isGreedy) ((Grasp) model.getAlgorithm()).setCandidates(i);
         long start = System.nanoTime();
         model.solve();
         long end = System.nanoTime();
@@ -68,7 +68,7 @@ public class BenchModel {
         List<String> currentResult = new ArrayList<>();
         currentResult.add(Integer.toString(++this.counter));
         currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
-        if (isGrasp) currentResult.add(Integer.toString(i));
+        if (!isGreedy) currentResult.add(Integer.toString(i));
         currentResult.add(Integer.toString(++execution));
         currentResult.add(Integer.toString(model.getCost()));
         currentResult.add(String.valueOf(time));

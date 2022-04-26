@@ -18,7 +18,7 @@ import vrp.data.DataModel;
 import vrp.solution.Routes;
 
 public class GreedyRandom {
-  public static Routes constructSolution(DataModel dataModel, int numberOfCandidates) {
+  public static Routes constructSolution(DataModel dataModel, int numberOfCandidates, int maxCustomersByRoute) {
     int numberOfVehicles = dataModel.getNumberOfVehicles();
     Routes solution = new Routes(numberOfVehicles);
     Functions.addDepot(solution, dataModel);
@@ -28,7 +28,7 @@ public class GreedyRandom {
       int minimumCustomer = -1;
       int vehicle = -1;
       for (int i = 0; i < numberOfVehicles; i++) {
-        if (Functions.full(solution, i, numberOfCandidates)) continue;
+        if (Functions.full(solution, i, maxCustomersByRoute)) continue;
         int lastFromVehicle = solution.lastCustomerFromRoute(i);
         int[] candidateList = candidateList(dataModel, lastFromVehicle, numberOfCandidates);
         try {

@@ -23,10 +23,7 @@ public class PrintTable {
    * @param results The results of the table.
    */
   public static void print(String title, List<List<String>> results) {    
-    System.out.format(
-      "%40s" + Constants.ANSI_BOLD +
-      title + "%n" + Constants.ANSI_RESET, ""
-    );
+    printTitle(title);
     boolean header = false;
     int resultSize = results.get(0).size();
     printTop(resultSize);
@@ -64,11 +61,23 @@ public class PrintTable {
     System.out.format(lineSeparator);
   }
 
-  public static void PrintTitle(List<String> title) {
-    int numberOfColumns = title.size();
+  public static void printHeader(List<String> header) {
+    int numberOfColumns = header.size();
     printTop(numberOfColumns);
-    printRow(title);
+    printRow(header);
     printLine(numberOfColumns);
+  }
+
+  public static void printTitle(String title) {
+    System.out.format(
+      "%40s" + Constants.ANSI_BOLD +
+      title + "%n" + Constants.ANSI_RESET, ""
+    );
+  }
+
+  public static void printTitleHeader(String title, List<String> header) {
+    printTitle(title);
+    printHeader(header);
   }
 
   public static void printBottom(int numberOfColumns) {

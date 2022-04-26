@@ -21,7 +21,7 @@ import vrp.algorithm.util.Functions;
 public abstract class Algorithm {
   protected DataModel dataModel;
   protected Routes routes;
-  private int maxCustomersByRoute;
+  protected int maxCustomersByRoute;
   private double PERCENTAGE_CUSTOMERS_BY_ROUTE = 0.1;
   
   /**
@@ -77,15 +77,5 @@ public abstract class Algorithm {
    */
   public String getAlgorithmType() {
     return this.getClass().getSimpleName();
-  }
-
-  /**
-   * Check if the route is full.
-   * @param routes The routes.
-   * @param route The route.
-   * @return True if the route is full.
-   */
-  protected boolean full(Routes routes, int route) {
-    return Functions.full(routes, route, this.maxCustomersByRoute);
   }
 }

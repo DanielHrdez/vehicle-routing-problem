@@ -23,9 +23,9 @@ import vrp.algorithm.util.Functions;
 public class Grasp extends Algorithm {
   private int candidates = 2;
   private int maxIterations = 1000;
-  private int maxIterationsWithoutImprovement = 350;
+  private int maxIterationsWithoutImprovement = 100;
   private int iterationsWithoutImprovement = 0;
-  private LocalSearch localSearchAlgorithm = new ReinsertionIntraRoute();
+  private LocalSearch localSearchAlgorithm = new ReinsertionInterRoute();
 
   /**
    * Setter of the max candidates.
@@ -53,7 +53,7 @@ public class Grasp extends Algorithm {
     this.iterationsWithoutImprovement = 0;
 
     for (int i = 0; i < this.maxIterations; i++) {
-      Routes currentSolution = GreedyRandom.constructSolution(this.dataModel, this.candidates);
+      Routes currentSolution = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
       currentSolution = this.localSearchAlgorithm.search(currentSolution, this.dataModel);
       this.updateSolution(currentSolution);
       if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
