@@ -25,7 +25,7 @@ public class TwoOpt extends LocalSearch {
     int routeSize = this.solution.getRouteSize(route) - 1;
     for (int customer2 = customer1 + 1; customer2 < routeSize; customer2++) {
       Routes newSolution = this.twoOptSwap(this.solution, route, customer1, customer2);
-      if (newSolution.getCost() < bestSolution.getCost()) {
+      if (newSolution.getCostSearch() < bestSolution.getCostSearch()) {
         bestSolution = newSolution;
       }
     }
@@ -44,19 +44,19 @@ public class TwoOpt extends LocalSearch {
     Routes newRoutes = previousRoutes.clone();
     Integer firstCustomer = previousRoutes.getCustomer(indexRoute, firstIndex);
     Integer previousFirstCustomer = previousRoutes.getCustomer(indexRoute, firstIndex - 1);
-    newRoutes.sumCost(-this.dataModel.distance(previousFirstCustomer, firstCustomer));
+    newRoutes.sumCostSearch(-this.dataModel.distance(previousFirstCustomer, firstCustomer));
     for (int i = secondIndex; i >= firstIndex; i--) {
       int position = secondIndex - i + firstIndex;
       Integer customer = previousRoutes.getCustomer(indexRoute, position);
       Integer previousCustomer = newRoutes.getCustomer(indexRoute, position - 1);
       Integer secondCustomer = previousRoutes.getCustomer(indexRoute, i);
       Integer nextCustomer = previousRoutes.getCustomer(indexRoute, position + 1);
-      newRoutes.sumCost(-this.dataModel.distance(customer, nextCustomer));
+      newRoutes.sumCostSearch(-this.dataModel.distance(customer, nextCustomer));
       newRoutes.setCustomer(indexRoute, position, secondCustomer);
-      newRoutes.sumCost(this.dataModel.distance(previousCustomer, secondCustomer));
+      newRoutes.sumCostSearch(this.dataModel.distance(previousCustomer, secondCustomer));
     }
     Integer lastCustomer = previousRoutes.getCustomer(indexRoute, secondIndex + 1);
-    newRoutes.sumCost(this.dataModel.distance(firstCustomer, lastCustomer));
+    newRoutes.sumCostSearch(this.dataModel.distance(firstCustomer, lastCustomer));
     return newRoutes;
   }
 }

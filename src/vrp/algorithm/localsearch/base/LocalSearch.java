@@ -20,14 +20,17 @@ public abstract class LocalSearch {
   protected int numberOfVehicles;
   protected Routes solution;
   protected DataModel dataModel;
+  protected int maxCustomersByRoute;
 
   /**
    * Initialize the local search algorithm.
    */
-  public Routes search(Routes solution, DataModel dataModel) {
+  public Routes search(Routes solution, DataModel dataModel, int maxCustomersByRoute) {
     this.dataModel = dataModel;
     this.solution = solution;
+    this.solution.setCostSearch(solution.getCost());
     this.numberOfVehicles = this.solution.getNumberOfRoutes();
+    this.maxCustomersByRoute = maxCustomersByRoute;
     Routes bestSolution = this.solution.clone();
     boolean improved = true;
     while (improved) {
@@ -37,7 +40,7 @@ public abstract class LocalSearch {
         int routeSize = this.solution.getRouteSize(route) - 1;
         for (int customer = 1; customer < routeSize; customer++) {
           Routes result = this.implementation(route, customer);
-          if (result.getCost() < bestSolution.getCost()) {
+          if (result.getCostSearch() < bestSolution.getCostSearch()) {
             bestSolution = result;
             improved = true;
           }

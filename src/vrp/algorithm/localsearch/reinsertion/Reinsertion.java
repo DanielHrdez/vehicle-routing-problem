@@ -20,15 +20,15 @@ public abstract class Reinsertion extends LocalSearch {
     Integer nextTarget = routes.getCustomer(from, targetPosition + 1);
     Integer destinyPrevious = routes.getCustomer(to, position - 1);
     Integer destinyCustomer = routes.getCustomer(to, position);
-    newRoutes.sumCost(-this.dataModel.distance(previousTarget, targetCustomer));
-    newRoutes.sumCost(-this.dataModel.distance(targetCustomer, nextTarget));
-    newRoutes.sumCost(-this.dataModel.distance(destinyPrevious, destinyCustomer));
+    newRoutes.sumCostSearch(-this.dataModel.distance(previousTarget, targetCustomer));
+    newRoutes.sumCostSearch(-this.dataModel.distance(targetCustomer, nextTarget));
+    newRoutes.sumCostSearch(-this.dataModel.distance(destinyPrevious, destinyCustomer));
     newRoutes.removeCustomer(from, targetPosition);
     if (from == to && targetPosition < position) position -= 1;
     newRoutes.addCustomer(to, targetCustomer, position);
-    newRoutes.sumCost(this.dataModel.distance(previousTarget, nextTarget));
-    newRoutes.sumCost(this.dataModel.distance(destinyPrevious, targetCustomer));
-    newRoutes.sumCost(this.dataModel.distance(targetCustomer, destinyCustomer));
+    newRoutes.sumCostSearch(this.dataModel.distance(previousTarget, nextTarget));
+    newRoutes.sumCostSearch(this.dataModel.distance(destinyPrevious, targetCustomer));
+    newRoutes.sumCostSearch(this.dataModel.distance(targetCustomer, destinyCustomer));
     return newRoutes;
   }
 }

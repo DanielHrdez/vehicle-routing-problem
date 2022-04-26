@@ -70,7 +70,8 @@ public class BenchModel {
         currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
         if (!isGreedy) currentResult.add(Integer.toString(i));
         currentResult.add(Integer.toString(++execution));
-        currentResult.add(Integer.toString(model.getCost()));
+        if (isGreedy) currentResult.add(Integer.toString(model.getCost()));
+        else currentResult.add(model.getFullCost());
         currentResult.add(String.valueOf(time));
         PrintTable.printRow(currentResult);
         results.add(currentResult);

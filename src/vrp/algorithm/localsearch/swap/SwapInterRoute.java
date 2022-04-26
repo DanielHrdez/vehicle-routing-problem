@@ -27,7 +27,7 @@ public class SwapInterRoute extends Swap {
       if (routeSize == 1) continue;
       for (int customer2 = 1; customer2 < routeSize; customer2++) {
         Routes newSolution = this.swap(this.solution, route1, customer1, route2, customer2);
-        if (newSolution.getCost() < bestSolution.getCost()) {
+        if (newSolution.getCostSearch() < bestSolution.getCostSearch()) {
           bestSolution = newSolution;
         }
       }

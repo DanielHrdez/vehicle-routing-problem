@@ -111,6 +111,10 @@ public class VehicleRouting {
     return this.algorithm;
   }
 
+  public String getFullCost() {
+    return String.format("%d -> %d", this.routes.getCost(), this.routes.getCostSearch());
+  }
+
   /**
    * @return Return the string representation of the routes.
    */

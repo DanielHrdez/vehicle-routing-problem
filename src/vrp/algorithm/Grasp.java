@@ -50,11 +50,12 @@ public class Grasp extends Algorithm {
    */
   public void implementation() {
     this.routes.sumCost(Integer.MAX_VALUE);
+    this.routes.sumCostSearch(Integer.MAX_VALUE);
     this.iterationsWithoutImprovement = 0;
 
     for (int i = 0; i < this.maxIterations; i++) {
       Routes currentSolution = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
-      currentSolution = this.localSearchAlgorithm.search(currentSolution, this.dataModel);
+      currentSolution = this.localSearchAlgorithm.search(currentSolution, this.dataModel, this.maxCustomersByRoute);
       this.updateSolution(currentSolution);
       if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
         break;
@@ -77,7 +78,7 @@ public class Grasp extends Algorithm {
    */
   private void updateSolution(Routes currentSolution) {
     this.iterationsWithoutImprovement++;
-    if (currentSolution.getCost() < this.routes.getCost()) {
+    if (currentSolution.getCostSearch() < this.routes.getCostSearch()) {
       this.routes = currentSolution;
       this.iterationsWithoutImprovement = 0;
     }

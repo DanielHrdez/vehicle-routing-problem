@@ -24,22 +24,22 @@ public abstract class Swap extends LocalSearch {
     Integer previousCustomer2 = routes.getCustomer(to, customer2Position - 1);
     Integer customer2 = routes.getCustomer(to, customer2Position);
     Integer nextCustomer2 = routes.getCustomer(to, customer2Position + 1);
-    newRoutes.sumCost(-this.dataModel.distance(previousCustomer1, customer1));
-    newRoutes.sumCost(-this.dataModel.distance(customer1, nextCustomer1));
+    newRoutes.sumCostSearch(-this.dataModel.distance(previousCustomer1, customer1));
+    newRoutes.sumCostSearch(-this.dataModel.distance(customer1, nextCustomer1));
     if (previousCustomer2 != customer1) {
-      newRoutes.sumCost(-this.dataModel.distance(previousCustomer2, customer2));
+      newRoutes.sumCostSearch(-this.dataModel.distance(previousCustomer2, customer2));
     }
-    newRoutes.sumCost(-this.dataModel.distance(customer2, nextCustomer2));
+    newRoutes.sumCostSearch(-this.dataModel.distance(customer2, nextCustomer2));
     newRoutes.setCustomer(from, customer1Position, customer2);
     newRoutes.setCustomer(to, customer2Position, customer1);
-    newRoutes.sumCost(this.dataModel.distance(previousCustomer1, customer2));
+    newRoutes.sumCostSearch(this.dataModel.distance(previousCustomer1, customer2));
     if (previousCustomer2 != customer1) {
-      newRoutes.sumCost(this.dataModel.distance(customer2, nextCustomer1));
-      newRoutes.sumCost(this.dataModel.distance(previousCustomer2, customer1));
+      newRoutes.sumCostSearch(this.dataModel.distance(customer2, nextCustomer1));
+      newRoutes.sumCostSearch(this.dataModel.distance(previousCustomer2, customer1));
     } else {
-      newRoutes.sumCost(this.dataModel.distance(customer2, customer1));
+      newRoutes.sumCostSearch(this.dataModel.distance(customer2, customer1));
     }
-    newRoutes.sumCost(this.dataModel.distance(customer1, nextCustomer2));
+    newRoutes.sumCostSearch(this.dataModel.distance(customer1, nextCustomer2));
     return newRoutes;
   }
 }

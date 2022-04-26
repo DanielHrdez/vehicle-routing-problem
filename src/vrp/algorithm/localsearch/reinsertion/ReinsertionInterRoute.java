@@ -24,10 +24,10 @@ public class ReinsertionInterRoute extends Reinsertion {
     for (int route2 = 0; route2 < this.numberOfVehicles; route2++) {
       if (route1 == route2) continue;
       int routeSize = this.solution.getRouteSize(route2) - 1;
-      if (routeSize == 1) continue;
+      if (routeSize == 1 || routeSize + 1 >= this.maxCustomersByRoute) continue;
       for (int customer2 = 1; customer2 < routeSize; customer2++) {
         Routes newSolution = this.insert(this.solution, route1, customer1, route2, customer2);
-        if (newSolution.getCost() < bestSolution.getCost()) {
+        if (newSolution.getCostSearch() < bestSolution.getCostSearch()) {
           bestSolution = newSolution;
         }
       }

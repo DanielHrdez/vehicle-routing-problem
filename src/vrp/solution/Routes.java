@@ -16,8 +16,9 @@ import java.util.*;
  * This class represents a solution of a vehicle routing problem.
  */
 public class Routes implements Cloneable {
-  List<List<Integer>> routes;
-  int cost;
+  private List<List<Integer>> routes;
+  private int cost;
+  private int costSearch;
 
   /**
    * Constructor of the class.
@@ -129,11 +130,35 @@ public class Routes implements Cloneable {
   }
 
   /**
+   * Getter of the cost.
+   * @return The cost.
+   */
+  public int getCostSearch() {
+    return this.costSearch;
+  }
+
+  /**
+   * Setter of the cost.
+   * @param cost The cost.
+   */
+  public void setCostSearch(int cost) {
+    this.costSearch = cost;
+  }
+
+  /**
    * Sum a new cost to the current cost.
    * @param newCost The new cost.
    */
   public void sumCost(int newCost) {
     this.cost += newCost;
+  }
+
+  /**
+   * Sum a new cost to the current cost.
+   * @param newCost The new cost.
+   */
+  public void sumCostSearch(int newCost) {
+    this.costSearch += newCost;
   }
 
   /**
@@ -161,6 +186,7 @@ public class Routes implements Cloneable {
       clone.routes.add(new ArrayList<>(route));
     }
     clone.cost = this.cost;
+    clone.costSearch = this.costSearch;
     return clone;
   }
 
