@@ -35,7 +35,7 @@ public class MainVRP {
     for (String algorithm : algorithms) {
       List<List<String>> result = MainVRP.runAlgorithm(dataModels, algorithm);
       MainVRP.writeFile(result, algorithm);
-      MainVRP.printResult(result, algorithm);
+      // MainVRP.printResult(result, algorithm);
     }
   }
 

@@ -29,33 +29,51 @@ public class PrintTable {
     );
     boolean header = false;
     int resultSize = results.get(0).size();
-    String topLine = lineSeparator(resultSize, "┌─", "─┬─", "─┐");
-    String lineSeparator = lineSeparator(resultSize, "├─", "─┼─", "─┤");
-    String bottomLine = lineSeparator(resultSize, "└─", "─┴─", "─┘");
+    printTop(resultSize);
+    for (List<String> result : results) {
+      printRow(result);
+      if (!header) {
+        printLine(resultSize);
+        header = true;
+      }
+    }
+    printBottom(resultSize);
+    System.out.println();
+  }
+
+  public static void printRow(List<String> row) {
     String[] leftAlignFormat;
-    if (resultSize != 5) leftAlignFormat = new String[] {
+    if (row.size() != 5) leftAlignFormat = new String[] {
       "│ %8s ", "│ %19s ", "│ %20s ", "│ %9s ", "│ %25s ", "│ %13s │%n"
     };
     else leftAlignFormat = new String[] {
       "│ %8s ", "│ %19s ", "│ %9s ", "│ %25s ", "│ %13s │%n"
     };
-    System.out.format(topLine);
-    for (List<String> result : results) {
-      if (!header) {
-        for (int i = 0; i < result.size(); i++) {
-          System.out.format(leftAlignFormat[i], Constants.ANSI_CYAN + result.get(i) + Constants.ANSI_RESET);
-        }
-        System.out.format(lineSeparator);
-        header = true;
-      }
-      else {
-        for (int i = 0; i < result.size(); i++) {
-          System.out.format(leftAlignFormat[i], result.get(i));
-        }
-      }
+    for (int i = 0; i < row.size(); i++) {
+      System.out.format(leftAlignFormat[i], row.get(i));
     }
+  }
+
+  public static void printTop(int numberOfColumns) {
+    String topLine = lineSeparator(numberOfColumns, "┌─", "─┬─", "─┐");
+    System.out.format(topLine);
+  }
+
+  public static void printLine(int numberOfColumns) {
+    String lineSeparator = lineSeparator(numberOfColumns, "├─", "─┼─", "─┤");
+    System.out.format(lineSeparator);
+  }
+
+  public static void PrintTitle(List<String> title) {
+    int numberOfColumns = title.size();
+    printTop(numberOfColumns);
+    printRow(title);
+    printLine(numberOfColumns);
+  }
+
+  public static void printBottom(int numberOfColumns) {
+    String bottomLine = lineSeparator(numberOfColumns, "└─", "─┴─", "─┘");
     System.out.format(bottomLine);
-    System.out.println();
   }
 
   /**

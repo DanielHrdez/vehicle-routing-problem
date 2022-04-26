@@ -10,6 +10,29 @@
 
 package vrp.algorithm;
 
-public class Gvns {
-  
+import vrp.algorithm.base.Algorithm;
+import vrp.algorithm.construction.GreedyRandom;
+import vrp.algorithm.localsearch.base.LocalSearch;
+import vrp.solution.Routes;
+
+public class Gvns extends Algorithm {
+  private int candidates = 2;
+  private int maxShakes = 4;
+  private LocalSearch localSearchAlgorithm;
+
+  public setLocalSearchAlgorithm(LocalSearch localSearchAlgorithm) {
+    this.localSearchAlgorithm = localSearchAlgorithm;
+  }
+
+  public void setMaxShakes(int maxShakes) {
+    this.maxShakes = maxShakes;
+  }
+
+  public void implementation() {
+    Routes solution = GreedyRandom.constructSolution(this.dataModel, this.candidates);
+    for (int i = 1; i < this.maxShakes; i++) {
+      Routes currentSolution = this.RandomShake(solution, i);
+      currentSolution = this.localSearchAlgorithm.search(currentSolution, this.dataModel);
+    }
+  }
 }

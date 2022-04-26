@@ -13,6 +13,7 @@ package vrp.algorithm.base;
 import vrp.data.DataModel;
 import vrp.solution.Routes;
 import vrp.algorithm.*;
+import vrp.algorithm.util.Functions;
 
 /**
  * Algorithm base class.
@@ -53,20 +54,8 @@ public abstract class Algorithm {
   /**
    * Add the depot to all the vehicles.
    */
-  protected void addDepot(Routes routes) {
-    int numberOfVehicles = this.dataModel.getNumberOfVehicles();
-    int depot = this.dataModel.getDepot();
-    this.dataModel.setCustomer(depot);
-
-    for (int i = 0; i < numberOfVehicles; i++) {
-      try {
-        routes.sumCost(this.dataModel.distance(routes.lastCustomerFromRoute(i), depot));
-        routes.addCustomer(i, depot);
-      } catch (Exception e) {
-        routes.addCustomer(i, depot);
-        routes.sumCost(this.dataModel.distance(routes.lastCustomerFromRoute(i), depot));
-      }
-    }
+  protected Routes addDepot(Routes routes) {
+    return Functions.addDepot(routes, this.dataModel);
   }
 
   /**
@@ -97,6 +86,6 @@ public abstract class Algorithm {
    * @return True if the route is full.
    */
   protected boolean full(Routes routes, int route) {
-    return routes.getRouteSize(route) >= this.maxCustomersByRoute;
+    return Functions.full(routes, route, this.maxCustomersByRoute);
   }
 }

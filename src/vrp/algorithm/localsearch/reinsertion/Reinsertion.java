@@ -15,8 +15,8 @@ public abstract class Reinsertion extends LocalSearch {
    */
   protected Routes insert(Routes routes, int from, int targetPosition, int to, int position) {
     Routes newRoutes = routes.clone();
-    Integer previousTarget = newRoutes.getCustomer(from, targetPosition - 1);
-    Integer targetCustomer = newRoutes.getCustomer(from, targetPosition);
+    Integer previousTarget = routes.getCustomer(from, targetPosition - 1);
+    Integer targetCustomer = routes.getCustomer(from, targetPosition);
     Integer nextTarget = routes.getCustomer(from, targetPosition + 1);
     Integer destinyPrevious = routes.getCustomer(to, position - 1);
     Integer destinyCustomer = routes.getCustomer(to, position);
@@ -24,6 +24,7 @@ public abstract class Reinsertion extends LocalSearch {
     newRoutes.sumCost(-this.dataModel.distance(targetCustomer, nextTarget));
     newRoutes.sumCost(-this.dataModel.distance(destinyPrevious, destinyCustomer));
     newRoutes.removeCustomer(from, targetPosition);
+    if (from == to && targetPosition < position) position -= 1;
     newRoutes.addCustomer(to, targetCustomer, position);
     newRoutes.sumCost(this.dataModel.distance(previousTarget, nextTarget));
     newRoutes.sumCost(this.dataModel.distance(destinyPrevious, targetCustomer));

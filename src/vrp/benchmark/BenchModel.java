@@ -13,6 +13,8 @@ package vrp.benchmark;
 import vrp.*;
 import vrp.algorithm.*;
 import vrp.data.DataModel;
+import vrp.io.PrintTable;
+import main.Constants;
 
 import java.util.*;
 
@@ -41,20 +43,22 @@ public class BenchModel {
     List<List<String>> results = new ArrayList<>();
     boolean isGrasp = model.algorithmType().equals("Grasp");
     List<String> header = new ArrayList<>();
-    header.add("Problema");
-    header.add("Número de Vehiculos");
-    if (isGrasp) header.add("Número de Candidatos");
-    header.add("Ejecución");
-    header.add("Distancia Total Recorrida");
-    header.add("CPU Time (ns)");
+    header.add(Constants.ANSI_CYAN + "Problema" + Constants.ANSI_RESET);
+    header.add(Constants.ANSI_CYAN + "Número de Vehiculos" + Constants.ANSI_RESET);
+    if (isGrasp) header.add(Constants.ANSI_CYAN + "Número de Candidatos" + Constants.ANSI_RESET);
+    header.add(Constants.ANSI_CYAN + "Ejecución" + Constants.ANSI_RESET);
+    header.add(Constants.ANSI_CYAN + "Distancia Total Recorrida" + Constants.ANSI_RESET);
+    header.add(Constants.ANSI_CYAN + "CPU Time (ns)" + Constants.ANSI_RESET);
     results.add(header);
     int numberIterations = model.algorithmType().equals("Greedy") ? 3 : 4;
+    int numberOfColumns = header.size();
 
+    PrintTable.PrintTitle(header);
     for (int i = 2; i < numberIterations; i++) {
       int execution = 0;
       for (DataModel dataModel : this.dataModels) {
         model.setModel(dataModel);
-        if (isGrasp) ((Grasp) model.getAlgorithm()).setMaxCandidates(i);
+        if (isGrasp) ((Grasp) model.getAlgorithm()).setCandidates(i);
         long start = System.nanoTime();
         model.solve();
         long end = System.nanoTime();
@@ -68,10 +72,12 @@ public class BenchModel {
         currentResult.add(Integer.toString(++execution));
         currentResult.add(Integer.toString(model.getCost()));
         currentResult.add(String.valueOf(time));
+        PrintTable.printRow(currentResult);
         results.add(currentResult);
       }
     }
 
+    PrintTable.printBottom(numberOfColumns);
     return results;
   }
 }

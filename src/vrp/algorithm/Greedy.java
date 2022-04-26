@@ -21,11 +21,11 @@ public class Greedy extends Algorithm {
    * Solve the problem using the Greedy algorithm.
    */
   public void implementation() {
-    this.addDepot(this.routes);
+    this.routes = this.addDepot(this.routes);
     while (!this.dataModel.allVisited()) {
       this.closestCustomers();
     }
-    this.addDepot(this.routes);
+    this.routes = this.addDepot(this.routes);
     this.dataModel.resetCustomers();
   }
 
