@@ -8,9 +8,9 @@
  * @version 1.0.0
  */
 
-package vrp.algorithm.localsearch.opt;
+package vrp.algorithm.constructsearch.localsearch.opt;
 
-import vrp.algorithm.localsearch.base.LocalSearch;
+import vrp.algorithm.constructsearch.localsearch.base.LocalSearch;
 import vrp.solution.Routes;
 
 /**

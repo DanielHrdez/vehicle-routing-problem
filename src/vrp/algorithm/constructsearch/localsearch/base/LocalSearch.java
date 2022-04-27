@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-package vrp.algorithm.localsearch.base;
+package vrp.algorithm.constructsearch.localsearch.base;
 
 import vrp.data.DataModel;
 import vrp.solution.Routes;
@@ -25,7 +25,7 @@ public abstract class LocalSearch {
   /**
    * Initialize the local search algorithm.
    */
-  public Routes search(Routes solution, DataModel dataModel, int maxCustomersByRoute) {
+  public Routes search(Routes solution, DataModel dataModel, int maxCustomersByRoute, boolean noLoop) {
     this.dataModel = dataModel;
     this.solution = solution;
     this.solution.setCostSearch(solution.getCost());
@@ -40,6 +40,7 @@ public abstract class LocalSearch {
         int routeSize = this.solution.getRouteSize(route) - 1;
         for (int customer = 1; customer < routeSize; customer++) {
           Routes result = this.implementation(route, customer);
+          if (noLoop) return result;
           if (result.getCostSearch() < bestSolution.getCostSearch()) {
             bestSolution = result;
             improved = true;

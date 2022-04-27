@@ -1,4 +1,4 @@
-package vrp.algorithm.localsearch.base;
+package vrp.algorithm.constructsearch.localsearch.base;
 
 /**
  * Enum of the local search types.

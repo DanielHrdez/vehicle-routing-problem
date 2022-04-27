@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-package vrp.algorithm;
+package vrp.algorithm.simple;
 
 import vrp.algorithm.base.*;
 import vrp.algorithm.util.Functions;

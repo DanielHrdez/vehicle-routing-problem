@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-package vrp.algorithm.construction;
+package vrp.algorithm.constructsearch.construction;
 
 import java.util.*;
 import java.util.stream.IntStream;

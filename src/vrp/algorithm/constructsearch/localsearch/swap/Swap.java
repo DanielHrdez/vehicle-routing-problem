@@ -1,6 +1,6 @@
-package vrp.algorithm.localsearch.swap;
+package vrp.algorithm.constructsearch.localsearch.swap;
 
-import vrp.algorithm.localsearch.base.LocalSearch;
+import vrp.algorithm.constructsearch.localsearch.base.LocalSearch;
 import vrp.solution.Routes;
 
 /**

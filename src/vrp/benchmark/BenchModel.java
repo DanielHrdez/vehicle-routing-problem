@@ -11,7 +11,9 @@
 package vrp.benchmark;
 
 import vrp.*;
-import vrp.algorithm.*;
+import vrp.algorithm.constructsearch.Grasp;
+import vrp.algorithm.constructsearch.Gvns;
+import vrp.algorithm.constructsearch.base.ConstructSearch;
 import vrp.data.DataModel;
 import vrp.io.PrintTable;
 import vrp.io.WriteCSV;
@@ -50,13 +52,16 @@ public class BenchModel {
     }
     List<List<String>> results = new ArrayList<>();
     boolean isGreedy = model.algorithmType().equals("Greedy");
+    boolean isGrasp = model.algorithmType().equals("Grasp");
+    boolean isGvns = model.algorithmType().equals("Gvns");
     List<String> header = new ArrayList<>();
     header.add("Problema");
-    header.add("Número de Vehiculos");
-    if (!isGreedy) header.add("Número de Candidatos");
+    header.add("Vehiculos");
+    if (isGrasp) header.add("NCandidatos");
+    else if (isGvns) header.add("Agitaciónes");
     header.add("Ejecución");
-    header.add("Distancia Total Recorrida");
-    header.add("CPU Time (ns)");
+    header.add("Distancia Total");
+    header.add("Tiempo CPU (sg)");
     results.add(header);
     int numberIterations = isGreedy ? 3 : 4;
     int numberOfColumns = header.size();
@@ -69,11 +74,12 @@ public class BenchModel {
       int execution = 0;
       for (DataModel dataModel : this.dataModels) {
         model.setModel(dataModel);
-        if (!isGreedy) ((Grasp) model.getAlgorithm()).setCandidates(i);
+        if (isGrasp) ((Grasp) model.getAlgorithm()).setCandidates(i);
+        else if (isGvns) ((Gvns) model.getAlgorithm()).setMaxShakes(i);
         long start = System.nanoTime();
         model.solve();
         long end = System.nanoTime();
-        long time = end - start;
+        double time = (end - start) / 1000000000.0;
         dataModel.resetCustomers();
 
         List<String> currentResult = new ArrayList<>();

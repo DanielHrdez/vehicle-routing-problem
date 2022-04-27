@@ -1,6 +1,6 @@
-package vrp.algorithm.localsearch.reinsertion;
+package vrp.algorithm.constructsearch.localsearch.reinsertion;
 
-import vrp.algorithm.localsearch.base.LocalSearch;
+import vrp.algorithm.constructsearch.localsearch.base.LocalSearch;
 import vrp.solution.Routes;
 
 public abstract class Reinsertion extends LocalSearch {

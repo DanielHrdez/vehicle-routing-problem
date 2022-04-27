@@ -12,7 +12,9 @@ package vrp.algorithm.base;
 
 import vrp.data.DataModel;
 import vrp.solution.Routes;
-import vrp.algorithm.*;
+import vrp.algorithm.constructsearch.Grasp;
+import vrp.algorithm.constructsearch.Gvns;
+import vrp.algorithm.simple.Greedy;
 import vrp.algorithm.util.Functions;
 
 /**
@@ -67,6 +69,7 @@ public abstract class Algorithm {
     switch (algorithmType) {
       case "Greedy": return new Greedy();
       case "Grasp": return new Grasp();
+      case "Gvns": return new Gvns();
     }
     throw new IllegalArgumentException("Algorithm type not found");
   }

@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-package vrp.algorithm.localsearch.reinsertion;
+package vrp.algorithm.constructsearch.localsearch.reinsertion;
 
 import vrp.solution.Routes;
 

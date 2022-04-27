@@ -31,11 +31,10 @@ public class MainVRP {
   public static void main(String[] args) throws Exception {
     MainVRP.printTitle();
     List<DataModel> dataModels = MainVRP.readDataFiles();
-    String[] algorithms = {"Greedy", "Grasp"};
+    String[] algorithms = {"Greedy", "Grasp", "Gvns"};
+    // String[] algorithms = {"Gvns"};
     for (String algorithm : algorithms) {
-      List<List<String>> result = MainVRP.runAlgorithm(dataModels, algorithm);
-      // MainVRP.writeFile(result, algorithm);
-      // MainVRP.printResult(result, algorithm);
+      MainVRP.runAlgorithm(dataModels, algorithm);
     }
   }
 

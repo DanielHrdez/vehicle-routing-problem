@@ -1,12 +1,11 @@
 package vrp.algorithm.util;
 
-import vrp.algorithm.localsearch.base.LocalSearchType;
+import vrp.algorithm.constructsearch.localsearch.base.*;
+import vrp.algorithm.constructsearch.localsearch.opt.*;
+import vrp.algorithm.constructsearch.localsearch.reinsertion.*;
+import vrp.algorithm.constructsearch.localsearch.swap.*;
 import vrp.data.DataModel;
 import vrp.solution.Routes;
-import vrp.algorithm.localsearch.base.*;
-import vrp.algorithm.localsearch.reinsertion.*;
-import vrp.algorithm.localsearch.opt.*;
-import vrp.algorithm.localsearch.swap.*;
 
 public class Functions {
   /**
