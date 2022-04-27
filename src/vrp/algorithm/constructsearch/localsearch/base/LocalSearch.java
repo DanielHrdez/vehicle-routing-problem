@@ -10,6 +10,8 @@
 
 package vrp.algorithm.constructsearch.localsearch.base;
 
+import java.util.Random;
+
 import vrp.data.DataModel;
 import vrp.solution.Routes;
 
@@ -22,10 +24,28 @@ public abstract class LocalSearch {
   protected DataModel dataModel;
   protected int maxCustomersByRoute;
 
+  public Routes randomSearch(Routes solution, DataModel dataModel, int maxCustomersByRoute) {
+    this.solution = solution;
+    this.dataModel = dataModel;
+    this.maxCustomersByRoute = maxCustomersByRoute;
+    this.numberOfVehicles = this.solution.getNumberOfRoutes();
+    Random random = new Random();
+    int randomRoute = random.nextInt(this.numberOfVehicles);
+    int routeSize = this.solution.getRouteSize(randomRoute);
+    while (routeSize <= 2) {
+      randomRoute = random.nextInt(this.numberOfVehicles);
+      routeSize = this.solution.getRouteSize(randomRoute);
+    }
+    int randomCustomer = random.nextInt(1, routeSize - 1);
+    return this.randomImplementation(randomRoute, randomCustomer);
+  }
+
+  protected abstract Routes randomImplementation(int randomRoute, int randomCustomer);
+  
   /**
    * Initialize the local search algorithm.
    */
-  public Routes search(Routes solution, DataModel dataModel, int maxCustomersByRoute, boolean noLoop) {
+  public Routes search(Routes solution, DataModel dataModel, int maxCustomersByRoute) {
     this.dataModel = dataModel;
     this.solution = solution;
     this.solution.setCostSearch(solution.getCost());
@@ -40,7 +60,6 @@ public abstract class LocalSearch {
         int routeSize = this.solution.getRouteSize(route) - 1;
         for (int customer = 1; customer < routeSize; customer++) {
           Routes result = this.implementation(route, customer);
-          if (noLoop) return result;
           if (result.getCostSearch() < bestSolution.getCostSearch()) {
             bestSolution = result;
             improved = true;
@@ -69,4 +88,5 @@ public abstract class LocalSearch {
    * @return The new solution.
    */
   protected abstract Routes implementation(int rute, int customer);
+
 }

@@ -18,16 +18,17 @@ import java.io.*;
 public class ReadDataModel {
   /**
    * Reads a model from a file.
-   * @param fileName The name of the file.
+   * @param filename The name of the file.
    * @return The model read.
    */
-  public static DataModel read(String fileName) {
-    BufferedReader bufferedReader = ReadDataModel.readBuffer(fileName);
+  public static DataModel read(String filename) {
+    BufferedReader bufferedReader = ReadDataModel.readBuffer(filename);
+    String name = new File(filename).getName();
     int numberOfCustomers = ReadDataModel.readElement(bufferedReader) + 1;
     int numberOfVehicles = ReadDataModel.readElement(bufferedReader);
     int[][] distanceMatrix = ReadDataModel.readDistanceMatrix(bufferedReader, numberOfCustomers);
     ReadDataModel.closeFile(bufferedReader);
-    return new DataModel(numberOfVehicles, numberOfCustomers, distanceMatrix);
+    return new DataModel(numberOfVehicles, numberOfCustomers, distanceMatrix, name);
   }
 
   /**

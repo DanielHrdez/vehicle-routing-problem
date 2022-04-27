@@ -23,6 +23,7 @@ public class DataModel {
   private int numberOfVisitedCustomers;
   private int depot;
   private List<Integer> notVisitedCustomers;
+  private String name;
   
   /**
    * Constructor of the class.
@@ -34,7 +35,8 @@ public class DataModel {
   public DataModel(
       int numberOfVehicles,
       int numberOfCustomers,
-      int[][] distanceMatrix
+      int[][] distanceMatrix,
+      String name
   ) {
     this.numberOfVehicles = numberOfVehicles;
     this.numberOfCustomers = numberOfCustomers;
@@ -46,6 +48,11 @@ public class DataModel {
     for (int i = 0; i < numberOfCustomers; i++) {
       this.notVisitedCustomers.add(i);
     }
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
   }
 
   /**

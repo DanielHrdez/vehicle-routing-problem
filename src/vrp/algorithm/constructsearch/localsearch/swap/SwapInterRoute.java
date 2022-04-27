@@ -10,6 +10,8 @@
 
 package vrp.algorithm.constructsearch.localsearch.swap;
 
+import java.util.Random;
+
 import vrp.solution.Routes;
 
 /**
@@ -33,5 +35,16 @@ public class SwapInterRoute extends Swap {
       }
     }
     return bestSolution;
+  }
+
+  protected Routes randomImplementation(int randomRoute1, int randomCustomer1) {
+    Random random = new Random();
+    int randomRoute2 = random.nextInt(this.numberOfVehicles);
+    int routeSize = this.solution.getRouteSize(randomRoute2);
+    while (randomRoute1 == randomRoute2 || routeSize <= 2) {
+      randomRoute2 = random.nextInt(this.numberOfVehicles);
+    }
+    int randomCustomer2 = random.nextInt(1, routeSize - 1);
+    return this.swap(this.solution, randomRoute1, randomCustomer1, randomRoute2, randomCustomer2);
   }
 }

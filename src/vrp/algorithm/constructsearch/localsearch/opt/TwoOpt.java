@@ -10,6 +10,8 @@
 
 package vrp.algorithm.constructsearch.localsearch.opt;
 
+import java.util.Random;
+
 import vrp.algorithm.constructsearch.localsearch.base.LocalSearch;
 import vrp.solution.Routes;
 
@@ -58,5 +60,15 @@ public class TwoOpt extends LocalSearch {
     Integer lastCustomer = previousRoutes.getCustomer(indexRoute, secondIndex + 1);
     newRoutes.sumCostSearch(this.dataModel.distance(firstCustomer, lastCustomer));
     return newRoutes;
+  }
+      
+  protected Routes randomImplementation(int randomRoute, int randomCustomer1) {
+    Random random = new Random();
+    int routeSize = this.solution.getRouteSize(randomRoute) - 1;
+    int randomCustomer2 = random.nextInt(1, routeSize);
+    while (randomCustomer1 == randomCustomer2) {
+      randomCustomer2 = random.nextInt(1, routeSize);
+    }
+    return this.twoOptSwap(this.solution, randomRoute, randomCustomer1, randomCustomer2);
   }
 }

@@ -28,7 +28,6 @@ import java.util.*;
  */
 public class BenchModel {
   private List<DataModel> dataModels;
-  private int counter;
 
   /**
    * Constructor of the class.
@@ -36,7 +35,6 @@ public class BenchModel {
    */
   public BenchModel(List<DataModel> dataModels) {
     this.dataModels = dataModels;
-    this.counter = 0;
   }
 
   /**
@@ -55,7 +53,7 @@ public class BenchModel {
     boolean isGrasp = model.algorithmType().equals("Grasp");
     boolean isGvns = model.algorithmType().equals("Gvns");
     List<String> header = new ArrayList<>();
-    header.add("Problema");
+    header.add("    Problema    ");
     header.add("Vehiculos");
     if (isGrasp) header.add("NCandidatos");
     else if (isGvns) header.add("Agitaciónes");
@@ -64,35 +62,37 @@ public class BenchModel {
     header.add("Tiempo CPU (sg)");
     results.add(header);
     int numberIterations = isGreedy ? 3 : 4;
+    int iterationsPerAlgorithm = 5;
     int numberOfColumns = header.size();
     String filename = Constants.OUTPUT_FOLDER + model.algorithmType() + ".csv";
 
     PrintTable.printTitleHeader(model.algorithmType(), header);
     WriteCSV.clearFile(filename);
     WriteCSV.add(filename, header);
-    for (int i = 2; i < numberIterations; i++) {
-      int execution = 0;
+    for (int i = 3; i < numberIterations; i++) {
       for (DataModel dataModel : this.dataModels) {
-        model.setModel(dataModel);
-        if (isGrasp) ((Grasp) model.getAlgorithm()).setCandidates(i);
-        else if (isGvns) ((Gvns) model.getAlgorithm()).setMaxShakes(i);
-        long start = System.nanoTime();
-        model.solve();
-        long end = System.nanoTime();
-        double time = (end - start) / 1000000000.0;
-        dataModel.resetCustomers();
+        for (int j = 1; j <= iterationsPerAlgorithm; j++) {
+          model.setModel(dataModel);
+          if (isGrasp) ((Grasp) model.getAlgorithm()).setCandidates(i);
+          else if (isGvns) ((Gvns) model.getAlgorithm()).setMaxShakes(i);
+          long start = System.nanoTime();
+          model.solve();
+          long end = System.nanoTime();
+          double time = (end - start) / 1000000000.0;
+          dataModel.resetCustomers();
 
-        List<String> currentResult = new ArrayList<>();
-        currentResult.add(Integer.toString(++this.counter));
-        currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
-        if (!isGreedy) currentResult.add(Integer.toString(i));
-        currentResult.add(Integer.toString(++execution));
-        if (isGreedy) currentResult.add(Integer.toString(model.getCost()));
-        else currentResult.add(model.getFullCost());
-        currentResult.add(String.valueOf(time));
-        PrintTable.printRow(currentResult);
-        WriteCSV.add(filename, currentResult);
-        results.add(currentResult);
+          List<String> currentResult = new ArrayList<>();
+          currentResult.add(dataModel.getName());
+          currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
+          if (!isGreedy) currentResult.add(Integer.toString(i));
+          currentResult.add(Integer.toString(j));
+          if (isGreedy) currentResult.add(Integer.toString(model.getCost()));
+          else currentResult.add(model.getFullCost());
+          currentResult.add(String.valueOf(time));
+          PrintTable.printRow(currentResult);
+          WriteCSV.add(filename, currentResult);
+          results.add(currentResult);
+        }
       }
     }
 

@@ -24,6 +24,7 @@ public abstract class Algorithm {
   protected DataModel dataModel;
   protected Routes routes;
   protected int maxCustomersByRoute;
+  protected int numberOfVehicles;
   private double PERCENTAGE_CUSTOMERS_BY_ROUTE = 0.1;
   
   /**
@@ -33,6 +34,7 @@ public abstract class Algorithm {
    */
   public Routes run(DataModel dataModel) {
     this.dataModel = dataModel;
+    this.numberOfVehicles = dataModel.getNumberOfVehicles();
     this.routes = new Routes(dataModel.getNumberOfVehicles());
     this.setMaxCustomersByRoute();
     this.implementation();
@@ -49,8 +51,17 @@ public abstract class Algorithm {
    */
   protected void setMaxCustomersByRoute() {
     int numberCustomers = this.dataModel.getNumberOfCustomers();
-    int numberVehicles = this.dataModel.getNumberOfVehicles();
-    this.maxCustomersByRoute = (int) Math.round((numberCustomers / numberVehicles) + (numberCustomers * PERCENTAGE_CUSTOMERS_BY_ROUTE)) + 1;
+    this.maxCustomersByRoute = (int) Math.round((numberCustomers / this.numberOfVehicles) + (numberCustomers * PERCENTAGE_CUSTOMERS_BY_ROUTE)) + 1;
+  }
+  
+  protected boolean checkResult(Routes result) {
+    int cost = 0;
+    for (int route = 0; route < this.numberOfVehicles; route++) {
+      for (int customer = 0; customer < result.getRouteSize(route) - 1; customer++) {
+        cost += this.dataModel.distance(result.getCustomer(route, customer), result.getCustomer(route, customer + 1));
+      }
+    }
+    return cost == result.getCostSearch();
   }
   
   /**

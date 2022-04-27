@@ -41,10 +41,10 @@ public class PrintTable {
   public static void printRow(List<String> row) {
     String[] leftAlignFormat;
     if (row.size() != 5) leftAlignFormat = new String[] {
-      "│ %8s ", "│ %9s ", "│ %11s ", "│ %9s ", "│ %15s ", "│ %-15s │%n"
+      "│ %16s ", "│ %9s ", "│ %11s ", "│ %9s ", "│ %15s ", "│ %-15s │%n"
     };
     else leftAlignFormat = new String[] {
-      "│ %8s ", "│ %9s ", "│ %9s ", "│ %15s ", "│ %-15s │%n"
+      "│ %16s ", "│ %9s ", "│ %9s ", "│ %15s ", "│ %-15s │%n"
     };
     for (int i = 0; i < row.size(); i++) {
       System.out.format(leftAlignFormat[i], row.get(i));
@@ -99,7 +99,7 @@ public class PrintTable {
    */
   private static String lineSeparator(int size, String start, String interception, String end) {
     String lineSeparator = start;
-    lineSeparator += "─".repeat(8) + interception;
+    lineSeparator += "─".repeat(16) + interception;
     lineSeparator += "─".repeat(9) + interception;
     if (size != 5) lineSeparator += "─".repeat(11) + interception;
     lineSeparator += "─".repeat(9) + interception;
