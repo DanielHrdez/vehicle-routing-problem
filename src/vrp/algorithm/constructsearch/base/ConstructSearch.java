@@ -27,7 +27,7 @@ public abstract class ConstructSearch extends Algorithm {
    * Setter of the local search algorithm.
    * @param localSearchType The local search algorithm.
    */
-  public void setLocalSearchType(LocalSearchType localSearchType) {
+  public void setLocalSearchType(LocalSearchType localSearchType) { 
     this.localSearchAlgorithm = Functions.setLocalSearchType(localSearchType);
   }
 
