@@ -28,7 +28,7 @@ public class PrintTable {
     int resultSize = results.get(0).size();
     printTop(resultSize);
     for (List<String> result : results) {
-      printRow(result);
+      printRow(result, false);
       if (!header) {
         printLine(resultSize);
         header = true;
@@ -38,17 +38,22 @@ public class PrintTable {
     System.out.println();
   }
 
-  public static void printRow(List<String> row) {
-    String[] leftAlignFormat;
-    if (row.size() != 5) leftAlignFormat = new String[] {
-      "│ %16s ", "│ %9s ", "│ %11s ", "│ %9s ", "│ %15s ", "│ %-15s │%n"
-    };
-    else leftAlignFormat = new String[] {
-      "│ %16s ", "│ %9s ", "│ %9s ", "│ %15s ", "│ %-15s │%n"
-    };
+  public static void printRow(List<String> row, boolean color) {
+    String separator = "│";
+    List<String> leftAlignFormat = new ArrayList<>();
+    leftAlignFormat.add(" %-16s ");
+    leftAlignFormat.add(" %9s ");
+    if (row.size() != 5) leftAlignFormat.add(" %11s ");
+    leftAlignFormat.add(" %9s ");
+    leftAlignFormat.add(" %15s ");
+    leftAlignFormat.add(" %-15s ");
     for (int i = 0; i < row.size(); i++) {
-      System.out.format(leftAlignFormat[i], row.get(i));
+      System.out.print(separator);
+      if (color) System.out.print(Constants.ANSI_CYAN);
+      System.out.format(leftAlignFormat.get(i), row.get(i));
+      if (color) System.out.print(Constants.ANSI_RESET);
     }
+    System.out.print(separator + "\n");
   }
 
   public static void printTop(int numberOfColumns) {
@@ -64,11 +69,7 @@ public class PrintTable {
   public static void printHeader(List<String> header) {
     int numberOfColumns = header.size();
     printTop(numberOfColumns);
-    List<String> headerColor = new ArrayList<>();
-    for (int i = 0; i < numberOfColumns; i++) {
-      headerColor.add(Constants.ANSI_CYAN + header.get(i) + Constants.ANSI_RESET);
-    }
-    printRow(headerColor);
+    printRow(header, true);
     printLine(numberOfColumns);
   }
 

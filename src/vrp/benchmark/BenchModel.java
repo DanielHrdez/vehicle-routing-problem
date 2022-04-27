@@ -13,7 +13,6 @@ package vrp.benchmark;
 import vrp.*;
 import vrp.algorithm.constructsearch.Grasp;
 import vrp.algorithm.constructsearch.Gvns;
-import vrp.algorithm.constructsearch.base.ConstructSearch;
 import vrp.data.DataModel;
 import vrp.io.PrintTable;
 import vrp.io.WriteCSV;
@@ -53,7 +52,7 @@ public class BenchModel {
     boolean isGrasp = model.algorithmType().equals("Grasp");
     boolean isGvns = model.algorithmType().equals("Gvns");
     List<String> header = new ArrayList<>();
-    header.add("    Problema    ");
+    header.add("Problema");
     header.add("Vehiculos");
     if (isGrasp) header.add("NCandidatos");
     else if (isGvns) header.add("Agitaciónes");
@@ -61,15 +60,15 @@ public class BenchModel {
     header.add("Distancia Total");
     header.add("Tiempo CPU (sg)");
     results.add(header);
-    int numberIterations = isGreedy ? 3 : 4;
-    int iterationsPerAlgorithm = 5;
+    int numberIterations = isGreedy ? 3 : 6;
+    int iterationsPerAlgorithm = isGreedy ? 1 : 5;
     int numberOfColumns = header.size();
     String filename = Constants.OUTPUT_FOLDER + model.algorithmType() + ".csv";
 
     PrintTable.printTitleHeader(model.algorithmType(), header);
     WriteCSV.clearFile(filename);
     WriteCSV.add(filename, header);
-    for (int i = 3; i < numberIterations; i++) {
+    for (int i = 4; i < numberIterations; i++) {
       for (DataModel dataModel : this.dataModels) {
         for (int j = 1; j <= iterationsPerAlgorithm; j++) {
           model.setModel(dataModel);
@@ -89,7 +88,7 @@ public class BenchModel {
           if (isGreedy) currentResult.add(Integer.toString(model.getCost()));
           else currentResult.add(model.getFullCost());
           currentResult.add(String.valueOf(time));
-          PrintTable.printRow(currentResult);
+          PrintTable.printRow(currentResult, false);
           WriteCSV.add(filename, currentResult);
           results.add(currentResult);
         }

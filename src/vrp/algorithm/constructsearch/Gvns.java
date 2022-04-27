@@ -29,9 +29,7 @@ public class Gvns extends ConstructSearch {
     for (int i = 0; i < this.maxIterations; i++) {
       for (int shake = 1; shake < this.maxShakes; shake++) {
         Routes currentSolution = this.RandomShake(this.routes, shake);
-        boolean check = this.checkResult(currentSolution);
         currentSolution = this.variableDescent(currentSolution);
-        check = this.checkResult(currentSolution);
         if (this.updateSolution(currentSolution)) shake = 0;
       }
     }

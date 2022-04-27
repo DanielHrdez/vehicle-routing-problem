@@ -48,7 +48,6 @@ public abstract class LocalSearch {
   public Routes search(Routes solution, DataModel dataModel, int maxCustomersByRoute) {
     this.dataModel = dataModel;
     this.solution = solution;
-    this.solution.setCostSearch(solution.getCost());
     this.numberOfVehicles = this.solution.getNumberOfRoutes();
     this.maxCustomersByRoute = maxCustomersByRoute;
     Routes bestSolution = this.solution.clone();

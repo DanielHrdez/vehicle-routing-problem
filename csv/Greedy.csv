@@ -1,0 +1,5 @@
+Problema,Vehiculos,Ejecución,Distancia Total,Tiempo CPU (sg),
+I40j_2m_S1_1.txt,2,1,146,0.0106219,
+I40j_4m_S1_1.txt,4,1,283,0.0016738,
+I40j_6m_S1_1.txt,6,1,211,0.0025292,
+I40j_8m_S1_1.txt,8,1,336,0.0017751,
