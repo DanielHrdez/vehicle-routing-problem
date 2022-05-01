@@ -36,7 +36,7 @@ public class Gvns extends ConstructSearch {
   }
 
   private Routes RandomShake(Routes routes, int shake) {
-    Routes result = routes.clone();
+    Routes result = routes;
     for (int i = 0; i < shake; i++) {
       result = this.localSearchAlgorithm.randomSearch(result, this.dataModel, this.maxCustomersByRoute);
     }
@@ -44,14 +44,16 @@ public class Gvns extends ConstructSearch {
   }
 
   private Routes variableDescent(Routes routes) {
-    Routes result = routes.clone();
+    Routes result = routes;
     for (int shake = 1; shake < this.maxShakes; shake++) {
-      result = this.localSearchAlgorithm.search(routes.clone(), this.dataModel, this.maxCustomersByRoute);
-      if (result.getCostSearch() < routes.getCostSearch()) {
-        routes = result.clone();
+      routes = this.localSearchAlgorithm.search(routes, this.dataModel, this.maxCustomersByRoute);
+      if (routes.getCostSearch() < result.getCostSearch()) {
+        result = routes;
         shake = 0;
+      } else {
+        routes = this.localSearchAlgorithm.randomSearch(routes, this.dataModel, this.maxCustomersByRoute);
       }
     }
-    return routes;
+    return result;
   }
 }
