@@ -11,6 +11,7 @@
 package vrp.algorithm.constructsearch.base;
 
 import vrp.algorithm.base.Algorithm;
+import vrp.algorithm.constructsearch.construction.GreedyRandom;
 import vrp.algorithm.constructsearch.localsearch.base.*;
 import vrp.algorithm.constructsearch.localsearch.reinsertion.*;
 import vrp.algorithm.util.Functions;
@@ -22,6 +23,24 @@ public abstract class ConstructSearch extends Algorithm {
   protected int maxIterationsWithoutImprovement = 100;
   protected int iterationsWithoutImprovement = 0;
   protected LocalSearch localSearchAlgorithm = new ReinsertionInterRoute();
+
+  public void implementation() {
+    this.routes = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
+    this.routes.setCostSearch(this.routes.getCost());
+    this.iterationsWithoutImprovement = 0;
+
+    for (int i = 0; i < this.maxIterations; i++) {
+      Routes currentSolution = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
+      currentSolution.setCostSearch(currentSolution.getCost());
+      currentSolution = this.construction(currentSolution);
+      this.updateSolution(currentSolution);
+      if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
+        break;
+      }
+    }
+  }
+
+  protected abstract Routes construction(Routes routes);
 
   /**
    * Setter of the local search algorithm.

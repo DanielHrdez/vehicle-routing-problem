@@ -1,0 +1,144 @@
+{
+  "Greedy": [
+    {
+      "Vehiculos": 2,
+      "Distancia Media": 146.0,
+      "Desviacion Estandar": 0.0,
+      "Tiempo Medio": 0.0038
+    },
+    {
+      "Vehiculos": 4,
+      "Distancia Media": 283.0,
+      "Desviacion Estandar": 0.0,
+      "Tiempo Medio": 0.0008
+    },
+    {
+      "Vehiculos": 6,
+      "Distancia Media": 211.0,
+      "Desviacion Estandar": 0.0,
+      "Tiempo Medio": 0.0008
+    },
+    {
+      "Vehiculos": 8,
+      "Distancia Media": 336.0,
+      "Desviacion Estandar": 0.0,
+      "Tiempo Medio": 0.0012
+    }
+  ],
+  "Grasp": [
+    {
+      "Vehiculos": 2,
+      "Candidatos": 2,
+      "Distancia Media": 142.8,
+      "Desviacion Estandar": 8.3522,
+      "Tiempo Medio": 0.2486
+    },
+    {
+      "Vehiculos": 4,
+      "Candidatos": 2,
+      "Distancia Media": 177.2,
+      "Desviacion Estandar": 4.5343,
+      "Tiempo Medio": 0.2501
+    },
+    {
+      "Vehiculos": 6,
+      "Candidatos": 2,
+      "Distancia Media": 213.2,
+      "Desviacion Estandar": 7.782,
+      "Tiempo Medio": 0.2319
+    },
+    {
+      "Vehiculos": 8,
+      "Candidatos": 2,
+      "Distancia Media": 212.2,
+      "Desviacion Estandar": 6.2738,
+      "Tiempo Medio": 0.3345
+    },
+    {
+      "Vehiculos": 2,
+      "Candidatos": 3,
+      "Distancia Media": 147.2,
+      "Desviacion Estandar": 8.8182,
+      "Tiempo Medio": 0.3391
+    },
+    {
+      "Vehiculos": 4,
+      "Candidatos": 3,
+      "Distancia Media": 183.2,
+      "Desviacion Estandar": 5.7061,
+      "Tiempo Medio": 0.3912
+    },
+    {
+      "Vehiculos": 6,
+      "Candidatos": 3,
+      "Distancia Media": 212.2,
+      "Desviacion Estandar": 5.5281,
+      "Tiempo Medio": 0.3249
+    },
+    {
+      "Vehiculos": 8,
+      "Candidatos": 3,
+      "Distancia Media": 221.4,
+      "Desviacion Estandar": 10.0519,
+      "Tiempo Medio": 0.3977
+    }
+  ],
+  "Gvns": [
+    {
+      "Vehiculos": 2,
+      "Agitaciones": 2,
+      "Distancia Media": 131.4,
+      "Desviacion Estandar": 6.1838,
+      "Tiempo Medio": 3.3451
+    },
+    {
+      "Vehiculos": 4,
+      "Agitaciones": 2,
+      "Distancia Media": 153.2,
+      "Desviacion Estandar": 3.3106,
+      "Tiempo Medio": 3.289
+    },
+    {
+      "Vehiculos": 6,
+      "Agitaciones": 2,
+      "Distancia Media": 183.4,
+      "Desviacion Estandar": 2.9394,
+      "Tiempo Medio": 2.2646
+    },
+    {
+      "Vehiculos": 8,
+      "Agitaciones": 2,
+      "Distancia Media": 190.2,
+      "Desviacion Estandar": 8.6579,
+      "Tiempo Medio": 2.54
+    },
+    {
+      "Vehiculos": 2,
+      "Agitaciones": 3,
+      "Distancia Media": 128.8,
+      "Desviacion Estandar": 5.1536,
+      "Tiempo Medio": 4.7137
+    },
+    {
+      "Vehiculos": 4,
+      "Agitaciones": 3,
+      "Distancia Media": 151.8,
+      "Desviacion Estandar": 5.7411,
+      "Tiempo Medio": 3.6916
+    },
+    {
+      "Vehiculos": 6,
+      "Agitaciones": 3,
+      "Distancia Media": 177.8,
+      "Desviacion Estandar": 5.7061,
+      "Tiempo Medio": 3.4464
+    },
+    {
+      "Vehiculos": 8,
+      "Agitaciones": 3,
+      "Distancia Media": 187.6,
+      "Desviacion Estandar": 3.7736,
+      "Tiempo Medio": 3.8707
+    }
+  ]
+}

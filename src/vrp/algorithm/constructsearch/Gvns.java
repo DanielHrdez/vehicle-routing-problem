@@ -11,7 +11,6 @@
 package vrp.algorithm.constructsearch;
 
 import vrp.algorithm.constructsearch.base.ConstructSearch;
-import vrp.algorithm.constructsearch.construction.GreedyRandom;
 import vrp.algorithm.constructsearch.localsearch.base.LocalSearchType;
 import vrp.solution.Routes;
 
@@ -22,31 +21,21 @@ public class Gvns extends ConstructSearch {
     this.maxShakes = maxShakes;
   }
 
-  public void implementation() {
-    this.routes = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
-    this.routes.setCostSearch(this.routes.getCost());
-    this.iterationsWithoutImprovement = 0;
-    
-    for (int i = 0; i < this.maxIterations; i++) {
-      Routes solution = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
-      solution.setCostSearch(solution.getCost());
-      for (int shake = 1; shake <= this.maxShakes; shake++) {
-        Routes currentSolution = this.localSearchAlgorithm.randomSearch(
-            solution,
-            this.dataModel,
-            this.maxCustomersByRoute,
-            shake
-        );
-        currentSolution = this.variableDescent(currentSolution);
-        if (currentSolution.getCostSearch() < solution.getCostSearch()) {
-          solution = currentSolution;
-        }
+  protected Routes construction(Routes routes) {
+    for (int shake = 1; shake <= this.maxShakes; shake++) {
+      Routes currentSolution = this.localSearchAlgorithm.randomSearch(
+          routes,
+          this.dataModel,
+          this.maxCustomersByRoute,
+          shake
+      );
+      currentSolution = this.variableDescent(currentSolution);
+      if (currentSolution.getCostSearch() < routes.getCostSearch()) {
+        routes = currentSolution;
+        shake = 0;
       }
-      if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
-        break;
-      }
-      this.updateSolution(solution);
     }
+    return routes;
   }
 
   private Routes variableDescent(Routes routes) {

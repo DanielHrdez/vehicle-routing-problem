@@ -11,7 +11,6 @@
 package vrp.algorithm.constructsearch;
 
 import vrp.algorithm.constructsearch.base.ConstructSearch;
-import vrp.algorithm.constructsearch.construction.GreedyRandom;
 import vrp.solution.Routes;
 
 /**
@@ -21,19 +20,7 @@ public class Grasp extends ConstructSearch {
   /**
    * Solve the problem using the Grasp algorithm.
    */
-  public void implementation() {
-    this.routes.sumCost(Integer.MAX_VALUE);
-    this.routes.sumCostSearch(Integer.MAX_VALUE);
-    this.iterationsWithoutImprovement = 0;
-
-    for (int i = 0; i < this.maxIterations; i++) {
-      Routes currentSolution = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
-      currentSolution.setCostSearch(currentSolution.getCost());
-      currentSolution = this.localSearchAlgorithm.search(currentSolution, this.dataModel, this.maxCustomersByRoute);
-      this.updateSolution(currentSolution);
-      if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
-        break;
-      }
-    }
+  protected Routes construction(Routes routes) {
+    return this.localSearchAlgorithm.search(routes, this.dataModel, this.maxCustomersByRoute);
   }
 }
