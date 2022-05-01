@@ -25,26 +25,32 @@ public abstract class LocalSearch {
   protected int maxCustomersByRoute;
 
   public Routes randomSearch(Routes solution, DataModel dataModel, int maxCustomersByRoute, int iterations) {
-    this.solution = solution;
+    this.solution = solution.clone();
     this.dataModel = dataModel;
     this.maxCustomersByRoute = maxCustomersByRoute;
     this.numberOfVehicles = this.solution.getNumberOfRoutes();
     Random random = new Random();
     int ignoredCustomer = -1;
+
     for (int i = 0; i < iterations; i++) {
       int randomRoute = random.nextInt(this.numberOfVehicles);
       int routeSize = this.solution.getRouteSize(randomRoute);
+      int counter = 0;
       while (routeSize <= 2) {
         randomRoute = random.nextInt(this.numberOfVehicles);
         routeSize = this.solution.getRouteSize(randomRoute);
+        if (++counter > this.numberOfVehicles) return this.solution;
       }
       int randomCustomer = random.nextInt(1, routeSize - 1);
+      counter = 0;
       while (randomCustomer == ignoredCustomer) {
         randomCustomer = random.nextInt(1, routeSize - 1);
+        if (++counter > this.numberOfVehicles) return this.solution;
       }
-      this.randomImplementation(randomRoute, randomCustomer);
+      this.solution = this.randomImplementation(randomRoute, randomCustomer);
       ignoredCustomer = randomCustomer;
     }
+
     return this.solution;
   }
 
@@ -63,7 +69,7 @@ public abstract class LocalSearch {
     while (improved) {
       improved = false;
       for (int route = 0; route < this.numberOfVehicles; route++) {
-        if (this.solution.getRouteSize(route) == 2) continue;
+        if (this.solution.getRouteSize(route) <= 2) continue;
         int routeSize = this.solution.getRouteSize(route) - 1;
         for (int customer = 1; customer < routeSize; customer++) {
           Routes result = this.implementation(route, customer);

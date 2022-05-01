@@ -45,10 +45,10 @@ public class Functions {
    */
   public static LocalSearch setLocalSearchType(LocalSearchType localSearchType) {
     switch (localSearchType) {
-      case REINSERTION_INTER_ROUTE: return new ReinsertionInterRoute();
-      case REINSERTION_INTRA_ROUTE: return new ReinsertionIntraRoute();
-      case SWAP_INTER_ROUTE: return new SwapInterRoute();
-      case SWAP_INTRA_ROUTE: return new SwapIntraRoute();
+      case REINSERTION_INTER: return new ReinsertionInterRoute();
+      case REINSERTION_INTRA: return new ReinsertionIntraRoute();
+      case SWAP_INTER: return new SwapInterRoute();
+      case SWAP_INTRA: return new SwapIntraRoute();
       case TWO_OPT: return new TwoOpt();
       default: return new ReinsertionInterRoute();
     }

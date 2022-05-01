@@ -31,8 +31,8 @@ public class MainVRP {
   public static void main(String[] args) throws Exception {
     MainVRP.printTitle();
     List<DataModel> dataModels = MainVRP.readDataFiles();
-    // String[] algorithms = {"Greedy", "Grasp", "Gvns"};
-    String[] algorithms = {"Gvns"};
+    String[] algorithms = {"Greedy", "Grasp", "Gvns"};
+    // String[] algorithms = {"Gvns"};
     for (String algorithm : algorithms) {
       MainVRP.runAlgorithm(dataModels, algorithm);
     }

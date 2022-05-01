@@ -24,7 +24,8 @@ public class ReinsertionIntraRoute extends Reinsertion {
   protected Routes implementation(int route, int customer1) {
     Routes bestSolution = this.solution.clone();
     int routeSize = this.solution.getRouteSize(route);
-    for (int customer2 = 1; customer2 < customer1 - 1; customer2++) {
+    int prevCustomer1 = customer1 - 1;
+    for (int customer2 = 1; customer2 < prevCustomer1; customer2++) {
       Routes newSolution = this.insert(this.solution, route, customer1, route, customer2);
       if (newSolution.getCostSearch() < bestSolution.getCostSearch()) {
         bestSolution = newSolution;
@@ -41,10 +42,16 @@ public class ReinsertionIntraRoute extends Reinsertion {
     
   protected Routes randomImplementation(int randomRoute, int randomCustomer1) {
     Random random = new Random();
-    int routeSize = this.solution.getRouteSize(randomRoute) - 1;
+    int routeSize = this.solution.getRouteSize(randomRoute);
     int randomCustomer2 = random.nextInt(1, routeSize);
-    while (randomCustomer1 == randomCustomer2) {
+    int counter = 0;
+    while (
+        randomCustomer1 == randomCustomer2 ||
+        randomCustomer2 == randomCustomer1 + 1 ||
+        randomCustomer2 == randomCustomer1 - 1
+    ) {
       randomCustomer2 = random.nextInt(1, routeSize);
+      if (++counter > this.numberOfVehicles) return this.solution;
     }
     return this.insert(this.solution, randomRoute, randomCustomer1, randomRoute, randomCustomer2);
   }
