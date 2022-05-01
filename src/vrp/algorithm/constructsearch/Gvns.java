@@ -46,7 +46,13 @@ public class Gvns extends ConstructSearch {
   private Routes variableDescent(Routes routes) {
     Routes result = routes.clone();
     for (int shake = 1; shake < this.maxShakes; shake++) {
-      result = this.localSearchAlgorithm.search(routes.clone(), this.dataModel, this.maxCustomersByRoute, shake - 1);
+      result = this.localSearchAlgorithm.search(
+          routes.clone(),
+          this.dataModel,
+          this.maxCustomersByRoute,
+          shake - 1,
+          -1
+      );
       if (result.getCostSearch() < routes.getCostSearch()) {
         routes = result.clone();
         shake = 0;

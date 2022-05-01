@@ -60,7 +60,7 @@ public class BenchModel {
     header.add("Distancia Total");
     header.add("Tiempo CPU (sg)");
     results.add(header);
-    int numberIterations = isGreedy ? 3 : 5;
+    int numberIterations = isGreedy ? 3 : 4;
     int iterationsPerAlgorithm = 5;
     int numberOfColumns = header.size();
     String filename = Constants.OUTPUT_FOLDER + model.algorithmType() + ".csv";
@@ -68,7 +68,7 @@ public class BenchModel {
     PrintTable.printTitleHeader(model.algorithmType(), header);
     WriteCSV.clearFile(filename);
     WriteCSV.add(filename, header);
-    for (int i = 4; i < numberIterations; i++) {
+    for (int i = 2; i < numberIterations; i++) {
       for (DataModel dataModel : this.dataModels) {
         for (int j = 1; j <= iterationsPerAlgorithm; j++) {
           model.setModel(dataModel);

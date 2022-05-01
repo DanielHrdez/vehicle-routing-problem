@@ -53,7 +53,13 @@ public abstract class LocalSearch {
   /**
    * Initialize the local search algorithm.
    */
-  public Routes search(Routes solution, DataModel dataModel, int maxCustomersByRoute, int iterations) {
+  public Routes search(
+      Routes solution,
+      DataModel dataModel,
+      int maxCustomersByRoute,
+      int iterations,
+      int ignoreCustomer
+  ) {
     this.dataModel = dataModel;
     this.solution = solution;
     this.numberOfVehicles = this.solution.getNumberOfRoutes();
@@ -67,7 +73,7 @@ public abstract class LocalSearch {
         int routeSize = this.solution.getRouteSize(route) - 1;
         for (int customer = 1; customer < routeSize; customer++) {
           try {
-            Routes result = this.implementation(route, customer, iterations);
+            Routes result = this.implementation(route, customer, iterations, ignoreCustomer);
             if (result.getCostSearch() < bestSolution.getCostSearch()) {
               bestSolution = result;
               improved = true;
@@ -98,6 +104,6 @@ public abstract class LocalSearch {
    * @param customer The customer.
    * @return The new solution.
    */
-  protected abstract Routes implementation(int rute, int customer, int iterations);
+  protected abstract Routes implementation(int rute, int customer, int iterations, int ignoreCustomer);
 
 }

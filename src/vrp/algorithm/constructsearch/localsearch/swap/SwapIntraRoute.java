@@ -21,13 +21,20 @@ public class SwapIntraRoute extends Swap {
   /**
    * Implement the swap intra route local search algorithm.
    */
-  protected Routes implementation(int route1, int customer1, int iterations) {
+  protected Routes implementation(int route1, int customer1, int iterations, int ignoreCustomer) {
     Routes bestSolution = this.solution.clone();
     int routeSize = this.solution.getRouteSize(route1) - 1;
     for (int customer2 = customer1 + 1; customer2 < routeSize; customer2++) {
+      if (customer2 == ignoreCustomer) continue;
       Routes newSolution = this.swap(this.solution, route1, customer1, route1, customer2);
-      if (0 < iterations) {
-        newSolution = this.search(newSolution, this.dataModel, this.maxCustomersByRoute, iterations - 1);
+      if (iterations > 0) {
+        newSolution = this.search(
+          newSolution,
+          this.dataModel,
+          this.maxCustomersByRoute,
+          iterations - 1,
+          customer2
+        );
       }
       if (newSolution.getCostSearch() < bestSolution.getCostSearch()) {
         bestSolution = newSolution;
