@@ -77,7 +77,7 @@ public class BenchModel {
           long start = System.nanoTime();
           model.solve();
           long end = System.nanoTime();
-          double time = (end - start) / 1000000000.0;
+          double time = (end - start) / 1e9;
           dataModel.resetCustomers();
 
           List<String> currentResult = new ArrayList<>();
@@ -93,6 +93,7 @@ public class BenchModel {
           results.add(currentResult);
         }
       }
+      if (isGreedy) break;
     }
 
     PrintTable.printBottom(numberOfColumns);

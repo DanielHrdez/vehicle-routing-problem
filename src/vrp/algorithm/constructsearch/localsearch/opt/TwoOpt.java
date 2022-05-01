@@ -75,9 +75,11 @@ public class TwoOpt extends LocalSearch {
   protected Routes randomImplementation(int randomRoute, int randomCustomer1) {
     Random random = new Random();
     int routeSize = this.solution.getRouteSize(randomRoute) - 1;
-    int randomCustomer2 = random.nextInt(1, routeSize);
-    while (randomCustomer1 == randomCustomer2) {
-      randomCustomer2 = random.nextInt(1, routeSize);
+    int randomCustomer2 = random.nextInt(randomCustomer1, routeSize);
+    int counter = 0;
+    while (randomCustomer1 >= randomCustomer2) {
+      randomCustomer2 = random.nextInt(randomCustomer1, routeSize);
+      if (++counter > this.numberOfVehicles) return this.solution;
     }
     return this.twoOptSwap(this.solution, randomRoute, randomCustomer1, randomCustomer2);
   }

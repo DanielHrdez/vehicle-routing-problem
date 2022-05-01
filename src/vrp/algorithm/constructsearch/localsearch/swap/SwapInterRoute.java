@@ -51,8 +51,11 @@ public class SwapInterRoute extends Swap {
     Random random = new Random();
     int randomRoute2 = random.nextInt(this.numberOfVehicles);
     int routeSize = this.solution.getRouteSize(randomRoute2);
+    int counter = 0;
     while (randomRoute1 == randomRoute2 || routeSize <= 2) {
       randomRoute2 = random.nextInt(this.numberOfVehicles);
+      routeSize = this.solution.getRouteSize(randomRoute2);
+      if (++counter > this.numberOfVehicles) return this.solution;
     }
     int randomCustomer2 = random.nextInt(1, routeSize - 1);
     return this.swap(this.solution, randomRoute1, randomCustomer1, randomRoute2, randomCustomer2);

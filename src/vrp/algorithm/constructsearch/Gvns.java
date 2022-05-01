@@ -12,6 +12,7 @@ package vrp.algorithm.constructsearch;
 
 import vrp.algorithm.constructsearch.base.ConstructSearch;
 import vrp.algorithm.constructsearch.construction.GreedyRandom;
+import vrp.algorithm.constructsearch.localsearch.base.LocalSearchType;
 import vrp.solution.Routes;
 
 public class Gvns extends ConstructSearch {
@@ -27,37 +28,41 @@ public class Gvns extends ConstructSearch {
     this.iterationsWithoutImprovement = 0;
     
     for (int i = 0; i < this.maxIterations; i++) {
-      for (int shake = 1; shake < this.maxShakes; shake++) {
+      Routes solution = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
+      solution.setCostSearch(solution.getCost());
+      for (int shake = 1; shake <= this.maxShakes; shake++) {
         Routes currentSolution = this.localSearchAlgorithm.randomSearch(
-            this.routes.clone(),
+            solution,
             this.dataModel,
             this.maxCustomersByRoute,
             shake
         );
         currentSolution = this.variableDescent(currentSolution);
-        if (this.updateSolution(currentSolution)) shake = 0;
+        if (currentSolution.getCostSearch() < solution.getCostSearch()) {
+          solution = currentSolution;
+        }
       }
       if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
         break;
       }
+      this.updateSolution(solution);
     }
   }
 
   private Routes variableDescent(Routes routes) {
     Routes result = routes.clone();
-    for (int shake = 1; shake < this.maxShakes; shake++) {
-      result = this.localSearchAlgorithm.search(
-          routes.clone(),
-          this.dataModel,
-          this.maxCustomersByRoute,
-          shake - 1,
-          -1
-      );
-      if (result.getCostSearch() < routes.getCostSearch()) {
-        routes = result.clone();
-        shake = 0;
+    LocalSearchType[] localSearchs = LocalSearchType.values();
+    LocalSearchType previous = null;
+    for (int i = 0; i < localSearchs.length; i++) {
+      if (previous != null && previous.equals(localSearchs[i])) continue;
+      this.setLocalSearchType(localSearchs[i]);
+      routes = this.localSearchAlgorithm.search(result, this.dataModel, this.maxCustomersByRoute);
+      if (routes.getCostSearch() < result.getCostSearch()) {
+        previous = localSearchs[i];
+        result = routes.clone();
+        i = -1;
       }
     }
-    return routes;
+    return result;
   }
 }
