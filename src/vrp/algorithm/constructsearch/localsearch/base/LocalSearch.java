@@ -24,20 +24,28 @@ public abstract class LocalSearch {
   protected DataModel dataModel;
   protected int maxCustomersByRoute;
 
-  public Routes randomSearch(Routes solution, DataModel dataModel, int maxCustomersByRoute) {
+  public Routes randomSearch(Routes solution, DataModel dataModel, int maxCustomersByRoute, int iterations) {
     this.solution = solution;
     this.dataModel = dataModel;
     this.maxCustomersByRoute = maxCustomersByRoute;
     this.numberOfVehicles = this.solution.getNumberOfRoutes();
     Random random = new Random();
-    int randomRoute = random.nextInt(this.numberOfVehicles);
-    int routeSize = this.solution.getRouteSize(randomRoute);
-    while (routeSize <= 2) {
-      randomRoute = random.nextInt(this.numberOfVehicles);
-      routeSize = this.solution.getRouteSize(randomRoute);
+    int ignoredCustomer = -1;
+    for (int i = 0; i < iterations; i++) {
+      int randomRoute = random.nextInt(this.numberOfVehicles);
+      int routeSize = this.solution.getRouteSize(randomRoute);
+      while (routeSize <= 2) {
+        randomRoute = random.nextInt(this.numberOfVehicles);
+        routeSize = this.solution.getRouteSize(randomRoute);
+      }
+      int randomCustomer = random.nextInt(1, routeSize - 1);
+      while (randomCustomer == ignoredCustomer) {
+        randomCustomer = random.nextInt(1, routeSize - 1);
+      }
+      this.randomImplementation(randomRoute, randomCustomer);
+      ignoredCustomer = randomCustomer;
     }
-    int randomCustomer = random.nextInt(1, routeSize - 1);
-    return this.randomImplementation(randomRoute, randomCustomer);
+    return this.solution;
   }
 
   protected abstract Routes randomImplementation(int randomRoute, int randomCustomer);
