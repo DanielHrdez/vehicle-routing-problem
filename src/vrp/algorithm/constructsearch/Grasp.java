@@ -29,7 +29,7 @@ public class Grasp extends ConstructSearch {
     for (int i = 0; i < this.maxIterations; i++) {
       Routes currentSolution = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
       currentSolution.setCostSearch(currentSolution.getCost());
-      currentSolution = this.localSearchAlgorithm.search(currentSolution, this.dataModel, this.maxCustomersByRoute);
+      currentSolution = this.localSearchAlgorithm.search(currentSolution, this.dataModel, this.maxCustomersByRoute, 0);
       this.updateSolution(currentSolution);
       if (this.iterationsWithoutImprovement > this.maxIterationsWithoutImprovement) {
         break;

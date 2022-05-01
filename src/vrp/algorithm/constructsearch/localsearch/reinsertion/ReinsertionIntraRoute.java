@@ -21,17 +21,23 @@ public class ReinsertionIntraRoute extends Reinsertion {
   /**
    * Implementation of the reinsertion of a customer inter routes.
    */
-  protected Routes implementation(int route, int customer1) {
+  protected Routes implementation(int route, int customer1, int iterations) {
     Routes bestSolution = this.solution.clone();
     int routeSize = this.solution.getRouteSize(route);
     for (int customer2 = 1; customer2 < customer1 - 1; customer2++) {
       Routes newSolution = this.insert(this.solution, route, customer1, route, customer2);
+      if (iterations > 0) {
+        newSolution = this.search(newSolution, this.dataModel, this.maxCustomersByRoute, iterations - 1);
+      }
       if (newSolution.getCostSearch() < bestSolution.getCostSearch()) {
         bestSolution = newSolution;
       }
     }
     for (int customer2 = customer1 + 2; customer2 < routeSize; customer2++) {
       Routes newSolution = this.insert(this.solution, route, customer1, route, customer2);
+      if (iterations > 0) {
+        newSolution = this.search(newSolution, this.dataModel, this.maxCustomersByRoute, iterations - 1);
+      }
       if (newSolution.getCostSearch() < bestSolution.getCostSearch()) {
         bestSolution = newSolution;
       }
