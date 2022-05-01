@@ -32,7 +32,6 @@ public class MainVRP {
     MainVRP.printTitle();
     List<DataModel> dataModels = MainVRP.readDataFiles();
     String[] algorithms = {"Greedy", "Grasp", "Gvns"};
-    // String[] algorithms = {"Gvns"};
     for (String algorithm : algorithms) {
       MainVRP.runAlgorithm(dataModels, algorithm);
     }

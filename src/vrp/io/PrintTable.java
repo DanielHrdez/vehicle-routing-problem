@@ -45,7 +45,6 @@ public class PrintTable {
     leftAlignFormat.add(" %9s ");
     if (row.size() != 5) {
       leftAlignFormat.add(" %11s ");
-      leftAlignFormat.add(" %-17s ");
     }
     leftAlignFormat.add(" %9s ");
     leftAlignFormat.add(" %15s ");
@@ -107,7 +106,6 @@ public class PrintTable {
     lineSeparator += "─".repeat(9) + interception;
     if (size != 5) {
       lineSeparator += "─".repeat(11) + interception;
-      lineSeparator += "─".repeat(17) + interception;
     }
     lineSeparator += "─".repeat(9) + interception;
     lineSeparator += "─".repeat(15) + interception;

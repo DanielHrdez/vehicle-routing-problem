@@ -13,8 +13,6 @@ package vrp.benchmark;
 import vrp.*;
 import vrp.algorithm.constructsearch.Grasp;
 import vrp.algorithm.constructsearch.Gvns;
-import vrp.algorithm.constructsearch.base.ConstructSearch;
-import vrp.algorithm.constructsearch.localsearch.base.LocalSearchType;
 import vrp.data.DataModel;
 import vrp.io.PrintTable;
 import vrp.io.WriteCSV;
@@ -58,13 +56,12 @@ public class BenchModel {
     header.add("Vehiculos");
     if (isGrasp) header.add("NCandidatos");
     else if (isGvns) header.add("Agitaciónes");
-    if (!isGreedy) header.add("Búsqueda Local");
     header.add("Ejecución");
     header.add("Distancia Total");
     header.add("Tiempo CPU (sg)");
     results.add(header);
-    int numberIterations = isGreedy ? 3 : 4;
-    int iterationsPerAlgorithm = isGreedy ? 1 : 5;
+    int numberIterations = isGreedy ? 3 : 6;
+    int iterationsPerAlgorithm = 5;
     int numberOfColumns = header.size();
     String filename = Constants.OUTPUT_FOLDER + model.algorithmType() + ".csv";
 
@@ -73,34 +70,30 @@ public class BenchModel {
     WriteCSV.add(filename, header);
     for (int i = 2; i < numberIterations; i++) {
       for (DataModel dataModel : this.dataModels) {
-        for (LocalSearchType localSearchType : LocalSearchType.values()) {
-          for (int j = 1; j <= iterationsPerAlgorithm; j++) {
-            model.setModel(dataModel);
-            if (isGrasp) ((Grasp) model.getAlgorithm()).setCandidates(i);
-            else if (isGvns) ((Gvns) model.getAlgorithm()).setMaxShakes(i);
-            if (!isGreedy) ((ConstructSearch) model.getAlgorithm()).setLocalSearchType(localSearchType);
-            long start = System.nanoTime();
-            model.solve();
-            long end = System.nanoTime();
-            double time = (end - start) / 1e9;
-            dataModel.resetCustomers();
+        for (int j = 1; j <= iterationsPerAlgorithm; j++) {
+          model.setModel(dataModel);
+          if (isGrasp) ((Grasp) model.getAlgorithm()).setCandidates(i);
+          else if (isGvns) ((Gvns) model.getAlgorithm()).setMaxShakes(i);
+          long start = System.nanoTime();
+          model.solve();
+          long end = System.nanoTime();
+          double time = (end - start) / 1e9;
+          dataModel.resetCustomers();
 
-            List<String> currentResult = new ArrayList<>();
-            currentResult.add(dataModel.getName());
-            currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
-            if (!isGreedy) currentResult.add(Integer.toString(i));
-            if (!isGreedy) currentResult.add(localSearchType.toString());
-            currentResult.add(Integer.toString(j));
-            if (isGreedy) currentResult.add(Integer.toString(model.getCost()));
-            else currentResult.add(model.getFullCost());
-            currentResult.add(String.valueOf(time));
-            PrintTable.printRow(currentResult, false);
-            WriteCSV.add(filename, currentResult);
-            results.add(currentResult);
-          }
-          if (isGreedy) break;
+          List<String> currentResult = new ArrayList<>();
+          currentResult.add(dataModel.getName());
+          currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
+          if (!isGreedy) currentResult.add(Integer.toString(i));
+          currentResult.add(Integer.toString(j));
+          if (isGreedy) currentResult.add(Integer.toString(model.getCost()));
+          else currentResult.add(model.getFullCost());
+          currentResult.add(String.valueOf(time));
+          PrintTable.printRow(currentResult, false);
+          WriteCSV.add(filename, currentResult);
+          results.add(currentResult);
         }
       }
+      if (isGreedy) break;
     }
 
     PrintTable.printBottom(numberOfColumns);
