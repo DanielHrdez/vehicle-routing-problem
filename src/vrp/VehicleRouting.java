@@ -38,6 +38,7 @@ public class VehicleRouting {
    *
    * @param dataModel The model of the problem.
    * It must be a model with a vertex for each customer.
+   * @param algorithmType The algorithm type.
    */
   public VehicleRouting(DataModel dataModel, String algorithmType) {
     this.dataModel = dataModel;
@@ -111,6 +112,10 @@ public class VehicleRouting {
     return this.algorithm;
   }
 
+  /**
+   * Getter of the cost and cost after search.
+   * @return The cost and cost after search.
+   */
   public String getFullCost() {
     return String.format("%d -> %d", this.routes.getCost(), this.routes.getCostSearch());
   }

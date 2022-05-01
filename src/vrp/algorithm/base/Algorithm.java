@@ -54,6 +54,11 @@ public abstract class Algorithm {
     this.maxCustomersByRoute = (int) Math.round((numberCustomers / this.numberOfVehicles) + (numberCustomers * PERCENTAGE_CUSTOMERS_BY_ROUTE)) + 1;
   }
   
+  /**
+   * Check if the solution is true.
+   * @param result The solution.
+   * @return True if the solution is true.
+   */
   protected boolean checkResult(Routes result) {
     int cost = 0;
     for (int route = 0; route < this.numberOfVehicles; route++) {
@@ -66,6 +71,8 @@ public abstract class Algorithm {
   
   /**
    * Add the depot to all the vehicles.
+   * @param routes The routes.
+   * @return The routes with the depot.
    */
   protected Routes addDepot(Routes routes) {
     return Functions.addDepot(routes, this.dataModel);

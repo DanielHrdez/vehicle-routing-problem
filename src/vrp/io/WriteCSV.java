@@ -22,6 +22,7 @@ public class WriteCSV {
 
   /**
    * Writes the solution of the problem in a csv file.
+   * @param filename The name of the file.
    * @param results The solution of the problem.
    */
   public static void write(String filename, List<List<String>> results) {
@@ -39,6 +40,10 @@ public class WriteCSV {
     }
   }
 
+  /**
+   * Clear the file.
+   * @param filename The name of the file.
+   */
   public static void clearFile(String filename) {
     try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename), "UTF-8")) {
       writer.flush();
@@ -48,6 +53,11 @@ public class WriteCSV {
     }
   }
 
+  /**
+   * Add a line to the file.
+   * @param filename The name of the file.
+   * @param result The line to add.
+   */
   public static void add(String filename, List<String> result) {
     try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename, true), "UTF-8")) {
       for (String value : result) {

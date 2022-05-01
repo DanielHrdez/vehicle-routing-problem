@@ -38,6 +38,11 @@ public class PrintTable {
     System.out.println();
   }
 
+  /**
+   * Prints a row
+   * @param row The row to print.
+   * @param color The color of the row.
+   */
   public static void printRow(List<String> row, boolean color) {
     String separator = "│";
     List<String> leftAlignFormat = new ArrayList<>();
@@ -58,16 +63,28 @@ public class PrintTable {
     System.out.print(separator + "\n");
   }
 
+  /**
+   * Print the top
+   * @param numberOfColumns number of columns
+   */
   public static void printTop(int numberOfColumns) {
     String topLine = lineSeparator(numberOfColumns, "┌─", "─┬─", "─┐");
     System.out.format(topLine);
   }
 
+  /**
+   * Print a line
+   * @param numberOfColumns number of columns
+   */
   public static void printLine(int numberOfColumns) {
     String lineSeparator = lineSeparator(numberOfColumns, "├─", "─┼─", "─┤");
     System.out.format(lineSeparator);
   }
 
+  /**
+   * Prints the header
+   * @param header The header of the table.
+   */
   public static void printHeader(List<String> header) {
     int numberOfColumns = header.size();
     printTop(numberOfColumns);
@@ -75,6 +92,10 @@ public class PrintTable {
     printLine(numberOfColumns);
   }
 
+  /**
+   * Prints the title
+   * @param title The title of the table.
+   */
   public static void printTitle(String title) {
     System.out.format(
       "%40s" + Constants.ANSI_BOLD +
@@ -82,11 +103,20 @@ public class PrintTable {
     );
   }
 
+  /**
+   * Print the title and the header
+   * @param title The title of the table
+   * @param header The header of the table
+   */
   public static void printTitleHeader(String title, List<String> header) {
     printTitle(title);
     printHeader(header);
   }
 
+  /**
+   * Prints the bottom of the table.
+   * @param numberOfColumns The number of columns.
+   */
   public static void printBottom(int numberOfColumns) {
     String bottomLine = lineSeparator(numberOfColumns, "└─", "─┴─", "─┘");
     System.out.format(bottomLine);

@@ -24,6 +24,14 @@ public abstract class LocalSearch {
   protected DataModel dataModel;
   protected int maxCustomersByRoute;
 
+  /**
+   * Return the a random solution.
+   * @param solution The current solution.
+   * @param dataModel The data model.
+   * @param maxCustomersByRoute The maximum number of customers by route.
+   * @param iterations The number of iterations.
+   * @return The new solution.
+   */
   public Routes randomSearch(Routes solution, DataModel dataModel, int maxCustomersByRoute, int iterations) {
     this.solution = solution.clone();
     this.dataModel = dataModel;
@@ -54,10 +62,20 @@ public abstract class LocalSearch {
     return this.solution;
   }
 
+  /**
+   * Random implementation of the local search algorithm.
+   * @param randomRoute The random route.
+   * @param randomCustomer The random customer.
+   * @return The new solution.
+   */
   protected abstract Routes randomImplementation(int randomRoute, int randomCustomer);
   
   /**
-   * Initialize the local search algorithm.
+   * Return the local search
+   * @param solution The current solution.
+   * @param dataModel The data model.
+   * @param maxCustomersByRoute The maximum number of customers by route.
+   * @return The new solution.
    */
   public Routes search(Routes solution, DataModel dataModel, int maxCustomersByRoute) {
     this.dataModel = dataModel;
@@ -84,6 +102,11 @@ public abstract class LocalSearch {
     return this.solution;
   }
 
+  /**
+   * Check if the solution is true.
+   * @param result The result.
+   * @return True if the solution is true.
+   */
   protected boolean checkResult(Routes result) {
     int cost = 0;
     for (int route = 0; route < this.numberOfVehicles; route++) {

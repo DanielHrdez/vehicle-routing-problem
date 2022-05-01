@@ -20,7 +20,10 @@ import vrp.solution.Routes;
  */
 public class TwoOpt extends LocalSearch {
   /**
-   * Implement the 2-opt local search.
+   * Implement the 2-opt local search algorithm.
+   * @param route The route.
+   * @param customer1 The first customer.
+   * @return The new solution.
    */
   protected Routes implementation(int route, int customer1) {
     Routes bestSolution = this.solution.clone();

@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 public class MainVRP {
   /**
    * Main method of the program.
+   * @param args The arguments of the program.
    */
   public static void main(String[] args) throws Exception {
     MainVRP.printTitle();

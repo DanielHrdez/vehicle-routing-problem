@@ -17,7 +17,17 @@ import vrp.algorithm.util.Functions;
 import vrp.data.DataModel;
 import vrp.solution.Routes;
 
+/**
+ * This class represents a Random greedy construction.
+ */
 public class GreedyRandom {
+  /**
+   * Construct a solution using the greedy random construction.
+   * @param dataModel The data model.
+   * @param numberOfCandidates The number of candidates.
+   * @param maxCustomersByRoute The maximum number of customers by route.
+   * @return The solution.
+   */
   public static Routes constructSolution(DataModel dataModel, int numberOfCandidates, int maxCustomersByRoute) {
     int numberOfVehicles = dataModel.getNumberOfVehicles();
     Routes solution = new Routes(numberOfVehicles);

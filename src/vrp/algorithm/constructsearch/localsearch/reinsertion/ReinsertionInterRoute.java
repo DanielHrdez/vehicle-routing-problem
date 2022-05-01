@@ -19,7 +19,10 @@ import vrp.solution.Routes;
  */
 public class ReinsertionInterRoute extends Reinsertion {
   /**
-   * Implementation of the reinsertion of a customer inter routes.
+   * Implement the reinsertion intra route local search algorithm.
+   * @param route1 The first route.
+   * @param customer1 The first customer.
+   * @return The new solution.
    */
   protected Routes implementation(int route1, int customer1) {
     Routes bestSolution = this.solution.clone();
@@ -37,6 +40,12 @@ public class ReinsertionInterRoute extends Reinsertion {
     return bestSolution;
   }
   
+  /**
+   * Random search.
+   * @param randomRoute1 The random route.
+   * @param randomCustomer1 The random customer.
+   * @return The new solution.
+   */
   protected Routes randomImplementation(int randomRoute1, int randomCustomer1) {
     Random random = new Random();
     int randomRoute2 = random.nextInt(this.numberOfVehicles);

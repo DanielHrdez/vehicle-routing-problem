@@ -7,9 +7,15 @@ import vrp.algorithm.constructsearch.localsearch.swap.*;
 import vrp.data.DataModel;
 import vrp.solution.Routes;
 
+/**
+ * Class with utility functions.
+ */
 public class Functions {
   /**
    * Add the depot to all the vehicles.
+   * @param routes The routes.
+   * @param dataModel The data model.
+   * @return The routes with the depot.
    */
   public static Routes addDepot(Routes routes, DataModel dataModel) {
     int numberOfVehicles = dataModel.getNumberOfVehicles();
@@ -42,6 +48,7 @@ public class Functions {
   /**
    * Setter of the local search algorithm.
    * @param localSearchType The local search algorithm.
+   * @return The local search algorithm.
    */
   public static LocalSearch setLocalSearchType(LocalSearchType localSearchType) {
     switch (localSearchType) {

@@ -19,6 +19,8 @@ import vrp.solution.Routes;
 public class Grasp extends ConstructSearch {
   /**
    * Solve the problem using the Grasp algorithm.
+   * @param routes The routes
+   * @return The local search
    */
   protected Routes construction(Routes routes) {
     return this.localSearchAlgorithm.search(routes, this.dataModel, this.maxCustomersByRoute);

@@ -17,6 +17,9 @@ import vrp.algorithm.constructsearch.localsearch.reinsertion.*;
 import vrp.algorithm.util.Functions;
 import vrp.solution.Routes;
 
+/**
+ * This abstract class represents a construct-search algorithm.
+ */
 public abstract class ConstructSearch extends Algorithm {
   protected int candidates = 2;
   protected int maxIterations = 1000;
@@ -24,6 +27,9 @@ public abstract class ConstructSearch extends Algorithm {
   protected int iterationsWithoutImprovement = 0;
   protected LocalSearch localSearchAlgorithm = new ReinsertionInterRoute();
 
+  /**
+   * Solve the problem using the construct-search algorithm.
+   */
   public void implementation() {
     this.routes = GreedyRandom.constructSolution(this.dataModel, this.candidates, this.maxCustomersByRoute);
     this.routes.setCostSearch(this.routes.getCost());
@@ -40,6 +46,11 @@ public abstract class ConstructSearch extends Algorithm {
     }
   }
 
+  /**
+   * Construction of the solution
+   * @param routes The routes
+   * @return The local minimum
+   */
   protected abstract Routes construction(Routes routes);
 
   /**

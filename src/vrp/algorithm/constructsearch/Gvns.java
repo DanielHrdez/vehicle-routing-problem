@@ -14,13 +14,23 @@ import vrp.algorithm.constructsearch.base.ConstructSearch;
 import vrp.algorithm.constructsearch.localsearch.base.LocalSearchType;
 import vrp.solution.Routes;
 
+/**
+ * Class that represents GVNS
+ */
 public class Gvns extends ConstructSearch {
   private int maxShakes = 4;
 
+  /**
+   * Setter of the max shakes
+   * @param maxShakes The max shakes
+   */
   public void setMaxShakes(int maxShakes) {
     this.maxShakes = maxShakes;
   }
 
+  /**
+   * Construction of the solution
+   */
   protected Routes construction(Routes routes) {
     for (int shake = 1; shake <= this.maxShakes; shake++) {
       Routes currentSolution = this.localSearchAlgorithm.randomSearch(
@@ -38,6 +48,11 @@ public class Gvns extends ConstructSearch {
     return routes;
   }
 
+  /**
+   * Variable descent
+   * @param routes The routes
+   * @return The local minimum
+   */
   private Routes variableDescent(Routes routes) {
     Routes result = routes.clone();
     LocalSearchType[] localSearchs = LocalSearchType.values();

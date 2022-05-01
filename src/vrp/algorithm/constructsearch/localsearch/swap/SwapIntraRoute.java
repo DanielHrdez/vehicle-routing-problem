@@ -20,19 +20,28 @@ import vrp.solution.Routes;
 public class SwapIntraRoute extends Swap {
   /**
    * Implement the swap intra route local search algorithm.
+   * @param route The route.
+   * @param customer1 The first customer.
+   * @return The new solution.
    */
-  protected Routes implementation(int route1, int customer1) {
+  protected Routes implementation(int route, int customer1) {
     Routes bestSolution = this.solution.clone();
-    int routeSize = this.solution.getRouteSize(route1) - 1;
+    int routeSize = this.solution.getRouteSize(route) - 1;
     for (int customer2 = customer1 + 1; customer2 < routeSize; customer2++) {
-      Routes newSolution = this.swap(this.solution, route1, customer1, route1, customer2);
+      Routes newSolution = this.swap(this.solution, route, customer1, route, customer2);
       if (newSolution.getCostSearch() < bestSolution.getCostSearch()) {
         bestSolution = newSolution;
       }
     }
     return bestSolution;
   }
-  
+
+  /**
+   * Random search.
+   * @param randomRoute The random route.
+   * @param randomCustomer1 The random customer.
+   * @return The new solution.
+   */
   protected Routes randomImplementation(int randomRoute, int randomCustomer1) {
     Random random = new Random();
     int routeSize = this.solution.getRouteSize(randomRoute) - 1;
