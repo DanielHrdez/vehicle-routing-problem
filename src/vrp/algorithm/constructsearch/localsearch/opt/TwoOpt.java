@@ -22,21 +22,11 @@ public class TwoOpt extends LocalSearch {
   /**
    * Implement the 2-opt local search.
    */
-  protected Routes implementation(int route, int customer1, int iterations, int ignoreCustomer) {
+  protected Routes implementation(int route, int customer1) {
     Routes bestSolution = this.solution.clone();
     int routeSize = this.solution.getRouteSize(route) - 1;
     for (int customer2 = customer1 + 1; customer2 < routeSize; customer2++) {
-      if (customer2 == ignoreCustomer) continue;
       Routes newSolution = this.twoOptSwap(this.solution, route, customer1, customer2);
-      if (iterations > 0) {
-        newSolution = this.search(
-            newSolution,
-            this.dataModel,
-            this.maxCustomersByRoute,
-            iterations - 1,
-            customer2
-        );
-      }
       if (newSolution.getCostSearch() < bestSolution.getCostSearch()) {
         bestSolution = newSolution;
       }
