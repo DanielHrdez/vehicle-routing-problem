@@ -19,7 +19,7 @@ import vrp.solution.Routes;
 public abstract class ConstructSearch extends Algorithm {
   protected int candidates = 2;
   protected int maxIterations = 10000;
-  protected int maxIterationsWithoutImprovement = 1000;
+  protected int maxIterationsWithoutImprovement = 10;
   protected int iterationsWithoutImprovement = 0;
   protected LocalSearch localSearchAlgorithm = new ReinsertionInterRoute();
 
