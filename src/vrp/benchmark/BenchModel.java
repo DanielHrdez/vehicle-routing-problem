@@ -69,10 +69,10 @@ public class BenchModel {
     WriteCSV.clearFile(filename);
     WriteCSV.add(filename, header);
     if (isGrasp) ((Grasp) model.getAlgorithm()).setMaxIterations(1000);
-    else if (isGvns) ((Gvns) model.getAlgorithm()).setMaxIterations(1000);
+    else if (isGvns) ((Gvns) model.getAlgorithm()).setMaxIterations(500);
     for (int i = 2; i < numberIterations; i++) {
       for (DataModel dataModel : this.dataModels) {
-        int maxShakes = dataModel.getNumberOfCustomers() * 15 / 100;
+        int maxShakes = 5;
         if (isGvns) ((Gvns) model.getAlgorithm()).setMaxShakes(maxShakes);
         for (int j = 1; j <= iterationsPerAlgorithm; j++) {
           model.setModel(dataModel);
