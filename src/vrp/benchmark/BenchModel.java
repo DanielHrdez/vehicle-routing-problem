@@ -60,7 +60,7 @@ public class BenchModel {
     header.add("Distancia Total");
     header.add("Tiempo CPU (sg)");
     results.add(header);
-    int numberIterations = isGrasp ? 4 : 3;
+    int numberIterations = isGreedy ? 3 : 4;
     int iterationsPerAlgorithm = 5;
     int numberOfColumns = header.size();
     String filename = Constants.OUTPUT_FOLDER + model.algorithmType() + ".csv";
@@ -69,14 +69,13 @@ public class BenchModel {
     WriteCSV.clearFile(filename);
     WriteCSV.add(filename, header);
     if (isGrasp) ((Grasp) model.getAlgorithm()).setMaxIterations(1000);
-    else if (isGvns) ((Gvns) model.getAlgorithm()).setMaxIterations(500);
+    else if (isGvns) ((Gvns) model.getAlgorithm()).setMaxIterations(1000);
     for (int i = 2; i < numberIterations; i++) {
+      if (isGrasp) ((Grasp) model.getAlgorithm()).setCandidates(i);
+      if (isGvns) ((Gvns) model.getAlgorithm()).setMaxShakes(i);
       for (DataModel dataModel : this.dataModels) {
-        int maxShakes = 5;
-        if (isGvns) ((Gvns) model.getAlgorithm()).setMaxShakes(maxShakes);
         for (int j = 1; j <= iterationsPerAlgorithm; j++) {
           model.setModel(dataModel);
-          if (isGrasp) ((Grasp) model.getAlgorithm()).setCandidates(i);
           long start = System.nanoTime();
           model.solve();
           long end = System.nanoTime();
@@ -86,8 +85,7 @@ public class BenchModel {
           List<String> currentResult = new ArrayList<>();
           currentResult.add(dataModel.getName());
           currentResult.add(String.valueOf(dataModel.getNumberOfVehicles()));
-          if (isGrasp) currentResult.add(Integer.toString(i));
-          else if (isGvns) currentResult.add(Integer.toString(maxShakes));
+          if (!isGreedy) currentResult.add(Integer.toString(i));
           currentResult.add(Integer.toString(j));
           if (isGreedy) currentResult.add(Integer.toString(model.getCost()));
           else currentResult.add(model.getFullCost());
